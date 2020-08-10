@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>redis on tmacKan - A  record for Life</title>
+    <link>http://blog.tmackan.com/tags/redis/</link>
+    <description>Recent content in redis on tmacKan - A  record for Life</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>tmackan</copyright>
+    <lastBuildDate>Fri, 01 Feb 2019 17:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://blog.tmackan.com/tags/redis/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>redis相关总结-主从</title>
+      <link>http://blog.tmackan.com/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E4%B8%BB%E4%BB%8E/</link>
+      <pubDate>Fri, 01 Feb 2019 17:00:00 +0000</pubDate>
+      
+      <guid>http://blog.tmackan.com/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E4%B8%BB%E4%BB%8E/</guid>
+      <description>redis主从 主节点(master), 从节点(slave) 默认情况下每个从节点只能有一个主节点，而主节点可以有多个从节点。复制的数据流, 只能</description>
+    </item>
+    
+    <item>
+      <title>redis相关总结-使用</title>
+      <link>http://blog.tmackan.com/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Thu, 31 Jan 2019 17:00:00 +0000</pubDate>
+      
+      <guid>http://blog.tmackan.com/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E4%BD%BF%E7%94%A8/</guid>
+      <description>pipline管道 事务和Lua 发布订阅 1.发布消息 publish 2.订阅某个频道 unsubscribe 3.按照模式订阅和取消订阅</description>
+    </item>
+    
+    <item>
+      <title>redis相关总结-持久化</title>
+      <link>http://blog.tmackan.com/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E6%8C%81%E4%B9%85%E5%8C%96/</link>
+      <pubDate>Thu, 31 Jan 2019 17:00:00 +0000</pubDate>
+      
+      <guid>http://blog.tmackan.com/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
+      <description>redis持久化 redis中持久化分为RDB和AOF 1. RDB 当前进程数据生成快照保存到硬盘, 触发RDB持久化过程分为手动触发和自动触发 1.1 手动触发</description>
+    </item>
+    
+    <item>
+      <title>redis相关总结-运维</title>
+      <link>http://blog.tmackan.com/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E8%BF%90%E7%BB%B4/</link>
+      <pubDate>Wed, 30 Jan 2019 16:00:00 +0000</pubDate>
+      
+      <guid>http://blog.tmackan.com/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E8%BF%90%E7%BB%B4/</guid>
+      <description>阻塞 1.内在原因 慢查询/CPU饱和/持久化阻塞 2.外部原因 CPU竞争/内存交换/网络问题 1.慢查询 1.发现耗时的命令, 修改为低算法度的命令，</description>
+    </item>
+    
+  </channel>
+</rss>

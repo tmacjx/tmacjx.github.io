@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>redis相关总结-持久化 - tmacKan - A  record for Life</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tmackan" /><meta name="description" content="redis持久化 redis中持久化分为RDB和AOF 1. RDB 当前进程数据生成快照保存到硬盘, 触发RDB持久化过程分为手动触发和自动触发 1.1 手动触发" /><meta name="keywords" content="Blog, Python, code" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.73.0 with theme even" />
+
+
+<link rel="canonical" href="http://blog.tmackan.com/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E6%8C%81%E4%B9%85%E5%8C%96/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="redis相关总结-持久化" />
+<meta property="og:description" content="redis持久化 redis中持久化分为RDB和AOF 1. RDB 当前进程数据生成快照保存到硬盘, 触发RDB持久化过程分为手动触发和自动触发 1.1 手动触发" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://blog.tmackan.com/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E6%8C%81%E4%B9%85%E5%8C%96/" />
+<meta property="article:published_time" content="2019-01-31T17:00:00+00:00" />
+<meta property="article:modified_time" content="2019-01-31T17:00:00+00:00" />
+<meta itemprop="name" content="redis相关总结-持久化">
+<meta itemprop="description" content="redis持久化 redis中持久化分为RDB和AOF 1. RDB 当前进程数据生成快照保存到硬盘, 触发RDB持久化过程分为手动触发和自动触发 1.1 手动触发">
+<meta itemprop="datePublished" content="2019-01-31T17:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-01-31T17:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1368">
+
+
+
+<meta itemprop="keywords" content="redis," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="redis相关总结-持久化"/>
+<meta name="twitter:description" content="redis持久化 redis中持久化分为RDB和AOF 1. RDB 当前进程数据生成快照保存到硬盘, 触发RDB持久化过程分为手动触发和自动触发 1.1 手动触发"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tmackan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tmackan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">redis相关总结-持久化</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-01-31 </span>
+        <div class="post-category">
+            <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#redis持久化">redis持久化</a>
+          <ul>
+            <li><a href="#1-rdb">1. RDB</a></li>
+            <li><a href="#2-aof-append-only-file">2. AOF (append only file)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="redis持久化">redis持久化</h2>
+<p>redis中持久化分为RDB和AOF</p>
+<h3 id="1-rdb">1. RDB</h3>
+<p>当前进程数据生成快照保存到硬盘,
+触发RDB持久化过程分为手动触发和自动触发</p>
+<!-- more -->
+<h4 id="11-手动触发">1.1 手动触发</h4>
+<ol>
+<li>
+<p>save命令</p>
+<pre><code> 阻塞当前Redis服务器，直到RDB过程完成为止，对于内存 比较大的实例会造成长时间阻塞，线上环境不建议使用
+</code></pre>
+</li>
+<li>
+<p>bgsave命令</p>
+<pre><code> Redis进程执行fork操作创建子进程，RDB持久化过程由子进程负责，完成后自动结束。阻塞只发生在fork阶段，一般时间很短
+</code></pre>
+</li>
+</ol>
+<h4 id="12-自动触发">1.2 自动触发</h4>
+<pre><code>1.使用save相关配置，如“save m n”。表示m秒内数据集存在n次修改 时，自动触发bgsave
+2.从节点执行全量复制操作，主节点自动执行bgsave生产RDB文件并发送给从节点
+3.执行debug reload命令重新加载Redis时，也会自动触发save操作
+4.默认情况下执行shutdown命令时，如果没有开启AOF持久化功能则 自动执行bgsave
+</code></pre>
+<h4 id="13-总结">1.3 总结</h4>
+<p>优点:</p>
+<pre><code>1.紧凑的二进制文件，代表redis在某个时间点的数据快照，适用于备份，全量复制。比如每6小时执行bgsave备份，并把RDB文件拷贝到远程系统或者文件系统中，用于灾难恢复
+2.Redis加载RDB的恢复数据远远快于AOF
+</code></pre>
+<p>缺点:</p>
+<pre><code>1.RDB方式无法做到实时持久化/秒级持久化
+2.bgsave每次运行都要执行fork操作创建子进程，属于重量级操作，频繁执行成本高
+3.RDB使用特定二进制格式保存。Redis演进版本中, 存在老版本Redis服务无法兼容新版RDB格式的问题
+</code></pre>
+<h3 id="2-aof-append-only-file">2. AOF (append only file)</h3>
+<p>以独立日志的方式记录每次写命令, 重启时再重新执行AOF文件中的命令达到恢复数据的目的
+AOF的主要作用 是解决了数据持久化的实时性，目前已经是Redis持久化的主流方式</p>
+<h4 id="21-配置">2.1 配置</h4>
+<p>开启AOF</p>
+<pre><code>appendonly yes，默认不开启
+</code></pre>
+<p>AOF文件名</p>
+<pre><code>appendfilename 默认是appendonly.aof
+</code></pre>
+<p>保存路径</p>
+<pre><code>dir
+</code></pre>
+<p>流程</p>
+<pre><code>1）所有的写入命令会追加到aof_buf(缓存)中
+2）AOF缓冲区根据对应的策略向硬盘做同步操作
+3）随着AOF文件越来越大，需要定期对AOF文件进行重写，达到压缩的目的
+4）当Redis服务器重启时，可以加载AOF文件进行数据恢复
+</code></pre>
+<p>AOF缓冲区同步文件策略</p>
+<table>
+<thead>
+<tr>
+<th>always</th>
+<th>命令写入aof_buf后, 调用系统fsync操作同步aof文件， fsync完成后线程返回，相当于是强制硬盘同步</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>everysec</td>
+<td>命令写入aof_buf后, 调用系统write操作, write完成后线程返回。fsync同步文件操作由专门线程每秒调用一次</td>
+</tr>
+<tr>
+<td>no</td>
+<td>命令写入aof_buf后, 调用系统write操作, 不对aof文件做fsync同步, 同步硬盘操作由操作系统负责, 通常同步时间最长30秒</td>
+</tr>
+</tbody>
+</table>
+<p>always每次写入都要同步AOF文件，影响reis性能
+no 操作系统每次同步AOF文件不可控, 加大每次同步硬盘的数据量，提升了性能，但是数据安全性不可控</p>
+<p><em><strong>redis默认appendfsync默认配置是everysec</strong></em></p>
+<h4 id="22-总结">2.2 总结</h4>
+<pre><code>1.AOF命令写入的内容是文本协议 
+            &gt;&gt; 文本具有很好的兼容性
+            &gt;&gt; 开启AOF后, 所有的写命令都包含追加操作，直接使用协议格式，避免了二次处理开销
+            &gt;&gt; 文本具有可读性, 方便直接修改和处理
+2.AOF把命令追加到aof_buf中, redis使用单线程响应命令，如果每次都强制刷硬盘同步，那redis性能直接取决于硬盘的负载
+        默认采用everysec策略，达到了性能和安全性的平衡
+</code></pre>
+<p>参考:  《redis开发与运维》</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tmackan</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-01-31
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/redis/">redis</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E4%BD%BF%E7%94%A8/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">redis相关总结-使用</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E8%BF%90%E7%BB%B4/">
+            <span class="next-text nav-default">redis相关总结-运维</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <script>
+  var id =  null ;
+
+  if (id)
+  {
+    let url = "https://github.com/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id);
+    let api_url = "https://api.github.com/repos/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id, "/comments");
+    
+    var commentsDiv = document.getElementById("comments");
+
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.open("GET", api_url);
+    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
+    xhr.send();
+
+    xhr.onload = function()
+    {
+      if (xhr.status != 200)
+      {
+        let errorText = document.createElement("p");
+        errorText.innerHTML = "<i>Comments for this post yet are not opened yet (or you have GitHub scripts disabled).</i>";
+        commentsDiv.appendChild(errorText);
+      }
+      else
+      {
+        let comments = xhr.response;
+
+        let mainHeader = document.createElement("h2");
+        mainHeader.innerHTML = "Comments: ".concat(comments.length);
+        commentsDiv.appendChild(mainHeader);
+
+        let issueLink = document.createElement("p");
+        issueLink.innerHTML = "<i>You can leave a comment using this <a href='".concat(url, "'>GitHub issue</a>.</i>");
+        commentsDiv.appendChild(issueLink);
+        
+        comments.forEach(function(comment)
+        {
+            let commentContent = document.createElement("div");
+            commentContent.setAttribute('class', 'gh-comment')
+            commentContent.innerHTML = "".concat(
+                "<div class='gh-header'>",
+                  "<img src='", comment.user.avatar_url, "' />",
+                  "<div style='margin:auto 0;'>",
+                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
+                    " commented at <em>", new Date(comment.created_at), "</em>",
+                  "</div>",
+                "</div>",
+                "<div class='gh-body'>",
+                  comment.body_html,
+                "</div>"
+            );
+            commentsDiv.appendChild(commentContent);
+        });
+      }
+    };
+
+    xhr.onerror = function()
+    {
+      let errorText = document.createElement("p");
+      errorText.innerHTML = "<i>Some error loading comments.</i>";
+      commentsDiv.appendChild(errorText);
+    };
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:kan49733110@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://twitter.com/tmcakan/" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://github.com/tmacjx/" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/kan-tmac" class="iconfont icon-zhihu" title="zhihu"></a>
+  <a href="http://blog.tmackan.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">tmackan</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-174638881-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>压测 on tmacKan - A  record for Life</title>
+    <link>http://blog.tmackan.com/tags/%E5%8E%8B%E6%B5%8B/</link>
+    <description>Recent content in 压测 on tmacKan - A  record for Life</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>tmackan</copyright>
+    <lastBuildDate>Tue, 10 Sep 2019 17:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://blog.tmackan.com/tags/%E5%8E%8B%E6%B5%8B/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>pyflame使用</title>
+      <link>http://blog.tmackan.com/post/pyflame%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Tue, 10 Sep 2019 17:00:00 +0000</pubDate>
+      
+      <guid>http://blog.tmackan.com/post/pyflame%E4%BD%BF%E7%94%A8/</guid>
+      <description>pyflame介绍 uber开源的一款工具，利用ptrace生成渲染图，用于分析性能瓶颈 https://github.com/uber/pyflame 1.安装 系统依赖(ubuntu系统) sudo apt-get install autoconf automake autotools-dev g++ pkg-config</description>
+    </item>
+    
+  </channel>
+</rss>

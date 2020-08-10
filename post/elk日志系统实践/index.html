@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>elk日志系统实践 - tmacKan - A  record for Life</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tmackan" /><meta name="description" content="1.Elk Stack简介 Filebeat: 一个轻量级开源日志文件数据搜集器，基于 Logstash-Forwarder 源代码开发，是对它的替代。在需要采集日志数据的 server 上安装 Filebeat，并指定日志" /><meta name="keywords" content="Blog, Python, code" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.73.0 with theme even" />
+
+
+<link rel="canonical" href="http://blog.tmackan.com/post/elk%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B5/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="elk日志系统实践" />
+<meta property="og:description" content="1.Elk Stack简介 Filebeat: 一个轻量级开源日志文件数据搜集器，基于 Logstash-Forwarder 源代码开发，是对它的替代。在需要采集日志数据的 server 上安装 Filebeat，并指定日志" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://blog.tmackan.com/post/elk%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B5/" />
+<meta property="article:published_time" content="2019-06-04T15:00:00+00:00" />
+<meta property="article:modified_time" content="2019-06-04T15:00:00+00:00" />
+<meta itemprop="name" content="elk日志系统实践">
+<meta itemprop="description" content="1.Elk Stack简介 Filebeat: 一个轻量级开源日志文件数据搜集器，基于 Logstash-Forwarder 源代码开发，是对它的替代。在需要采集日志数据的 server 上安装 Filebeat，并指定日志">
+<meta itemprop="datePublished" content="2019-06-04T15:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-06-04T15:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1548">
+
+
+
+<meta itemprop="keywords" content="elk日志," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="elk日志系统实践"/>
+<meta name="twitter:description" content="1.Elk Stack简介 Filebeat: 一个轻量级开源日志文件数据搜集器，基于 Logstash-Forwarder 源代码开发，是对它的替代。在需要采集日志数据的 server 上安装 Filebeat，并指定日志"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tmackan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tmackan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">elk日志系统实践</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-06-04 </span>
+        <div class="post-category">
+            <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#1elk-stack简介">1.Elk Stack简介</a></li>
+        <li><a href="#2安装">2.安装</a></li>
+        <li><a href="#3配置">3.配置</a>
+          <ul>
+            <li><a href="#1-filebeat">1. filebeat</a></li>
+            <li><a href="#2-logstash">2. logstash</a></li>
+            <li><a href="#3-elasticsearch">3. elasticsearch</a></li>
+            <li><a href="#4kibana">4.kibana</a></li>
+          </ul>
+        </li>
+        <li><a href="#4其余">4.其余</a>
+          <ul>
+            <li><a href="#1手动导出logstash默认模版">1.手动导出logstash默认模版</a></li>
+            <li><a href="#2手动导入模版到es">2.手动导入模版到es</a></li>
+            <li><a href="#3查看es索引">3.查看es索引</a></li>
+            <li><a href="#4查看某个索引下的数据">4.查看某个索引下的数据</a></li>
+            <li><a href="#5删除某个索引">5.删除某个索引</a></li>
+          </ul>
+        </li>
+        <li><a href="#5参考">5.参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="1elk-stack简介">1.Elk Stack简介</h2>
+<p>Filebeat: 一个轻量级开源日志文件数据搜集器，基于 Logstash-Forwarder 源代码开发，是对它的替代。在需要采集日志数据的 server 上安装 Filebeat，并指定日志目录或日志文件后，Filebeat 就能读取数据，迅速发送到 Logstash 进行解析，亦或直接发送到 Elasticsearch 进行集中式存储和分析
+Logstash： 数据收集引擎。它支持动态的从各种数据源搜集数据，并对数据进行过滤、分析、丰富、统一格式等操作，然后存储到用户指定的位置
+Elasticsearch： 分布式搜索和分析引擎，具有高可伸缩、高可靠和易管理等特点。基于 Apache Lucene 构建，能对大容量的数据进行接近实时的存储、搜索和分析操作。通常被用作某些应用的基础搜索引擎，使其具有复杂的搜索功能
+Kibana： 数据分析和可视化平台。通常与 Elasticsearch 配合使用，对其中数据进行搜索、分析和以统计图表的方式展示</p>
+<!-- more -->
+<h2 id="2安装">2.安装</h2>
+<pre><code>1.filebeat安装	
+    wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.4.0-linux-x86_64.tar.gz
+    tar -xzf filebeat-6.4.0-linux-x86_64.tar.gz
+    官方文档
+        https://www.elastic.co/guide/en/beats/filebeat/6.4/filebeat-getting-started.html
+ 2.logstash安装
+    wget https://artifacts.elastic.co/downloads/logstash/logstash-5.2.2.tar.gz
+    tar -xzf logstash-5.2.2.tar.gz
+    官方文档
+        https://www.elastic.co/guide/en/logstash/5.2/index.html
+ 3.elasticsearch安装
+    wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.2.2.zip
+    unzip elasticsearch-5.2.2.zip
+    官方文档
+        https://www.elastic.co/guide/en/elasticsearch/reference/5.2/index.html
+4.kibana安装
+    wget https://artifacts.elastic.co/downloads/kibana/kibana-5.2.2-linux-x86_64.tar.gz
+    tar -xzf kibana-5.2.2-linux-x86_64.tar.gz
+    官方文档
+        https://www.elastic.co/guide/en/kibana/5.2/index.html
+</code></pre>
+<h2 id="3配置">3.配置</h2>
+<h3 id="1-filebeat">1. filebeat</h3>
+<pre><code>```shell
+# filebeat.yml
+filebeat.inputs:
+    
+    # Each - is an input. Most options can be set at the input level, so
+    # you can use different inputs for various configurations.
+    # Below are the input specific configurations.
+    
+    - type: log
+    
+       # Change to true to enable this input configuration.
+       enabled: true
+    
+       # Paths that should be crawled and fetched. Glob based paths.
+       paths:
+         # - /var/log/*.log 日志文件路径
+         - /tmp/ccapi.log   
+         #- c:\programdata\elasticsearch\logs\*
+    
+       document_type: ccapi 
+       tags: [&quot;ccapi&quot;]         # 增加tags
+	   
+       ### Multiline options
+       multiline.pattern: ^\[  # 多行异常错误堆栈文本处理
+       multiline.negate: true
+       multiline.match: after
+	   
+       # Optional additional fields. These fields can be freely picked
+       # to add additional information to the crawled log files for filtering
+       fields：
+           type: &quot;ccapi&quot;      # fields下面新增type字段, 用于区分业务 
+		   
+       #==================== Elasticsearch template setting ==========================
+       setup.template.settings:
+           index.number_of_shards: 3
+       setup.template.name: &quot;logstash&quot;  # 设置es索引的名称, 默认为filebeat
+       setup.template.pattern: &quot;logstash-*&quot; 
+       setup.template.json.enabled: true # 加载json的模版配置, 这里使用Logstash默认生成的es模板
+       setup.template.json.path: &quot;/home/phenix/logstash/logstash.template.json&quot; # json的模版配置路径
+	   
+       #============================== Kibana =====================================
+       setup.kibana:
+            host: &quot;localhost:5601&quot;
+       #----------------------------- Logstash output --------------------------------
+       output.logstash:
+            hosts: [&quot;localhost:5044&quot;]
+```
+</code></pre>
+<h3 id="2-logstash">2. logstash</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"> input <span class="o">{</span>
+       beats <span class="o">{</span>
+           <span class="nv">port</span> <span class="o">=</span>&gt; <span class="m">5044</span>
+     <span class="o">}</span>
+   <span class="o">}</span>
+
+   filter <span class="o">{</span>
+
+       <span class="k">if</span> <span class="o">[</span>fields<span class="o">][</span>type<span class="o">]</span> <span class="o">==</span> <span class="s2">&#34;ccapi&#34;</span> <span class="o">{</span> <span class="c1"># 如果业务是ccapi相关</span>
+           json <span class="o">{</span>                     <span class="c1"># 因为日志已经json化，且以字符串的形式，存在message字段</span>
+                <span class="nb">source</span> <span class="o">=</span>&gt; <span class="s2">&#34;message&#34;</span>   <span class="c1"># json处理message字段</span>
+                <span class="nv">target</span> <span class="o">=</span>&gt; <span class="s2">&#34;msg&#34;</span>       <span class="c1"># 将json完的数据, 存在msg字段下(避免如果</span>
+                                      <span class="c1"># json内容中本身也含有type,host,path字段，</span>
+                                      <span class="c1"># 那么解析后将覆盖掉logstash默认的这三个字段)</span>
+                <span class="nv">remove_field</span> <span class="o">=</span>&gt; <span class="o">[</span><span class="s2">&#34;message&#34;</span><span class="o">]</span> <span class="c1"># 将message字段移除</span>
+           <span class="o">}</span>
+      <span class="o">}</span>
+   <span class="o">}</span>
+
+
+   output <span class="o">{</span>
+     stdout <span class="o">{</span> <span class="nv">codec</span> <span class="o">=</span>&gt; rubydebug <span class="o">}</span>
+
+     <span class="k">if</span> <span class="o">[</span>fields<span class="o">][</span>type<span class="o">]</span> <span class="o">==</span> <span class="s2">&#34;ccapi&#34;</span> <span class="o">{</span>  <span class="c1"># 如果业务是ccapi</span>
+           elasticsearch <span class="o">{</span>
+               <span class="nv">hosts</span> <span class="o">=</span>&gt; <span class="o">[</span><span class="s2">&#34;192.168.1.33:9200&#34;</span><span class="o">]</span>
+               <span class="nv">index</span> <span class="o">=</span>&gt; <span class="s2">&#34;logstash-ccapi-%{+YYYY.MM.dd}&#34;</span><span class="c1"># 指定索引, 业务+日期切片</span>
+               <span class="nv">document_type</span> <span class="o">=</span>&gt; <span class="s2">&#34;ccapi&#34;</span>  <span class="c1"># 指定索引下的类型</span>
+               <span class="nv">flush_size</span> <span class="o">=</span>&gt; <span class="m">2000</span>    <span class="c1"># 攒到2000条数据后发送</span>
+               <span class="nv">idle_flush_time</span> <span class="o">=</span>&gt; <span class="m">10</span> <span class="c1"># 每10s发送一次</span>
+               <span class="nv">sniffing</span> <span class="o">=</span>&gt; <span class="nb">true</span>
+               <span class="nv">template_overwrite</span> <span class="o">=</span>&gt; <span class="nb">true</span>
+          <span class="o">}</span>
+     <span class="o">}</span>
+	   <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>运行结果</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">	 {&#34;msg&#34;: {
+		         &#34;msg&#34;: &#34;Request&#34;,
+		         &#34;respContentType&#34;: &#34;application/json&#34;,
+		         &#34;reqUri&#34;: &#34;/api/room/create?&#34;,
+		         &#34;reqMethod&#34;: &#34;POST&#34;,
+		         &#34;respTimeMs&#34;: 23,
+		         &#34;logSource&#34;: &#34;web&#34;,
+		         &#34;ascTime&#34;: &#34;2019-06-04T05:54:58.623Z&#34;,
+		         &#34;type&#34;: &#34;request&#34;,
+		         &#34;userId&#34;: null,
+		         &#34;respStat&#34;: 200,
+		         &#34;token&#34;: null,
+		         &#34;reqId&#34;: &#34;49136896868d11e98923b083febfc53a&#34;,
+		         &#34;respSizeB&#34;: 239,
+		         &#34;reqData&#34;: null,
+		         &#34;service&#34;: &#34;ccapi&#34;,
+		         &#34;clientIp&#34;: &#34;192.168.1.73&#34;,
+		         &#34;serverIp&#34;: &#34;localhost&#34;,
+		         &#34;device&#34;: &#34;Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)&#34;
+		       },
+		       &#34;input&#34;: {
+		         &#34;type&#34;: &#34;log&#34;
+		       },
+		       &#34;@timestamp&#34;: &#34;2019-06-04T05:54:55.678Z&#34;,
+		       &#34;offset&#34;: 2720807,
+		       &#34;@version&#34;: &#34;1&#34;,
+		       &#34;host&#34;: {
+		         &#34;name&#34;: &#34;localhost&#34;
+		       },
+		       &#34;beat&#34;: {
+		         &#34;hostname&#34;: &#34;localhost&#34;,
+		         &#34;name&#34;: &#34;localhost&#34;,
+		         &#34;version&#34;: &#34;6.4.0&#34;
+		       },
+		       &#34;prospector&#34;: {
+		         &#34;type&#34;: &#34;log&#34;
+		       },
+		       &#34;source&#34;: &#34;/tmp/ccapi.log&#34;,
+		       &#34;fields&#34;: {
+		         &#34;type&#34;: &#34;ccapi&#34;
+		       },
+		       &#34;tags&#34;: [
+		         &#34;ccapi&#34;,
+		         &#34;beats_input_codec_plain_applied&#34;
+		       ]}
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="3-elasticsearch">3. elasticsearch</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># elasticsearch.yml</span>
+network.host: 0.0.0.0
+http.port: <span class="m">9200</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="4kibana">4.kibana</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># kibana.yml</span>
+server.host: 0.0.0.0
+elasticsearch.url: <span class="s2">&#34;http://192.168.1.33:9200&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="4其余">4.其余</h2>
+<h3 id="1手动导出logstash默认模版">1.手动导出logstash默认模版</h3>
+<p><a href="https://github.com/logstash-plugins/logstash-output-elasticsearch/blob/master/lib/logstash/outputs/elasticsearch/elasticsearch-template-es5x.json">https://github.com/logstash-plugins/logstash-output-elasticsearch/blob/master/lib/logstash/outputs/elasticsearch/elasticsearch-template-es5x.json</a></p>
+<h3 id="2手动导入模版到es">2.手动导入模版到es</h3>
+<pre><code>curl -XPUT 'http://localhost:9200/_template/logstash' -d@模版路径
+</code></pre>
+<h3 id="3查看es索引">3.查看es索引</h3>
+<pre><code>curl 'localhost:9200/_cat/indices?v'
+</code></pre>
+<h3 id="4查看某个索引下的数据">4.查看某个索引下的数据</h3>
+<pre><code>curl 'localhost:9200/索引名/类型/_search?'
+</code></pre>
+<h3 id="5删除某个索引">5.删除某个索引</h3>
+<pre><code>curl -XDELETE 'localhost:9200/索引名'
+</code></pre>
+<h2 id="5参考">5.参考</h2>
+<p>ES学习 <a href="">https://fuxiaopang.gitbooks.io/learnelasticsearch/</a>
+ES模版设置<a href="">https://birdben.github.io/2016/12/22/Logstash/Logstash%E5%AD%A6%E4%B9%A0%EF%BC%88%E5%85%AD%EF%BC%89elasticsearch%E6%8F%92%E4%BB%B6%E2%80%94%E2%80%94%E8%AE%BE%E7%BD%AEES%E7%9A%84Template/</a>
+<a href="">https://www.jianshu.com/p/1f67e4436c37</a>
+logstash字段详解  <a href="">http://www.51niux.com/?id=205</a>
+ELK架构演进  <a href="">https://github.com/jasonGeng88/blog/blob/master/201703/logstash_deploye_scale.md</a>
+ELK/kibana表盘设置
+<a href="">http://docs.flycloud.me/docs/ELKStack/logstash/get-start/index.html</a>
+<a href="">https://github.com/jasonGeng88/blog/blob/master/201703/elk_parse_log.md</a>
+<a href="">https://www.ibm.com/developerworks/cn/opensource/os-cn-elk-filebeat/index.html</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tmackan</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-06-04
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/elk%E6%97%A5%E5%BF%97/">elk日志</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/pyflame%E4%BD%BF%E7%94%A8/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">pyflame使用</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E4%B8%BB%E4%BB%8E/">
+            <span class="next-text nav-default">redis相关总结-主从</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <script>
+  var id =  null ;
+
+  if (id)
+  {
+    let url = "https://github.com/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id);
+    let api_url = "https://api.github.com/repos/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id, "/comments");
+    
+    var commentsDiv = document.getElementById("comments");
+
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.open("GET", api_url);
+    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
+    xhr.send();
+
+    xhr.onload = function()
+    {
+      if (xhr.status != 200)
+      {
+        let errorText = document.createElement("p");
+        errorText.innerHTML = "<i>Comments for this post yet are not opened yet (or you have GitHub scripts disabled).</i>";
+        commentsDiv.appendChild(errorText);
+      }
+      else
+      {
+        let comments = xhr.response;
+
+        let mainHeader = document.createElement("h2");
+        mainHeader.innerHTML = "Comments: ".concat(comments.length);
+        commentsDiv.appendChild(mainHeader);
+
+        let issueLink = document.createElement("p");
+        issueLink.innerHTML = "<i>You can leave a comment using this <a href='".concat(url, "'>GitHub issue</a>.</i>");
+        commentsDiv.appendChild(issueLink);
+        
+        comments.forEach(function(comment)
+        {
+            let commentContent = document.createElement("div");
+            commentContent.setAttribute('class', 'gh-comment')
+            commentContent.innerHTML = "".concat(
+                "<div class='gh-header'>",
+                  "<img src='", comment.user.avatar_url, "' />",
+                  "<div style='margin:auto 0;'>",
+                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
+                    " commented at <em>", new Date(comment.created_at), "</em>",
+                  "</div>",
+                "</div>",
+                "<div class='gh-body'>",
+                  comment.body_html,
+                "</div>"
+            );
+            commentsDiv.appendChild(commentContent);
+        });
+      }
+    };
+
+    xhr.onerror = function()
+    {
+      let errorText = document.createElement("p");
+      errorText.innerHTML = "<i>Some error loading comments.</i>";
+      commentsDiv.appendChild(errorText);
+    };
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:kan49733110@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://twitter.com/tmcakan/" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://github.com/tmacjx/" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/kan-tmac" class="iconfont icon-zhihu" title="zhihu"></a>
+  <a href="http://blog.tmackan.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">tmackan</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-174638881-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

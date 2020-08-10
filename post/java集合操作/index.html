@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Java集合操作 - tmacKan - A  record for Life</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tmackan" /><meta name="description" content="一.List List和Set都继承了Collection Collection中的方法 1.add(o: E) 添加 2.addAll(c: Collection&amp;lt;? extends E&amp;gt;) 3.clear() 清空 4.contains(o: Object) 是否包含 5.equal(o: object) 是否等于另一个集合" /><meta name="keywords" content="Blog, Python, code" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.73.0 with theme even" />
+
+
+<link rel="canonical" href="http://blog.tmackan.com/post/java%E9%9B%86%E5%90%88%E6%93%8D%E4%BD%9C/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Java集合操作" />
+<meta property="og:description" content="一.List List和Set都继承了Collection Collection中的方法 1.add(o: E) 添加 2.addAll(c: Collection&lt;? extends E&gt;) 3.clear() 清空 4.contains(o: Object) 是否包含 5.equal(o: object) 是否等于另一个集合" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://blog.tmackan.com/post/java%E9%9B%86%E5%90%88%E6%93%8D%E4%BD%9C/" />
+<meta property="article:published_time" content="2020-04-02T15:00:00+00:00" />
+<meta property="article:modified_time" content="2020-04-02T15:00:00+00:00" />
+<meta itemprop="name" content="Java集合操作">
+<meta itemprop="description" content="一.List List和Set都继承了Collection Collection中的方法 1.add(o: E) 添加 2.addAll(c: Collection&lt;? extends E&gt;) 3.clear() 清空 4.contains(o: Object) 是否包含 5.equal(o: object) 是否等于另一个集合">
+<meta itemprop="datePublished" content="2020-04-02T15:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-04-02T15:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1879">
+
+
+
+<meta itemprop="keywords" content="Java," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java集合操作"/>
+<meta name="twitter:description" content="一.List List和Set都继承了Collection Collection中的方法 1.add(o: E) 添加 2.addAll(c: Collection&lt;? extends E&gt;) 3.clear() 清空 4.contains(o: Object) 是否包含 5.equal(o: object) 是否等于另一个集合"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tmackan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tmackan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Java集合操作</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-04-02 </span>
+        <div class="post-category">
+            <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#一list">一.List</a></li>
+            <li><a href="#二set">二.Set</a></li>
+            <li><a href="#三map">三.Map</a></li>
+            <li><a href="#四queue">四.Queue</a></li>
+            <li><a href="#五stack">五.Stack</a></li>
+            <li><a href="#六collections">六.collections</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="一list">一.List</h3>
+<h4 id="list和set都继承了collection">List和Set都继承了Collection</h4>
+<p>Collection中的方法
+1.add(o: E) 添加
+2.addAll(c: Collection&lt;? extends E&gt;)
+3.clear() 清空
+4.contains(o: Object) 是否包含
+5.equal(o: object) 是否等于另一个集合
+6.hashCode() 该集合的散列码
+7.isEmpty() 是否为空
+8.iterator: Iterator<E> 迭代器
+9.remove(o: object) 按照值对象删除，有多个只删除一个
+10.removeAll(c: Collection&lt;?&gt;) 从集合中删除c中所有元素
+11.retainAll(c: Collection&lt;?&gt;) 保留c和该集合都有的元素
+12.size()             集合中元素个数
+13.toArray(): Object[] 转为对象数组</p>
+<p>Iterator
+hasnext()
+next()
+remove() 删除使用next方法获取的最后一个元素</p>
+<h4 id="数组线性表类-arraylist">数组线性表类 ArrayList</h4>
+<pre><code>用数组存储元素，数组是动态的，当超过数组容量，创建一个更大的数组，并copy原数据到新数组。
+</code></pre>
+<h4 id="链表类-linkedlist">链表类 LinkedList</h4>
+<p>支持从线性表两端提取，插入和删除元素
+addFirst(o: E) 将对象添加到列表头
+addLast(o: E)  将对象添加到列表尾
+getFirst() 获取列表第一个元素
+getLast()  获取列表最后一个元素
+removeFirst() 返回和删除列表第一个元素
+removeLast()  返回和删除列表最后一个元素</p>
+<!-- more -->
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/*
+</span><span class="cm">List&lt;E&gt;方法
+</span><span class="cm">1.add(index: int, element: E)                  添加一个新元素 
+</span><span class="cm">2.addAll(index: int, c: Collection&lt;? extends E&gt;) 添加c中所有元素  
+</span><span class="cm">3.get(index: int)               根据下标查找
+</span><span class="cm">4.set(index: int, element: E) 根据下标设置obj
+</span><span class="cm">5.indexOf(elemen: object)      元素第一个匹配的下标
+</span><span class="cm">6.lastIndexOf(element: Object) 元素在最后一个匹配的下标
+</span><span class="cm">6.remove(index: int)            根据下标删除
+</span><span class="cm">
+</span><span class="cm">*/</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;apple&#34;</span><span class="o">);</span>
+    <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;pear&#34;</span><span class="o">);</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="c1">//for
+</span><span class="c1"></span>    <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++){</span>
+        <span class="n">String</span> <span class="n">s</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+    <span class="o">}</span>
+		<span class="c1">//迭代器
+</span><span class="c1"></span>    <span class="k">for</span><span class="o">(</span><span class="n">Iterator</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">it</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">iterator</span><span class="o">();</span> <span class="n">it</span><span class="o">.</span><span class="na">hasNext</span><span class="o">();){</span>
+        <span class="n">String</span> <span class="n">s</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+    <span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="二set">二.Set</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//HashSet无序
+</span><span class="c1"></span><span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">set</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;();</span>
+<span class="c1">//LinkedHashSet 按照插入顺序排序
+</span><span class="c1"></span><span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">set</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedHashSet</span><span class="o">;</span>
+<span class="c1">//TreeSet有序, 根据元素对象排序, 需要对象实现了Comparable
+</span><span class="c1"></span><span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">set</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeSet</span><span class="o">&lt;&gt;();</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="三map">三.Map</h3>
+<p>HashMap
+LinkedHashMap 可以按insert order或者access order排序
+TreeMap 根据key来排序</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="cm">/*
+</span><span class="cm">1.clear() 清除
+</span><span class="cm">2.containsKey(key: Object)
+</span><span class="cm">3.containsValue(value: Object)
+</span><span class="cm">4.entrySet(): Set&lt;Map.Entry&lt;K, V&gt;&gt; 返回一个包含map中条目的set
+</span><span class="cm">5.get(key: Object): v 
+</span><span class="cm">6.isEmpty()
+</span><span class="cm">7.put(key: K, value: V): V
+</span><span class="cm">8.putAll(m: Map&lt;? extends K,? extends V&gt;)
+</span><span class="cm">9.remove(key: object)
+</span><span class="cm">10.size()
+</span><span class="cm">11.values(): Collection&lt;V&gt;
+</span><span class="cm">*/</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span><span class="o">{</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="n">score</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Student</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">score</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">score</span> <span class="o">=</span> <span class="n">score</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">&#34;Student{&#34;</span> <span class="o">+</span>
+                <span class="s">&#34;name=&#39;&#34;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="sc">&#39;\&#39;&#39;</span> <span class="o">+</span>
+                <span class="s">&#34;, score=&#34;</span> <span class="o">+</span> <span class="n">score</span> <span class="o">+</span>
+                <span class="sc">&#39;}&#39;</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    	 <span class="c1">//HashMap无序
+</span><span class="c1"></span>    	 <span class="c1">//Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+</span><span class="c1"></span>    	 <span class="c1">//TreeMap有序, 指定排序规则
+</span><span class="c1"></span>	    <span class="n">Map</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeMap</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;()</span> <span class="o">{</span>
+	            <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="n">Student</span> <span class="n">o1</span><span class="o">,</span> <span class="n">Student</span> <span class="n">o2</span><span class="o">)</span> <span class="o">{</span>
+	                <span class="k">if</span> <span class="o">(</span><span class="n">o1</span><span class="o">.</span><span class="na">score</span> <span class="o">==</span> <span class="n">o2</span><span class="o">.</span><span class="na">score</span><span class="o">){</span>
+	                    <span class="k">return</span> <span class="n">0</span><span class="o">;</span>
+	                <span class="o">}</span>
+	                <span class="k">return</span> <span class="n">o1</span><span class="o">.</span><span class="na">score</span> <span class="o">&gt;</span> <span class="n">o2</span><span class="o">.</span><span class="na">score</span> <span class="o">?</span> <span class="o">-</span><span class="n">1</span><span class="o">:</span> <span class="n">1</span><span class="o">;</span>
+	            <span class="o">}</span>
+	        <span class="o">});</span>
+	    <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="k">new</span> <span class="n">Student</span><span class="o">(</span><span class="s">&#34;wk&#34;</span><span class="o">,</span> <span class="n">12</span><span class="o">),</span> <span class="n">1</span><span class="o">);</span>
+	    <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="k">new</span> <span class="n">Student</span><span class="o">(</span><span class="s">&#34;test&#34;</span><span class="o">,</span> <span class="n">123</span><span class="o">),</span> <span class="n">2</span><span class="o">);</span>
+	    
+	    <span class="c1">//遍历key
+</span><span class="c1"></span>	    <span class="k">for</span><span class="o">(</span><span class="n">Student</span> <span class="n">key</span><span class="o">:</span> <span class="n">map</span><span class="o">.</span><span class="na">keySet</span><span class="o">()){</span>
+	        <span class="n">Integer</span> <span class="n">value</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+	        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+	    <span class="o">}</span>
+	    
+	    <span class="c1">//遍历value
+</span><span class="c1"></span>	    <span class="k">for</span><span class="o">(</span><span class="n">Integer</span> <span class="n">value</span><span class="o">:</span> <span class="n">map</span><span class="o">.</span><span class="na">values</span><span class="o">()){</span>
+           <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+        <span class="o">}</span>
+        
+	    <span class="c1">//遍历entry，效率较高，比遍历key后获取value
+</span><span class="c1"></span>	    <span class="k">for</span><span class="o">(</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">entry</span><span class="o">:</span> <span class="n">map</span><span class="o">.</span><span class="na">entrySet</span><span class="o">()){</span>
+	        <span class="n">Student</span> <span class="n">key</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">();</span>
+	        <span class="n">Integer</span> <span class="n">value</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">();</span> 
+	    <span class="o">}</span>
+	    
+	    <span class="c1">//使用Iterator遍历
+</span><span class="c1"></span>	    <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">entities</span> <span class="o">=</span> <span class="n">map</span><span class="o">.</span><span class="na">entrySet</span><span class="o">().</span><span class="na">iterator</span><span class="o">();</span>
+	    <span class="k">while</span> <span class="o">(</span><span class="n">entities</span><span class="o">.</span><span class="na">hasNext</span><span class="o">()){</span>
+            <span class="n">Map</span><span class="o">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">entry</span> <span class="o">=</span> <span class="n">entities</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">()</span> <span class="o">+</span> <span class="s">&#34;=&#34;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span>
+      <span class="o">}</span>
+	<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="四queue">四.Queue</h3>
+<h4 id="1quque">1.Quque</h4>
+<p>先进先出(FIFO)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">// FIFO
+</span><span class="c1">// offer插入
+</span><span class="c1">// add插入 比offer多丢了个异常,跟容量相关,offer返回null
+</span><span class="c1">// pool取出并删除
+</span><span class="c1">// remove取出并删除 与poll的差别是当队列是空的时候，这个要报异常, pool返回null
+</span><span class="c1">// peek获取
+</span><span class="c1">// element获取 当队列空的时候异常, peek返回null
+</span><span class="c1"></span><span class="n">Queue</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;();</span>
+<span class="n">q</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="s">&#34;a&#34;</span><span class="o">);</span>
+<span class="n">q</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="s">&#34;b&#34;</span><span class="o">);</span>
+<span class="n">q</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&#34;c&#34;</span><span class="o">);</span>
+<span class="n">q</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
+<span class="n">q</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="2priorityqueue">2.PriorityQueue</h4>
+<p>优先级队列
+需要实现Comparable接口</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Queue</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PriorityQueue</span><span class="o">&lt;&gt;(</span><span class="k">new</span> <span class="n">UserComparator</span><span class="o">());</span>
+        <span class="c1">// 添加3个元素到队列:
+</span><span class="c1"></span>        <span class="n">q</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="k">new</span> <span class="n">User</span><span class="o">(</span><span class="s">&#34;Bob&#34;</span><span class="o">,</span> <span class="s">&#34;A1&#34;</span><span class="o">));</span>
+        <span class="n">q</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="k">new</span> <span class="n">User</span><span class="o">(</span><span class="s">&#34;Alice&#34;</span><span class="o">,</span> <span class="s">&#34;A2&#34;</span><span class="o">));</span>
+        <span class="n">q</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="k">new</span> <span class="n">User</span><span class="o">(</span><span class="s">&#34;Boss&#34;</span><span class="o">,</span> <span class="s">&#34;V1&#34;</span><span class="o">));</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">q</span><span class="o">.</span><span class="na">poll</span><span class="o">());</span> <span class="c1">// Boss/V1
+</span><span class="c1"></span>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">q</span><span class="o">.</span><span class="na">poll</span><span class="o">());</span> <span class="c1">// Bob/A1
+</span><span class="c1"></span>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">q</span><span class="o">.</span><span class="na">poll</span><span class="o">());</span> <span class="c1">// Alice/A2
+</span><span class="c1"></span>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">q</span><span class="o">.</span><span class="na">poll</span><span class="o">());</span> <span class="c1">// null,因为队列为空
+</span><span class="c1"></span>    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">UserComparator</span> <span class="kd">implements</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="n">User</span> <span class="n">u1</span><span class="o">,</span> <span class="n">User</span> <span class="n">u2</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">u1</span><span class="o">.</span><span class="na">number</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">0</span><span class="o">)</span> <span class="o">==</span> <span class="n">u2</span><span class="o">.</span><span class="na">number</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">0</span><span class="o">))</span> <span class="o">{</span>
+            <span class="c1">// 如果两人的号都是A开头或者都是V开头,比较号的大小:
+</span><span class="c1"></span>            <span class="k">return</span> <span class="n">u1</span><span class="o">.</span><span class="na">number</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">u2</span><span class="o">.</span><span class="na">number</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">u1</span><span class="o">.</span><span class="na">number</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">0</span><span class="o">)</span> <span class="o">==</span> <span class="sc">&#39;V&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// u1的号码是V开头,优先级高:
+</span><span class="c1"></span>            <span class="k">return</span> <span class="o">-</span><span class="n">1</span><span class="o">;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">1</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="kd">class</span> <span class="nc">User</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">number</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="n">String</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">number</span> <span class="o">=</span> <span class="n">number</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&#34;/&#34;</span> <span class="o">+</span> <span class="n">number</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="3deque">3.Deque</h4>
+<p>双端队列</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">Deque</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">deque</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;();</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>将元素添加到队尾或队首：addLast()/offerLast()/addFirst()/offerFirst()
+从队首／队尾获取元素并删除：removeFirst()/pollFirst()/removeLast()/pollLast()
+从队首／队尾获取元素但不删除：getFirst()/peekFirst()/getLast()/peekLast()
+总是调用xxxFirst()/xxxLast()以便与Queue的方法区分开</p>
+<h3 id="五stack">五.Stack</h3>
+<p>利用deque来模拟stack</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Stack</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="n">T</span> <span class="nf">pop</span><span class="o">();</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">push</span><span class="o">(</span><span class="n">T</span> <span class="n">element</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isEmpty</span><span class="o">();</span>
+    <span class="kd">public</span> <span class="n">T</span> <span class="nf">peek</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">StackList</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="kd">implements</span> <span class="n">Stack</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">;</span> <span class="c1">//用容器实现
+</span><span class="c1"></span>    <span class="n">StackList</span><span class="o">(){</span>
+        <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;();</span>
+    <span class="o">}</span>
+    <span class="c1">//弹栈
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="n">T</span> <span class="nf">pop</span><span class="o">(){</span>
+        <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()</span> <span class="o">==</span> <span class="kc">true</span><span class="o">){</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">EmptyStackException</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="k">return</span> <span class="n">list</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()-</span><span class="n">1</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="c1">//压栈
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">push</span><span class="o">(</span><span class="n">T</span> <span class="n">element</span><span class="o">){</span>
+        <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">element</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="c1">//判断是否为空
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isEmpty</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">==</span> <span class="n">0</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="c1">//返回栈顶元素
+</span><span class="c1"></span>    <span class="kd">public</span> <span class="n">T</span> <span class="nf">peek</span><span class="o">(){</span>
+        <span class="k">if</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()</span> <span class="o">==</span> <span class="kc">true</span><span class="o">){</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">EmptyStackException</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">list</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">size</span><span class="o">()-</span><span class="n">1</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="六collections">六.collections</h3>
+<p>Collections.sort(list); // 排序
+Collections.reverse(list);//  list集合次序反转
+Collection.max(list) // 集合最大元素，元素必须实现Comparable接口
+Collection.min(list) // 集合最小元素
+Collection.frequency(list, element) //元素出现次数
+Collections.shuffle(list); //list集合随机顺序排序
+Collections.replaceAll(list, &ldquo;oldVal&rdquo;, &ldquo;newVal&rdquo;); //一个新值换所有的旧值</p>
+<p>参考 <a href="http://tengj.top/2016/04/12/javajhtotal/">http://tengj.top/2016/04/12/javajhtotal/</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tmackan</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2020-04-02
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/java/">Java</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/jacksonfastjson%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">jackson/fastjson使用总结</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/mybatis%E6%80%BB%E7%BB%93/">
+            <span class="next-text nav-default">mybatis总结</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <script>
+  var id =  null ;
+
+  if (id)
+  {
+    let url = "https://github.com/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id);
+    let api_url = "https://api.github.com/repos/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id, "/comments");
+    
+    var commentsDiv = document.getElementById("comments");
+
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.open("GET", api_url);
+    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
+    xhr.send();
+
+    xhr.onload = function()
+    {
+      if (xhr.status != 200)
+      {
+        let errorText = document.createElement("p");
+        errorText.innerHTML = "<i>Comments for this post yet are not opened yet (or you have GitHub scripts disabled).</i>";
+        commentsDiv.appendChild(errorText);
+      }
+      else
+      {
+        let comments = xhr.response;
+
+        let mainHeader = document.createElement("h2");
+        mainHeader.innerHTML = "Comments: ".concat(comments.length);
+        commentsDiv.appendChild(mainHeader);
+
+        let issueLink = document.createElement("p");
+        issueLink.innerHTML = "<i>You can leave a comment using this <a href='".concat(url, "'>GitHub issue</a>.</i>");
+        commentsDiv.appendChild(issueLink);
+        
+        comments.forEach(function(comment)
+        {
+            let commentContent = document.createElement("div");
+            commentContent.setAttribute('class', 'gh-comment')
+            commentContent.innerHTML = "".concat(
+                "<div class='gh-header'>",
+                  "<img src='", comment.user.avatar_url, "' />",
+                  "<div style='margin:auto 0;'>",
+                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
+                    " commented at <em>", new Date(comment.created_at), "</em>",
+                  "</div>",
+                "</div>",
+                "<div class='gh-body'>",
+                  comment.body_html,
+                "</div>"
+            );
+            commentsDiv.appendChild(commentContent);
+        });
+      }
+    };
+
+    xhr.onerror = function()
+    {
+      let errorText = document.createElement("p");
+      errorText.innerHTML = "<i>Some error loading comments.</i>";
+      commentsDiv.appendChild(errorText);
+    };
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:kan49733110@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://twitter.com/tmcakan/" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://github.com/tmacjx/" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/kan-tmac" class="iconfont icon-zhihu" title="zhihu"></a>
+  <a href="http://blog.tmackan.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">tmackan</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-174638881-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

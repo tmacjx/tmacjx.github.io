@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>redis相关总结-主从 - tmacKan - A  record for Life</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="tmackan" /><meta name="description" content="redis主从 主节点(master), 从节点(slave) 默认情况下每个从节点只能有一个主节点，而主节点可以有多个从节点。复制的数据流, 只能" /><meta name="keywords" content="Blog, Python, code" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.73.0 with theme even" />
+
+
+<link rel="canonical" href="http://blog.tmackan.com/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E4%B8%BB%E4%BB%8E/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="redis相关总结-主从" />
+<meta property="og:description" content="redis主从 主节点(master), 从节点(slave) 默认情况下每个从节点只能有一个主节点，而主节点可以有多个从节点。复制的数据流, 只能" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://blog.tmackan.com/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E4%B8%BB%E4%BB%8E/" />
+<meta property="article:published_time" content="2019-02-01T17:00:00+00:00" />
+<meta property="article:modified_time" content="2019-02-01T17:00:00+00:00" />
+<meta itemprop="name" content="redis相关总结-主从">
+<meta itemprop="description" content="redis主从 主节点(master), 从节点(slave) 默认情况下每个从节点只能有一个主节点，而主节点可以有多个从节点。复制的数据流, 只能">
+<meta itemprop="datePublished" content="2019-02-01T17:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-02-01T17:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1107">
+
+
+
+<meta itemprop="keywords" content="redis," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="redis相关总结-主从"/>
+<meta name="twitter:description" content="redis主从 主节点(master), 从节点(slave) 默认情况下每个从节点只能有一个主节点，而主节点可以有多个从节点。复制的数据流, 只能"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">tmackan</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">tmackan</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">redis相关总结-主从</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2019-02-01 </span>
+        <div class="post-category">
+            <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#redis主从">redis主从</a>
+          <ul>
+            <li><a href="#1-建立复制">1. 建立复制</a></li>
+            <li><a href="#2-断开复制">2. 断开复制</a></li>
+            <li><a href="#3-安全性">3. 安全性</a></li>
+            <li><a href="#4传输延迟">4.传输延迟</a></li>
+            <li><a href="#5复制过程">5.复制过程</a></li>
+            <li><a href="#6数据同步">6.数据同步</a></li>
+            <li><a href="#7心跳">7.心跳</a></li>
+            <li><a href="#8异步复制">8.异步复制</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h2 id="redis主从">redis主从</h2>
+<p>主节点(master), 从节点(slave)
+默认情况下每个从节点只能有一个主节点，而主节点可以有多个从节点。复制的数据流, 只能从主节点复制到从节点。</p>
+<h3 id="1-建立复制">1. 建立复制</h3>
+<pre><code>1）在配置文件中加入slaveof {masterHost} {masterPort} 随Redis启动生效
+2）在redis-server启动命令后加入 --slaveof {masterHost} {masterPort}生效
+3）直接使用命令：slaveof {masterHost} {masterPort}生效
+</code></pre>
+<p>例如本地启动两个端口为6379和6380的Redis节点
+127.0.0.1: 6380执行如下命令:</p>
+<pre><code>127.0.0.1:6380&gt;slaveof 127.0.0.1 6379
+</code></pre>
+<p>复制关系建立后执行如下命令测试:</p>
+<!-- more -->
+<pre><code>127.0.0.1:6379&gt;set hello redis
+OK
+127.0.0.1:6379&gt;get hello
+&quot;redis&quot;
+127.0.0.1:6380&gt;get hello
+&quot;redis&quot;
+</code></pre>
+<p>从运行结果中看到复制已经工作了, 针对主节点6379的任何修改都可以 同步到从节点6380中.</p>
+<p>主节点6379复制状态信息</p>
+<pre><code>127.0.0.1:6379&gt;info replication
+# Replication
+role:master
+onnected_slaves:1
+slave0:ip=127.0.0.1,port=6379,state=online,offset=43,lag=0
+</code></pre>
+<p>从节点6380复制状态信息</p>
+<pre><code>127.0.0.1:6380&gt;info replication
+# Replication
+role:slave
+master_host:127.0.0.1
+master_port:6380
+master_link_status:up
+master_last_io_seconds_ago:4
+master_sync_in_progress:0
+</code></pre>
+<h3 id="2-断开复制">2. 断开复制</h3>
+<p>1.在6380节点上执行slaveof no one来断开复制
+2.执行slaveof{newMasterIp} {newMasterPort}来实现切主操作, 切新主之前会删除掉旧的数据</p>
+<h3 id="3-安全性">3. 安全性</h3>
+<p>如果主节点通过requirepass选项设置了密码，则从节点需要
+动态设置</p>
+<pre><code>127.0.0.1:6380&gt; config set masterauth &lt;password&gt;
+</code></pre>
+<p>配置文件中</p>
+<pre><code> masterauth &lt;password&gt;
+</code></pre>
+<h3 id="4传输延迟">4.传输延迟</h3>
+<p>repl-disable-tcp-nodelay参数用于控制是否关闭TCP_NODELAY, 默认关闭</p>
+<pre><code>当关闭时，主节点产生的命令数据无论大小都会及时地发送给从节点，
+这样主从之间延迟会变小，但增加了网络带宽的消耗，
+适用于主从网络良好， 比如同机架或同机房部署
+
+开启时, 主节点会合并较小的TCP数据包从而节省带宽。
+默认发送时间间隔取决于Linux的内核，一般默认为40毫秒。
+这种配置节省了带宽但增大主从之间的延迟，适用于主从网络复杂/带宽紧张, 比如跨机房部署
+</code></pre>
+<h3 id="5复制过程">5.复制过程</h3>
+<pre><code>1)保存主节点信息
+2)主从建立socket连接
+3)发送ping命令
+4)权限检查
+5)同步数据集
+    对于首次建立复制的场景, 主节点会把所有持有数据全部发送给从节点
+    主节点执行bgsave保存RDB到本地
+    主节点发送RDB文件到从节点
+6)命令持续复制
+    主节点持续把写命令同步给从节点，保证主从数据一致性
+</code></pre>
+<h3 id="6数据同步">6.数据同步</h3>
+<p>全量复制</p>
+<pre><code>适用于初次复制场景
+</code></pre>
+<p>部分复制</p>
+<pre><code>用于主从复制因为网络闪断等造成数据丢失场景 
+原理: 从节点每秒上报自身复制偏移量给主节点 
+        主节点响应写命令时候，除了把命令发送给从节点，也会写入复制积压缓存区
+</code></pre>
+<h3 id="7心跳">7.心跳</h3>
+<p>主从建立复制后，维护长连接并且彼此发送ping/ack命令</p>
+<h3 id="8异步复制">8.异步复制</h3>
+<p>主节点不但负责数据读写，还负责把写命令同步给从节点。写命令的发送过程是异步完成，也就是说主节点自身处理完写命令后直接返回给客户 端，并不等待从节点复制完成</p>
+<p>问题: 存在主从之间数据延迟</p>
+<p>参考:  《redis开发与运维》</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">tmackan</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2019-02-01
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/redis/">redis</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/elk%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B5/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">elk日志系统实践</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E4%BD%BF%E7%94%A8/">
+            <span class="next-text nav-default">redis相关总结-使用</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <script>
+  var id =  null ;
+
+  if (id)
+  {
+    let url = "https://github.com/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id);
+    let api_url = "https://api.github.com/repos/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id, "/comments");
+    
+    var commentsDiv = document.getElementById("comments");
+
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.open("GET", api_url);
+    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
+    xhr.send();
+
+    xhr.onload = function()
+    {
+      if (xhr.status != 200)
+      {
+        let errorText = document.createElement("p");
+        errorText.innerHTML = "<i>Comments for this post yet are not opened yet (or you have GitHub scripts disabled).</i>";
+        commentsDiv.appendChild(errorText);
+      }
+      else
+      {
+        let comments = xhr.response;
+
+        let mainHeader = document.createElement("h2");
+        mainHeader.innerHTML = "Comments: ".concat(comments.length);
+        commentsDiv.appendChild(mainHeader);
+
+        let issueLink = document.createElement("p");
+        issueLink.innerHTML = "<i>You can leave a comment using this <a href='".concat(url, "'>GitHub issue</a>.</i>");
+        commentsDiv.appendChild(issueLink);
+        
+        comments.forEach(function(comment)
+        {
+            let commentContent = document.createElement("div");
+            commentContent.setAttribute('class', 'gh-comment')
+            commentContent.innerHTML = "".concat(
+                "<div class='gh-header'>",
+                  "<img src='", comment.user.avatar_url, "' />",
+                  "<div style='margin:auto 0;'>",
+                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
+                    " commented at <em>", new Date(comment.created_at), "</em>",
+                  "</div>",
+                "</div>",
+                "<div class='gh-body'>",
+                  comment.body_html,
+                "</div>"
+            );
+            commentsDiv.appendChild(commentContent);
+        });
+      }
+    };
+
+    xhr.onerror = function()
+    {
+      let errorText = document.createElement("p");
+      errorText.innerHTML = "<i>Some error loading comments.</i>";
+      commentsDiv.appendChild(errorText);
+    };
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:kan49733110@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://twitter.com/tmcakan/" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://github.com/tmacjx/" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/kan-tmac" class="iconfont icon-zhihu" title="zhihu"></a>
+  <a href="http://blog.tmackan.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2016 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">tmackan</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-174638881-1', 'auto');
+	ga('set', 'anonymizeIp', true);
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+
+</body>
+</html>

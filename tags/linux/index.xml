@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on tmacKan - A  record for Life</title>
+    <link>http://blog.tmackan.com/tags/linux/</link>
+    <description>Recent content in linux on tmacKan - A  record for Life</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>tmackan</copyright>
+    <lastBuildDate>Sun, 05 Aug 2018 11:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://blog.tmackan.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>软件架构 Python实现 笔记 (一) 扩展/并发概念</title>
+      <link>http://blog.tmackan.com/post/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84-python%E5%AE%9E%E7%8E%B0-%E7%AC%94%E8%AE%B0-%E4%B8%80-%E6%89%A9%E5%B1%95%E5%B9%B6%E5%8F%91%E6%A6%82%E5%BF%B5/</link>
+      <pubDate>Sun, 05 Aug 2018 11:00:00 +0000</pubDate>
+      
+      <guid>http://blog.tmackan.com/post/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84-python%E5%AE%9E%E7%8E%B0-%E7%AC%94%E8%AE%B0-%E4%B8%80-%E6%89%A9%E5%B1%95%E5%B9%B6%E5%8F%91%E6%A6%82%E5%BF%B5/</guid>
+      <description>1.扩展相关 水平扩展：增加服务器数量, 负载均衡的服务器集群 垂直扩展：单台机器优化CPU或者增大RAM 并发性 延迟 性能 可拓展性 高 低 高 高 高 高 不确定</description>
+    </item>
+    
+  </channel>
+</rss>

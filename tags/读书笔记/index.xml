@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>读书笔记 on tmacKan - A  record for Life</title>
+    <link>http://blog.tmackan.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link>
+    <description>Recent content in 读书笔记 on tmacKan - A  record for Life</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>tmackan</copyright>
+    <lastBuildDate>Sun, 04 Sep 2016 18:00:31 +0000</lastBuildDate>
+    
+	<atom:link href="http://blog.tmackan.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python字符串处理</title>
+      <link>http://blog.tmackan.com/post/python%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86/</link>
+      <pubDate>Sun, 04 Sep 2016 18:00:31 +0000</pubDate>
+      
+      <guid>http://blog.tmackan.com/post/python%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86/</guid>
+      <description>一.传统的％操作符 1.直接格式化字符 1 print &amp;#34;your score is %06.1f&amp;#34; % 9.5 2.以元组的形式格式化 1 2 3 country = &amp;#39;China&amp;#39; province = &amp;#39;ShangXi&amp;#39; print &amp;#34;I come from %s%s&amp;#34; %(country, province) 3.以字典的形式格式化 1 2 info = {&amp;#39;country&amp;#39;:&amp;#39;China&amp;#39;, &amp;#39;province&amp;#39;:&amp;#39;ShangXi&amp;#39;}</description>
+    </item>
+    
+  </channel>
+</rss>
