@@ -49,7 +49,7 @@
 <meta itemprop="description" content="一.flask-limit限流原理 项目配置采用了固定时间窗口策略 incr和expire配合，每次请求来的时候 incr后的值与amount上限">
 <meta itemprop="datePublished" content="2020-08-22T10:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-08-22T10:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1313">
+<meta itemprop="wordCount" content="1315">
 
 
 
@@ -242,7 +242,7 @@ min: 0, max: 4, avg: 0.03 (12235 samples)
 <pre class="chroma"><code class="language-fallback" data-lang="fallback">&gt; set key_melon &#34;cantaloupe&#34;
 &gt; expire key_melon 450
 
-Expire设置成功后，返回1，设置失败返回0
+# Expire设置成功后，返回1，设置失败返回0
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="2某个时间点expire">2.某个时间点expire</h4>
@@ -283,7 +283,7 @@ expireat key_melon 1746131400
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-fallback" data-lang="fallback"># Set或者getset会使过期时间清除
-persist持久化key，过期时间清除
+# persist持久化key，过期时间清除
 
 persist key_melon
 </code></pre></td></tr></table>
@@ -298,10 +298,10 @@ persist key_melon
 </code></pre></td></tr></table>
 </div>
 </div><p>参考
-<a href="https://cloud.tencent.com/developer/article/1044436">https://cloud.tencent.com/developer/article/1044436</a>
-<a href="https://www.hoohack.me/2019/06/24/redis-expire-strategy">https://www.hoohack.me/2019/06/24/redis-expire-strategy</a>
-<a href="https://www.w3cschool.cn/redis_all_about/redis_all_about-xzio26xj.html">https://www.w3cschool.cn/redis_all_about/redis_all_about-xzio26xj.html</a>
-<a href="https://www.digitalocean.com/community/cheatsheets/how-to-expire-keys-in-redis">https://www.digitalocean.com/community/cheatsheets/how-to-expire-keys-in-redis</a></p>
+<a href="https://cloud.tencent.com/developer/article/1044436">https://cloud.tencent.com/developer/article/1044436</a></p>
+<p><a href="https://www.hoohack.me/2019/06/24/redis-expire-strategy">https://www.hoohack.me/2019/06/24/redis-expire-strategy</a></p>
+<p><a href="https://www.w3cschool.cn/redis_all_about/redis_all_about-xzio26xj.html">https://www.w3cschool.cn/redis_all_about/redis_all_about-xzio26xj.html</a></p>
+<p><a href="https://www.digitalocean.com/community/cheatsheets/how-to-expire-keys-in-redis">https://www.digitalocean.com/community/cheatsheets/how-to-expire-keys-in-redis</a></p>
 
     </div>
 
