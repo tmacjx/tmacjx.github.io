@@ -45,7 +45,7 @@
 <meta property="og:description" content="A record for Life." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://blog.tmackan.com/" />
-<meta property="og:updated_time" content="2020-04-02T15:00:00+00:00" />
+<meta property="og:updated_time" content="2020-08-22T10:00:00+00:00" />
 <meta itemprop="name" content="tmacKan - A  record for Life">
 <meta itemprop="description" content="A record for Life."><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="tmacKan - A  record for Life"/>
@@ -116,6 +116,27 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/python%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86/">Python字符串处理</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2016-09-04 </span>
+      <div class="post-category">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      一.传统的％操作符 1.直接格式化字符 1 print &#34;your score is %06.1f&#34; % 9.5 2.以元组的形式格式化 1 2 3 country = &#39;China&#39; province = &#39;ShangXi&#39; print &#34;I come from %s%s&#34; %(country, province) 3.以字典的形式格式化 1 2 info = {&#39;country&#39;:&#39;China&#39;, &#39;province&#39;:&#39;ShangXi&#39;}
+    </div>
+    <div class="read-more">
+      <a href="/post/python%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/hello-world/">Hello World</a></h1>
     <div class="post-meta">
       <span class="post-time"> 0001-01-01 </span>
@@ -146,71 +167,7 @@ Generate static files 1  $ hexo generate   More info: Generating
     
   </nav>
         </div>
-        <script>
-  var id =  null ;
-
-  if (id)
-  {
-    let url = "https://github.com/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id);
-    let api_url = "https://api.github.com/repos/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id, "/comments");
-    
-    var commentsDiv = document.getElementById("comments");
-
-    let xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-    xhr.open("GET", api_url);
-    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
-    xhr.send();
-
-    xhr.onload = function()
-    {
-      if (xhr.status != 200)
-      {
-        let errorText = document.createElement("p");
-        errorText.innerHTML = "<i>Comments for this post yet are not opened yet (or you have GitHub scripts disabled).</i>";
-        commentsDiv.appendChild(errorText);
-      }
-      else
-      {
-        let comments = xhr.response;
-
-        let mainHeader = document.createElement("h2");
-        mainHeader.innerHTML = "Comments: ".concat(comments.length);
-        commentsDiv.appendChild(mainHeader);
-
-        let issueLink = document.createElement("p");
-        issueLink.innerHTML = "<i>You can leave a comment using this <a href='".concat(url, "'>GitHub issue</a>.</i>");
-        commentsDiv.appendChild(issueLink);
         
-        comments.forEach(function(comment)
-        {
-            let commentContent = document.createElement("div");
-            commentContent.setAttribute('class', 'gh-comment')
-            commentContent.innerHTML = "".concat(
-                "<div class='gh-header'>",
-                  "<img src='", comment.user.avatar_url, "' />",
-                  "<div style='margin:auto 0;'>",
-                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
-                    " commented at <em>", new Date(comment.created_at), "</em>",
-                  "</div>",
-                "</div>",
-                "<div class='gh-body'>",
-                  comment.body_html,
-                "</div>"
-            );
-            commentsDiv.appendChild(commentContent);
-        });
-      }
-    };
-
-    xhr.onerror = function()
-    {
-      let errorText = document.createElement("p");
-      errorText.innerHTML = "<i>Some error loading comments.</i>";
-      commentsDiv.appendChild(errorText);
-    };
-  }
-</script>
 
       </div>
     </main>

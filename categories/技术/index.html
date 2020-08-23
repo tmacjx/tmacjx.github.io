@@ -45,7 +45,7 @@
 <meta property="og:description" content="A record for Life." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://blog.tmackan.com/categories/%E6%8A%80%E6%9C%AF/" />
-<meta property="og:updated_time" content="2020-04-02T15:00:00+00:00" />
+<meta property="og:updated_time" content="2020-08-22T10:00:00+00:00" />
 <meta itemprop="name" content="技术">
 <meta itemprop="description" content="A record for Life."><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="技术"/>
@@ -119,6 +119,15 @@
       </div>
 
   <div class="archive-post">
+      <span class="archive-post-time">
+        2020-08-22
+      </span>
+      <span class="archive-post-title">
+        <a href="/post/redis-expire%E4%B8%8D%E7%94%9F%E6%95%88%E8%B8%A9%E5%9D%91%E8%AE%B0/" class="archive-post-link">
+          redis expire不生效踩坑级
+        </a>
+      </span>
+    </div><div class="archive-post">
       <span class="archive-post-time">
         2020-04-02
       </span>
@@ -351,71 +360,7 @@
   
 </nav>
         </div>
-        <script>
-  var id =  null ;
-
-  if (id)
-  {
-    let url = "https://github.com/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id);
-    let api_url = "https://api.github.com/repos/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id, "/comments");
-    
-    var commentsDiv = document.getElementById("comments");
-
-    let xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-    xhr.open("GET", api_url);
-    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
-    xhr.send();
-
-    xhr.onload = function()
-    {
-      if (xhr.status != 200)
-      {
-        let errorText = document.createElement("p");
-        errorText.innerHTML = "<i>Comments for this post yet are not opened yet (or you have GitHub scripts disabled).</i>";
-        commentsDiv.appendChild(errorText);
-      }
-      else
-      {
-        let comments = xhr.response;
-
-        let mainHeader = document.createElement("h2");
-        mainHeader.innerHTML = "Comments: ".concat(comments.length);
-        commentsDiv.appendChild(mainHeader);
-
-        let issueLink = document.createElement("p");
-        issueLink.innerHTML = "<i>You can leave a comment using this <a href='".concat(url, "'>GitHub issue</a>.</i>");
-        commentsDiv.appendChild(issueLink);
         
-        comments.forEach(function(comment)
-        {
-            let commentContent = document.createElement("div");
-            commentContent.setAttribute('class', 'gh-comment')
-            commentContent.innerHTML = "".concat(
-                "<div class='gh-header'>",
-                  "<img src='", comment.user.avatar_url, "' />",
-                  "<div style='margin:auto 0;'>",
-                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
-                    " commented at <em>", new Date(comment.created_at), "</em>",
-                  "</div>",
-                "</div>",
-                "<div class='gh-body'>",
-                  comment.body_html,
-                "</div>"
-            );
-            commentsDiv.appendChild(commentContent);
-        });
-      }
-    };
-
-    xhr.onerror = function()
-    {
-      let errorText = document.createElement("p");
-      errorText.innerHTML = "<i>Some error loading comments.</i>";
-      commentsDiv.appendChild(errorText);
-    };
-  }
-</script>
 
       </div>
     </main>

@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>tmackan</copyright>
-    <lastBuildDate>Thu, 02 Apr 2020 15:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 22 Aug 2020 10:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://blog.tmackan.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>redis expire不生效踩坑级</title>
+      <link>http://blog.tmackan.com/post/redis-expire%E4%B8%8D%E7%94%9F%E6%95%88%E8%B8%A9%E5%9D%91%E8%AE%B0/</link>
+      <pubDate>Sat, 22 Aug 2020 10:00:00 +0000</pubDate>
+      
+      <guid>http://blog.tmackan.com/post/redis-expire%E4%B8%8D%E7%94%9F%E6%95%88%E8%B8%A9%E5%9D%91%E8%AE%B0/</guid>
+      <description>一.flask-limit限流原理 项目配置采用了固定时间窗口策略 incr和expire配合，每次请求来的时候 incr后的值与amount上限</description>
+    </item>
     
     <item>
       <title>jackson/fastjson使用总结</title>

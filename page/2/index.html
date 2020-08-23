@@ -45,7 +45,7 @@
 <meta property="og:description" content="A record for Life." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://blog.tmackan.com/" />
-<meta property="og:updated_time" content="2020-04-02T15:00:00+00:00" />
+<meta property="og:updated_time" content="2020-08-22T10:00:00+00:00" />
 <meta itemprop="name" content="tmacKan - A  record for Life">
 <meta itemprop="description" content="A record for Life."><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="tmacKan - A  record for Life"/>
@@ -114,6 +114,27 @@
       <div class="content-wrapper">
         <div id="content" class="content">
           <section id="posts" class="posts">
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/py%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7/">Py优化技巧</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2019-10-04 </span>
+      <div class="post-category">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      1.函数返回值缓存 可以把一个非常耗时的函数调用变成O(1)时间复杂度 适用于在处理固定参数的函数被重复调用时 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
+    </div>
+    <div class="read-more">
+      <a href="/post/py%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
     <article class="post">
   <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/py%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E7%A4%BA%E4%BE%8B/">Py性能分析示例</a></h1>
@@ -198,27 +219,6 @@
   </div>
 </article>
 
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E5%85%B3%E4%BA%8Egil/">关于GIL</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2019-09-13 </span>
-      <div class="post-category">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
-          </div>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      GIL介绍 在Cpython中，Gloabl Interpreter Lock (GIL) GIL必须被获取，在线程安全访问python对象之前 如果没有GIL, 即使最简单的操作也可能出
-    </div>
-    <div class="read-more">
-      <a href="/post/%E5%85%B3%E4%BA%8Egil/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
     </section>
   
   <nav class="pagination">
@@ -232,71 +232,7 @@
       </a>
   </nav>
         </div>
-        <script>
-  var id =  null ;
-
-  if (id)
-  {
-    let url = "https://github.com/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id);
-    let api_url = "https://api.github.com/repos/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id, "/comments");
-    
-    var commentsDiv = document.getElementById("comments");
-
-    let xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-    xhr.open("GET", api_url);
-    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
-    xhr.send();
-
-    xhr.onload = function()
-    {
-      if (xhr.status != 200)
-      {
-        let errorText = document.createElement("p");
-        errorText.innerHTML = "<i>Comments for this post yet are not opened yet (or you have GitHub scripts disabled).</i>";
-        commentsDiv.appendChild(errorText);
-      }
-      else
-      {
-        let comments = xhr.response;
-
-        let mainHeader = document.createElement("h2");
-        mainHeader.innerHTML = "Comments: ".concat(comments.length);
-        commentsDiv.appendChild(mainHeader);
-
-        let issueLink = document.createElement("p");
-        issueLink.innerHTML = "<i>You can leave a comment using this <a href='".concat(url, "'>GitHub issue</a>.</i>");
-        commentsDiv.appendChild(issueLink);
         
-        comments.forEach(function(comment)
-        {
-            let commentContent = document.createElement("div");
-            commentContent.setAttribute('class', 'gh-comment')
-            commentContent.innerHTML = "".concat(
-                "<div class='gh-header'>",
-                  "<img src='", comment.user.avatar_url, "' />",
-                  "<div style='margin:auto 0;'>",
-                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
-                    " commented at <em>", new Date(comment.created_at), "</em>",
-                  "</div>",
-                "</div>",
-                "<div class='gh-body'>",
-                  comment.body_html,
-                "</div>"
-            );
-            commentsDiv.appendChild(commentContent);
-        });
-      }
-    };
-
-    xhr.onerror = function()
-    {
-      let errorText = document.createElement("p");
-      errorText.innerHTML = "<i>Some error loading comments.</i>";
-      commentsDiv.appendChild(errorText);
-    };
-  }
-</script>
 
       </div>
     </main>

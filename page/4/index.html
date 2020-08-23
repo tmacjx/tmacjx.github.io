@@ -45,7 +45,7 @@
 <meta property="og:description" content="A record for Life." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://blog.tmackan.com/" />
-<meta property="og:updated_time" content="2020-04-02T15:00:00+00:00" />
+<meta property="og:updated_time" content="2020-08-22T10:00:00+00:00" />
 <meta itemprop="name" content="tmacKan - A  record for Life">
 <meta itemprop="description" content="A record for Life."><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="tmacKan - A  record for Life"/>
@@ -114,6 +114,27 @@
       <div class="content-wrapper">
         <div id="content" class="content">
           <section id="posts" class="posts">
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E6%8C%81%E4%B9%85%E5%8C%96/">redis相关总结-持久化</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2019-01-31 </span>
+      <div class="post-category">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
+          </div>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      redis持久化 redis中持久化分为RDB和AOF 1. RDB 当前进程数据生成快照保存到硬盘, 触发RDB持久化过程分为手动触发和自动触发 1.1 手动触发
+    </div>
+    <div class="read-more">
+      <a href="/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E6%8C%81%E4%B9%85%E5%8C%96/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
     <article class="post">
   <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E8%BF%90%E7%BB%B4/">redis相关总结-运维</a></h1>
@@ -199,28 +220,6 @@
   </div>
 </article>
 
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84-python%E5%AE%9E%E7%8E%B0-%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%BA%E5%88%B6/">软件架构 Python实现 笔记 (二) 多线程机制</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2018-08-05 </span>
-      <div class="post-category">
-          <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
-          <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"> 读书笔记 </a>
-          </div>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      线程模块公开了一个Thread类，它封装了一个执行线程。也公开了一下同步单元: 1.锁lock对象对于同步受保护的共享资源的访问很有用，以及与
-    </div>
-    <div class="read-more">
-      <a href="/post/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84-python%E5%AE%9E%E7%8E%B0-%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%BA%E5%88%B6/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
     </section>
   
   <nav class="pagination">
@@ -234,71 +233,7 @@
       </a>
   </nav>
         </div>
-        <script>
-  var id =  null ;
-
-  if (id)
-  {
-    let url = "https://github.com/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id);
-    let api_url = "https://api.github.com/repos/YOUR-ACCOUNT/YOUR-REPOSITORY/issues/".concat(id, "/comments");
-    
-    var commentsDiv = document.getElementById("comments");
-
-    let xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-    xhr.open("GET", api_url);
-    xhr.setRequestHeader("Accept", "application/vnd.github.v3.html+json");
-    xhr.send();
-
-    xhr.onload = function()
-    {
-      if (xhr.status != 200)
-      {
-        let errorText = document.createElement("p");
-        errorText.innerHTML = "<i>Comments for this post yet are not opened yet (or you have GitHub scripts disabled).</i>";
-        commentsDiv.appendChild(errorText);
-      }
-      else
-      {
-        let comments = xhr.response;
-
-        let mainHeader = document.createElement("h2");
-        mainHeader.innerHTML = "Comments: ".concat(comments.length);
-        commentsDiv.appendChild(mainHeader);
-
-        let issueLink = document.createElement("p");
-        issueLink.innerHTML = "<i>You can leave a comment using this <a href='".concat(url, "'>GitHub issue</a>.</i>");
-        commentsDiv.appendChild(issueLink);
         
-        comments.forEach(function(comment)
-        {
-            let commentContent = document.createElement("div");
-            commentContent.setAttribute('class', 'gh-comment')
-            commentContent.innerHTML = "".concat(
-                "<div class='gh-header'>",
-                  "<img src='", comment.user.avatar_url, "' />",
-                  "<div style='margin:auto 0;'>",
-                    "<b><a class='gh-username' href='", comment.user.html_url, "'>", comment.user.login, "</a></b>",
-                    " commented at <em>", new Date(comment.created_at), "</em>",
-                  "</div>",
-                "</div>",
-                "<div class='gh-body'>",
-                  comment.body_html,
-                "</div>"
-            );
-            commentsDiv.appendChild(commentContent);
-        });
-      }
-    };
-
-    xhr.onerror = function()
-    {
-      let errorText = document.createElement("p");
-      errorText.innerHTML = "<i>Some error loading comments.</i>";
-      commentsDiv.appendChild(errorText);
-    };
-  }
-</script>
 
       </div>
     </main>
