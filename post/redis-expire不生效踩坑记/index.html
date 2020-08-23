@@ -49,7 +49,7 @@
 <meta itemprop="description" content="一.flask-limit限流原理 项目配置采用了固定时间窗口策略 incr和expire配合，每次请求来的时候 incr后的值与amount上限">
 <meta itemprop="datePublished" content="2020-08-22T10:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-08-22T10:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1315">
+<meta itemprop="wordCount" content="1476">
 
 
 
@@ -229,6 +229,10 @@ min: 0, max: 4, avg: 0.03 (12235 samples)
 某日哨兵检测到master故障，进行了主从切换，之前的主节点降级为从节点，导致我们变为了直连从节点。
 经过测试，redis在从节点设置expire的话，ttl一直减少到0后，从节点不自行执行删除key到操作，key的清除操作只能由主节点发起来，然后rsync到从节点进行同步。
 故我们从节点的expire操作一直不生效，限流的时间窗口不过期，限流计数一直在累加！！！</p>
+<blockquote>
+<p>To “maintain consistency”, slaves aren’t allowed to expire keys unless they receive a DEL from the master branch, even if they know the key is expired. The only exception is when a slave becomes master. So basically, if the master doesn’t send a DEL to the slave, the key (which might have been set with a TTL using the Redis API contract), is not guaranteed to respect the TTL it was set with. This is when you scale to have read slaves, which, apparently, is a shocking requirement in production systems.
+为了维护一致性，salve不被容许删除key除非从master收到del命令</p>
+</blockquote>
 <h3 id="附录redis相关命令">附录：redis相关命令</h3>
 <h4 id="1expire-key">1.expire key</h4>
 <div class="highlight"><div class="chroma">
@@ -302,6 +306,7 @@ persist key_melon
 <p><a href="https://www.hoohack.me/2019/06/24/redis-expire-strategy">https://www.hoohack.me/2019/06/24/redis-expire-strategy</a></p>
 <p><a href="https://www.w3cschool.cn/redis_all_about/redis_all_about-xzio26xj.html">https://www.w3cschool.cn/redis_all_about/redis_all_about-xzio26xj.html</a></p>
 <p><a href="https://www.digitalocean.com/community/cheatsheets/how-to-expire-keys-in-redis">https://www.digitalocean.com/community/cheatsheets/how-to-expire-keys-in-redis</a></p>
+<p><a href="https://engineering.grab.com/a-key-expired-in-redis-you-wont-believe-what-happened-next">https://engineering.grab.com/a-key-expired-in-redis-you-wont-believe-what-happened-next</a></p>
 
     </div>
 
