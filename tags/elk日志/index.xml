@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>elk日志 on tmacKan - A  record for Life</title>
-    <link>http://blog.tmackan.com/tags/elk%E6%97%A5%E5%BF%97/</link>
+    <link>http://localhost:1313/tags/elk%E6%97%A5%E5%BF%97/</link>
     <description>Recent content in elk日志 on tmacKan - A  record for Life</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>tmackan</copyright>
     <lastBuildDate>Tue, 04 Jun 2019 15:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://blog.tmackan.com/tags/elk%E6%97%A5%E5%BF%97/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://localhost:1313/tags/elk%E6%97%A5%E5%BF%97/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>elk日志系统实践</title>
-      <link>http://blog.tmackan.com/post/elk%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B5/</link>
+      <link>http://localhost:1313/post/elk%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B5/</link>
       <pubDate>Tue, 04 Jun 2019 15:00:00 +0000</pubDate>
       
-      <guid>http://blog.tmackan.com/post/elk%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B5/</guid>
+      <guid>http://localhost:1313/post/elk%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F%E5%AE%9E%E8%B7%B5/</guid>
       <description>1.Elk Stack简介 Filebeat: 一个轻量级开源日志文件数据搜集器，基于 Logstash-Forwarder 源代码开发，是对它的替代。在需要采集日志数据的 server 上安装 Filebeat，并指定日志</description>
     </item>
     
