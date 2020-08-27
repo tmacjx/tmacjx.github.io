@@ -1,336 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Python常用库 - tmacKan - A  record for Life</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="tmackan" /><meta name="description" content="Python常用库 • atexit allows you to register functions for your program to call when it exits. 在程序的任何地方都可以注册一个或多个回调函数，在程序退出时执行 • argparse provides functions for parsing command line arguments. 解析命令行参" /><meta name="keywords" content="Blog, Python, code" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.73.0 with theme even" />
-
-
-<link rel="canonical" href="http://localhost:1313/post/python%E5%B8%B8%E7%94%A8%E5%BA%93/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-
-
-<link href="/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="Python常用库" />
-<meta property="og:description" content="Python常用库 • atexit allows you to register functions for your program to call when it exits. 在程序的任何地方都可以注册一个或多个回调函数，在程序退出时执行 • argparse provides functions for parsing command line arguments. 解析命令行参" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://localhost:1313/post/python%E5%B8%B8%E7%94%A8%E5%BA%93/" />
-<meta property="article:published_time" content="2019-09-26T19:00:00+00:00" />
-<meta property="article:modified_time" content="2019-09-26T19:00:00+00:00" />
-<meta itemprop="name" content="Python常用库">
-<meta itemprop="description" content="Python常用库 • atexit allows you to register functions for your program to call when it exits. 在程序的任何地方都可以注册一个或多个回调函数，在程序退出时执行 • argparse provides functions for parsing command line arguments. 解析命令行参">
-<meta itemprop="datePublished" content="2019-09-26T19:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2019-09-26T19:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="759">
-
-
-
-<meta itemprop="keywords" content="python," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Python常用库"/>
-<meta name="twitter:description" content="Python常用库 • atexit allows you to register functions for your program to call when it exits. 在程序的任何地方都可以注册一个或多个回调函数，在程序退出时执行 • argparse provides functions for parsing command line arguments. 解析命令行参"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">tmackan</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">tmackan</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/about/">About</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">Python常用库</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2019-09-26 </span>
-        <div class="post-category">
-            <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
-            </div>
-        
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#python常用库">Python常用库</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <h2 id="python常用库">Python常用库</h2>
-<p>• atexit allows you to register functions for your program to call when it exits.
-<strong>在程序的任何地方都可以注册一个或多个回调函数，在程序退出时执行</strong></p>
-<p>• argparse provides functions for parsing command line arguments.
-<strong>解析命令行参数</strong></p>
-<!-- more -->
-<p>• bisect provides bisection algorithms for sorting lists (see Chapter 10).
-<strong>二分算法, 实现了一个算法用于插入元素到有序列表</strong></p>
-<p>• calendar provides a number of date-related functions.
-<strong>日历相关</strong></p>
-<p>• codecs provides functions for encoding and decoding data.
-<strong>编解码相关 encode/decode相关</strong></p>
-<p>• collections provides a variety of useful data structures.
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Python常用库 - tmacKan - A record for Life</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="tmackan"><meta name=description content="Python常用库 • atexit allows you to register functions for your program to call when it exits. 在程序的任何地方都可以注册一个或多个回调函数，在程序退出时执行 • argparse provides functions for parsing command line arguments. 解析命令行参"><meta name=keywords content="Blog,Python,code"><meta name=generator content="Hugo 0.73.0 with theme even"><link rel=canonical href=http://localhost:1313/post/python%E5%B8%B8%E7%94%A8%E5%BA%93/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Python常用库"><meta property="og:description" content="Python常用库 • atexit allows you to register functions for your program to call when it exits. 在程序的任何地方都可以注册一个或多个回调函数，在程序退出时执行 • argparse provides functions for parsing command line arguments. 解析命令行参"><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/post/python%E5%B8%B8%E7%94%A8%E5%BA%93/"><meta property="article:published_time" content="2019-09-26T19:00:00+00:00"><meta property="article:modified_time" content="2019-09-26T19:00:00+00:00"><meta itemprop=name content="Python常用库"><meta itemprop=description content="Python常用库 • atexit allows you to register functions for your program to call when it exits. 在程序的任何地方都可以注册一个或多个回调函数，在程序退出时执行 • argparse provides functions for parsing command line arguments. 解析命令行参"><meta itemprop=datePublished content="2019-09-26T19:00:00+00:00"><meta itemprop=dateModified content="2019-09-26T19:00:00+00:00"><meta itemprop=wordCount content="759"><meta itemprop=keywords content="python,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Python常用库"><meta name=twitter:description content="Python常用库 • atexit allows you to register functions for your program to call when it exits. 在程序的任何地方都可以注册一个或多个回调函数，在程序退出时执行 • argparse provides functions for parsing command line arguments. 解析命令行参"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>tmackan</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>tmackan</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Python常用库</h1><div class=post-meta><span class=post-time>2019-09-26</span><div class=post-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#python常用库>Python常用库</a></li></ul></li></ul></nav></div></div><div class=post-content><h2 id=python常用库>Python常用库</h2><p>• atexit allows you to register functions for your program to call when it exits.
+<strong>在程序的任何地方都可以注册一个或多个回调函数，在程序退出时执行</strong></p><p>• argparse provides functions for parsing command line arguments.
+<strong>解析命令行参数</strong></p><p>• bisect provides bisection algorithms for sorting lists (see Chapter 10).
+<strong>二分算法, 实现了一个算法用于插入元素到有序列表</strong></p><p>• calendar provides a number of date-related functions.
+<strong>日历相关</strong></p><p>• codecs provides functions for encoding and decoding data.
+<strong>编解码相关 encode/decode相关</strong></p><p>• collections provides a variety of useful data structures.
 <strong>有用的工具类, 额外的数据结构</strong>
-<strong>包含Counter, deque, defaultdict, namedtuple, OrderedDict</strong></p>
-<p>• copy provides functions for copying data.
-<strong>copy模块 深拷贝 浅拷贝</strong></p>
-<p>• csv provides functions for reading and writing CSV files.
-<strong>csv文件操作</strong></p>
-<p>• datetime provides classes for handling dates and times.
-<strong>日期时间相关</strong></p>
-<p>• fnmatch provides functions for matching Unix-style filename patterns.
-<strong>文件名模式匹配</strong></p>
-<p>• concurrent provides asynchronous computation (native in Python 3, available for Python 2 via PyPI).
-<strong>异步协程相关</strong></p>
-<p>• glob provides functions for matching Unix-style path patterns.
-<strong>文件名模式匹配</strong></p>
-<p>• io provides functions for handling I/O streams. In Python 3, it also contains StringIO (inside the module of the same name in Python 2), which allows you to treat strings as files.
-<strong>io相关</strong></p>
-<p>• json provides functions for reading and writing data in JSON format.
-<strong>json相关</strong></p>
-<p>• logging provides access to Python’s own built-in logging functionality.
-<strong>日志</strong></p>
-<p>• multiprocessing allows you to run multiple subprocesses from your application, while providing an API that makes them look like threads.
-<strong>多进程</strong></p>
-<p>• operator provides functions implementing the basic Python operators, which you can use instead of having to write your own lambda expressions (see Chapter 10).
-<strong>操作符相关，算术/比较</strong></p>
-<p>• os provides access to basic OS functions.
-<strong>os相关</strong></p>
-<p>• random provides functions for generating pseudorandom numbers.
-<strong>随机数相关</strong></p>
-<p>• re provides regular expression functionality.
-<strong>re正则相关</strong></p>
-<p>• sched provides an event scheduler without using multithreading.
+<strong>包含Counter, deque, defaultdict, namedtuple, OrderedDict</strong></p><p>• copy provides functions for copying data.
+<strong>copy模块 深拷贝 浅拷贝</strong></p><p>• csv provides functions for reading and writing CSV files.
+<strong>csv文件操作</strong></p><p>• datetime provides classes for handling dates and times.
+<strong>日期时间相关</strong></p><p>• fnmatch provides functions for matching Unix-style filename patterns.
+<strong>文件名模式匹配</strong></p><p>• concurrent provides asynchronous computation (native in Python 3, available for Python 2 via PyPI).
+<strong>异步协程相关</strong></p><p>• glob provides functions for matching Unix-style path patterns.
+<strong>文件名模式匹配</strong></p><p>• io provides functions for handling I/O streams. In Python 3, it also contains StringIO (inside the module of the same name in Python 2), which allows you to treat strings as files.
+<strong>io相关</strong></p><p>• json provides functions for reading and writing data in JSON format.
+<strong>json相关</strong></p><p>• logging provides access to Python’s own built-in logging functionality.
+<strong>日志</strong></p><p>• multiprocessing allows you to run multiple subprocesses from your application, while providing an API that makes them look like threads.
+<strong>多进程</strong></p><p>• operator provides functions implementing the basic Python operators, which you can use instead of having to write your own lambda expressions (see Chapter 10).
+<strong>操作符相关，算术/比较</strong></p><p>• os provides access to basic OS functions.
+<strong>os相关</strong></p><p>• random provides functions for generating pseudorandom numbers.
+<strong>随机数相关</strong></p><p>• re provides regular expression functionality.
+<strong>re正则相关</strong></p><p>• sched provides an event scheduler without using multithreading.
 <strong>事件调度器, 可用于实现定时任务</strong>
 • select provides access to the select() and poll() functions for creating event loops.
-<strong>select模块</strong></p>
-<p>• shutil provides access to high-level file functions.
-<strong>高层次的文件操作工具, 对文件的复制与删除操作更是比较支持好</strong></p>
-<p>• signal provides functions for handling POSIX signals.
-**signal模块, 处理posix信号 **</p>
-<p>• tempfile provides functions for creating temporary files and directories.
-<strong>创建临时文件和目录，用完后会自动删除</strong></p>
-<p>• threading provides access to high-level threading functionality.
-<strong>线程</strong></p>
-<p>• urllib (and urllib2 and urlparse in Python 2.x) provides functions for handling and parsing URLs.
-<strong>urllib处理解析URL相关</strong></p>
-<p>• uuid allows you to generate Universally Unique Identifiers (UUIDs).
-<strong>随机UUID生成</strong></p>
-<p>• itertools
-<strong>迭代器相关操作封装 chain合并</strong></p>
-<p>• functool
+<strong>select模块</strong></p><p>• shutil provides access to high-level file functions.
+<strong>高层次的文件操作工具, 对文件的复制与删除操作更是比较支持好</strong></p><p>• signal provides functions for handling POSIX signals.
+**signal模块, 处理posix信号 **</p><p>• tempfile provides functions for creating temporary files and directories.
+<strong>创建临时文件和目录，用完后会自动删除</strong></p><p>• threading provides access to high-level threading functionality.
+<strong>线程</strong></p><p>• urllib (and urllib2 and urlparse in Python 2.x) provides functions for handling and parsing URLs.
+<strong>urllib处理解析URL相关</strong></p><p>• uuid allows you to generate Universally Unique Identifiers (UUIDs).
+<strong>随机UUID生成</strong></p><p>• itertools
+<strong>迭代器相关操作封装 chain合并</strong></p><p>• functool
 <strong>比如 lru_cache缓存
 partial 把一个函数的某些参数给固定住，返回一个新的函数
-wraps 使用@装饰器时,保留原有函数的名称和docstring</strong></p>
-<p><em>来自《Serious Python》</em></p>
-
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">tmackan</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2019-09-26
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/python/">python</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/dogpile-cache%E6%80%BB%E7%BB%93/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">dogpile cache总结</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/%E5%85%B3%E4%BA%8Egil/">
-            <span class="next-text nav-default">关于GIL</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        
-
-  
-
-  
-    <script src="https://utteranc.es/client.js"
-            repo="tmacjx/https://github.com/tmacjx/utterances"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:kan49733110@email.com" class="iconfont icon-email" title="email"></a>
-      <a href="http://twitter.com/tmcakan/" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="http://github.com/tmacjx/" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.zhihu.com/people/kan-tmac" class="iconfont icon-zhihu" title="zhihu"></a>
-  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    2016 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">tmackan</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
-
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-174638881-1', 'auto');
-	ga('set', 'anonymizeIp', true);
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
-
-
-
-
-
-
-
-</body>
-</html>
+wraps 使用@装饰器时,保留原有函数的名称和docstring</strong></p><p><em>来自《Serious Python》</em></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>tmackan</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2019-09-26</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/python/>python</a></div><nav class=post-nav><a class=prev href=/post/dogpile-cache%E6%80%BB%E7%BB%93/><i class="iconfont icon-left"></i><span class="prev-text nav-default">dogpile cache总结</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=/post/%E5%85%B3%E4%BA%8Egil/><span class="next-text nav-default">关于GIL</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=tmacjx/https://github.com/tmacjx/utterances issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:kan49733110@email.com class="iconfont icon-email" title=email></a><a href=http://twitter.com/tmcakan/ class="iconfont icon-twitter" title=twitter></a><a href=http://github.com/tmacjx/ class="iconfont icon-github" title=github></a><a href=https://www.zhihu.com/people/kan-tmac class="iconfont icon-zhihu" title=zhihu></a><a href=http://localhost:1313/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2016 -
+2020
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>tmackan</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-174638881-1','auto');ga('set','anonymizeIp',true);ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></body></html>

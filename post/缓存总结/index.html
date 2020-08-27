@@ -1,439 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>缓存总结 - tmacKan - A  record for Life</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="tmackan" /><meta name="description" content="缓存总结 1.使用场景 不经常变更的数据存到缓存中，减少db压力 2.缓存分类 1.分布式缓存redis/memcached 2.本地缓存cachet" /><meta name="keywords" content="Blog, Python, code" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.73.0 with theme even" />
-
-
-<link rel="canonical" href="http://localhost:1313/post/%E7%BC%93%E5%AD%98%E6%80%BB%E7%BB%93/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-
-
-<link href="/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="缓存总结" />
-<meta property="og:description" content="缓存总结 1.使用场景 不经常变更的数据存到缓存中，减少db压力 2.缓存分类 1.分布式缓存redis/memcached 2.本地缓存cachet" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://localhost:1313/post/%E7%BC%93%E5%AD%98%E6%80%BB%E7%BB%93/" />
-<meta property="article:published_time" content="2019-01-30T16:00:00+00:00" />
-<meta property="article:modified_time" content="2019-01-30T16:00:00+00:00" />
-<meta itemprop="name" content="缓存总结">
-<meta itemprop="description" content="缓存总结 1.使用场景 不经常变更的数据存到缓存中，减少db压力 2.缓存分类 1.分布式缓存redis/memcached 2.本地缓存cachet">
-<meta itemprop="datePublished" content="2019-01-30T16:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2019-01-30T16:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="2123">
-
-
-
-<meta itemprop="keywords" content="架构,缓存," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="缓存总结"/>
-<meta name="twitter:description" content="缓存总结 1.使用场景 不经常变更的数据存到缓存中，减少db压力 2.缓存分类 1.分布式缓存redis/memcached 2.本地缓存cachet"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">tmackan</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">tmackan</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/about/">About</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">缓存总结</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2019-01-30 </span>
-        <div class="post-category">
-            <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
-            </div>
-        
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#缓存总结">缓存总结</a>
-          <ul>
-            <li><a href="#1使用场景">1.使用场景</a></li>
-            <li><a href="#2缓存分类">2.缓存分类</a></li>
-            <li><a href="#3相关问题">3.相关问题</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <h2 id="缓存总结">缓存总结</h2>
-<h3 id="1使用场景">1.使用场景</h3>
-<pre><code>不经常变更的数据存到缓存中，减少db压力
-</code></pre>
-<h3 id="2缓存分类">2.缓存分类</h3>
-<pre><code>1.分布式缓存redis/memcached
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>缓存总结 - tmacKan - A record for Life</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="tmackan"><meta name=description content="缓存总结 1.使用场景 不经常变更的数据存到缓存中，减少db压力 2.缓存分类 1.分布式缓存redis/memcached 2.本地缓存cachet"><meta name=keywords content="Blog,Python,code"><meta name=generator content="Hugo 0.73.0 with theme even"><link rel=canonical href=http://localhost:1313/post/%E7%BC%93%E5%AD%98%E6%80%BB%E7%BB%93/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="缓存总结"><meta property="og:description" content="缓存总结 1.使用场景 不经常变更的数据存到缓存中，减少db压力 2.缓存分类 1.分布式缓存redis/memcached 2.本地缓存cachet"><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/post/%E7%BC%93%E5%AD%98%E6%80%BB%E7%BB%93/"><meta property="article:published_time" content="2019-01-30T16:00:00+00:00"><meta property="article:modified_time" content="2019-01-30T16:00:00+00:00"><meta itemprop=name content="缓存总结"><meta itemprop=description content="缓存总结 1.使用场景 不经常变更的数据存到缓存中，减少db压力 2.缓存分类 1.分布式缓存redis/memcached 2.本地缓存cachet"><meta itemprop=datePublished content="2019-01-30T16:00:00+00:00"><meta itemprop=dateModified content="2019-01-30T16:00:00+00:00"><meta itemprop=wordCount content="2123"><meta itemprop=keywords content="架构,缓存,"><meta name=twitter:card content="summary"><meta name=twitter:title content="缓存总结"><meta name=twitter:description content="缓存总结 1.使用场景 不经常变更的数据存到缓存中，减少db压力 2.缓存分类 1.分布式缓存redis/memcached 2.本地缓存cachet"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>tmackan</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>tmackan</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>缓存总结</h1><div class=post-meta><span class=post-time>2019-01-30</span><div class=post-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#缓存总结>缓存总结</a><ul><li><a href=#1使用场景>1.使用场景</a></li><li><a href=#2缓存分类>2.缓存分类</a></li><li><a href=#3相关问题>3.相关问题</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><h2 id=缓存总结>缓存总结</h2><h3 id=1使用场景>1.使用场景</h3><pre><code>不经常变更的数据存到缓存中，减少db压力
+</code></pre><h3 id=2缓存分类>2.缓存分类</h3><pre><code>1.分布式缓存redis/memcached
 2.本地缓存cachetools/flask自带g
 3.读操作缓存: 业务系统 读操作 &gt; 写操作，减少db查询操作
 4.写操作缓存: 业务系统 写操作 &gt; 读操作，减少db写入操作
-</code></pre>
-<!-- more -->
-<h3 id="3相关问题">3.相关问题</h3>
-<h4 id="31缓存穿透">3.1缓存穿透</h4>
-<p>如果查询的key一直不存在, 并发量大的情况下，造成db压力增大</p>
-<p>解决:</p>
-<pre><code>  可以将这个不存在的key预先设定一个值, 比如&amp;&amp;
+</code></pre><h3 id=3相关问题>3.相关问题</h3><h4 id=31缓存穿透>3.1缓存穿透</h4><p>如果查询的key一直不存在, 并发量大的情况下，造成db压力增大</p><p>解决:</p><pre><code>  可以将这个不存在的key预先设定一个值, 比如&amp;&amp;
   
   首次查询如果缓存和db中均没有，设置该key对应的值为&amp;&amp;，这个失效时间设置短一些
   再次查询如果查到key对应的value是&amp;&amp;, 则直接拦截	
-</code></pre>
-<h4 id="32缓存并发">3.2缓存并发</h4>
-<p>高并发情况下, 缓存失效后, 可能出现多个进程同时查询db, 同时设置缓存的情况
-造成db压力过大，缓存频繁更新的问题</p>
-<p>解决:</p>
-<pre><code>对缓存查询加竞争锁，但是存在部分请求锁等待的问题
-</code></pre>
-<h4 id="33缓存失效">3.3缓存失效</h4>
-<p>高并发的情况下，存在某一时间缓存同时失效
-解决:</p>
-<pre><code>缓存失效时间分散开，比如可以在原有失效时间的基础上增加一个随机值
+</code></pre><h4 id=32缓存并发>3.2缓存并发</h4><p>高并发情况下, 缓存失效后, 可能出现多个进程同时查询db, 同时设置缓存的情况
+造成db压力过大，缓存频繁更新的问题</p><p>解决:</p><pre><code>对缓存查询加竞争锁，但是存在部分请求锁等待的问题
+</code></pre><h4 id=33缓存失效>3.3缓存失效</h4><p>高并发的情况下，存在某一时间缓存同时失效
+解决:</p><pre><code>缓存失效时间分散开，比如可以在原有失效时间的基础上增加一个随机值
 失效时间可以分析用户行为，根据场景进行区分
-</code></pre>
-<h4 id="34-缓存更新策略">3.4 缓存更新策略</h4>
-<h5 id="1lrulfufifo算法剔除">1.LRU/LFU/FIFO算法剔除</h5>
-<p>使用场景: 剔除算法通常用于缓存使用量超过了预设的最大值时候，如何对现有的数据进行剔除。例如Redis使用maxmemory-policy这个配置作为内 存最大值后对于数据的剔除策略</p>
-<p>一致性:</p>
-<pre><code>要清理哪些数据是由具体算法决定，开发人员只能决定使用哪种算法，所以数据的一致性是最差的
-</code></pre>
-<p>维护成本:</p>
-<pre><code>通常只需要配置最大maxmemory和对应的策略即可
-</code></pre>
-<h5 id="2超时剔除">2.超时剔除</h5>
-<p>使用场景:超时剔除通过给缓存数据设置过期时间，让其在过期时间后 自动删除
+</code></pre><h4 id=34-缓存更新策略>3.4 缓存更新策略</h4><h5 id=1lrulfufifo算法剔除>1.LRU/LFU/FIFO算法剔除</h5><p>使用场景: 剔除算法通常用于缓存使用量超过了预设的最大值时候，如何对现有的数据进行剔除。例如Redis使用maxmemory-policy这个配置作为内 存最大值后对于数据的剔除策略</p><p>一致性:</p><pre><code>要清理哪些数据是由具体算法决定，开发人员只能决定使用哪种算法，所以数据的一致性是最差的
+</code></pre><p>维护成本:</p><pre><code>通常只需要配置最大maxmemory和对应的策略即可
+</code></pre><h5 id=2超时剔除>2.超时剔除</h5><p>使用场景:超时剔除通过给缓存数据设置过期时间，让其在过期时间后 自动删除
 如果业务可以容忍一段时间内，缓存层数据和存储层数据不一致，那么可以为其设置过期时间。在数据过期 后，再从真实数据源获取数据，重新放到缓存并设置过期时间
-如涉及交易方面的业务不可用</p>
-<p>一致性:</p>
-<pre><code>一段时间窗口内（取决于过期时间长短）存在一致性问题，即 缓存数据和真实数据源的数据不一致
-</code></pre>
-<p>维护成本:</p>
-<pre><code>维护成本不是很高，只需设置expire过期时间即可，当然前 提是应用方允许这段时间可能发生的数据不一致
-</code></pre>
-<h5 id="3主动更新">3.主动更新</h5>
-<p>使用场景: 应用方对于数据的一致性要求高，需要在真实数据更新后， 立即更新缓存数据。例如可以利用消息系统或者其他方式通知缓存更新</p>
-<p>一致性:</p>
-<pre><code>一致性最高，但如果主动更新发生了问题，那么这条数据很可 能很长时间不会更新，所以建议结合超时剔除一起使用效果会更好
-</code></pre>
-<p>维护成本:</p>
-<pre><code>维护成本会比较高，开发者需要自己来完成更新，并保证更 新操作的正确性。
-</code></pre>
-<p>建议</p>
-<pre><code>低一致性业务建议配置最大内存和淘汰策略的方式使用
+如涉及交易方面的业务不可用</p><p>一致性:</p><pre><code>一段时间窗口内（取决于过期时间长短）存在一致性问题，即 缓存数据和真实数据源的数据不一致
+</code></pre><p>维护成本:</p><pre><code>维护成本不是很高，只需设置expire过期时间即可，当然前 提是应用方允许这段时间可能发生的数据不一致
+</code></pre><h5 id=3主动更新>3.主动更新</h5><p>使用场景: 应用方对于数据的一致性要求高，需要在真实数据更新后， 立即更新缓存数据。例如可以利用消息系统或者其他方式通知缓存更新</p><p>一致性:</p><pre><code>一致性最高，但如果主动更新发生了问题，那么这条数据很可 能很长时间不会更新，所以建议结合超时剔除一起使用效果会更好
+</code></pre><p>维护成本:</p><pre><code>维护成本会比较高，开发者需要自己来完成更新，并保证更 新操作的正确性。
+</code></pre><p>建议</p><pre><code>低一致性业务建议配置最大内存和淘汰策略的方式使用
 高一致性业务可以结合使用超时剔除和主动更新，这样即使主动更新 出了问题，也能保证数据过期时间后删除脏数据
-</code></pre>
-<p><em><strong>根据我们自身的业务场景，API层面一致性要求不是很高，遂采用最大内存和超时剔除的方案</strong></em></p>
-<h5 id="4超时剔出策略">4.超时剔出策略</h5>
-<h6 id="1先更新数据库再更新缓存">1.先更新数据库，再更新缓存</h6>
-<p>并发情况下，存在脏数据写入缓存</p>
-<pre><code>1.请求A更新db
+</code></pre><p><em><strong>根据我们自身的业务场景，API层面一致性要求不是很高，遂采用最大内存和超时剔除的方案</strong></em></p><h5 id=4超时剔出策略>4.超时剔出策略</h5><h6 id=1先更新数据库再更新缓存>1.先更新数据库，再更新缓存</h6><p>并发情况下，存在脏数据写入缓存</p><pre><code>1.请求A更新db
 2.请求B更新db
 3.请求A更新cache
 4.请求B更新cache
-</code></pre>
-<p>问题</p>
-<pre><code>可能由于处理，A最后才更新cache，导致cache中写入脏数据
+</code></pre><p>问题</p><pre><code>可能由于处理，A最后才更新cache，导致cache中写入脏数据
 如果缓存不设置expiret时间, 则一直存在脏数据的情况
-</code></pre>
-<h6 id="2先删除缓存再更新数据库">2.先删除缓存，再更新数据库</h6>
-<pre><code>1.请求A进行写操作，先删除cache
+</code></pre><h6 id=2先删除缓存再更新数据库>2.先删除缓存，再更新数据库</h6><pre><code>1.请求A进行写操作，先删除cache
 2.请求B查询缓存，不存在
 3.请求B去数据库查询，得到旧值
 4.请求B将旧值写入缓存
 5.请求A将新值写入数据库
-</code></pre>
-<p>问题</p>
-<pre><code>如果缓存不设置expire时间, 则一直存在脏数据的情况
-</code></pre>
-<p>解决</p>
-<pre><code>延时双删 &gt; A在更新db后再次删除cache
+</code></pre><p>问题</p><pre><code>如果缓存不设置expire时间, 则一直存在脏数据的情况
+</code></pre><p>解决</p><pre><code>延时双删 &gt; A在更新db后再次删除cache
 存在双删仍然失败的情况，则脏数据仍存在
-</code></pre>
-<h6 id="3先更新数据库再删除缓存">3.先更新数据库，再删除缓存</h6>
-<pre><code>1.缓存刚好失效
+</code></pre><h6 id=3先更新数据库再删除缓存>3.先更新数据库，再删除缓存</h6><pre><code>1.缓存刚好失效
 2.请求A查询数据库，得到一个旧值
 3.请求B更新数据库
 4.请求B删除cache
 5.请求A将旧值写入cache
-</code></pre>
-<p>发生条件: 步骤3比步骤2耗时短，导致步骤4先于步骤5发生，但是步骤3是写操作，比较耗时，
+</code></pre><p>发生条件: 步骤3比步骤2耗时短，导致步骤4先于步骤5发生，但是步骤3是写操作，比较耗时，
 所以以上概率很小
-解决:</p>
-<pre><code>1.缓存加入过期时间
+解决:</p><pre><code>1.缓存加入过期时间
 2.请求B更新db和删除cache之间，sleep, 延时删除
-</code></pre>
-<h4 id="4删除缓存失败重试机制">4.删除缓存失败重试机制</h4>
-<p>方案1</p>
-<p><img src="http://liveclass.csslcloud.net/chat/83F203DAC2468694/DA42DD2895C209699C33DC5901307461/hnJP5Be6Qk.png" alt=""></p>
-<p>删除缓存的时，程序增加重试机制，如果失败，则扔到消息队列中
-另一个任务定期读取消息队列，再次尝试删除</p>
-<p>方案2</p>
-<p><img src="http://liveclass.csslcloud.net/chat/83F203DAC2468694/DA42DD2895C209699C33DC5901307461/MGCKsYW3AP.png" alt=""></p>
-<p>删除缓存的任务，交给订阅binlog程序处理，业务层面只需要更新数据库即可</p>
-<h4 id="5缓存加载问题">5.缓存加载问题</h4>
-<p>如果缓存挂掉或者db字段有更新</p>
-<p>解决:</p>
-<pre><code>项目加载或者db有变动的情况下，热加载db数据更新到缓存，减少db压力
-</code></pre>
-<h4 id="6缓存粒度控制">6.缓存粒度控制</h4>
-<p>从MySQL获取用户信息</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">select * from user where id={id}
-</code></pre></td></tr></table>
-</div>
-</div><p>将用户信息缓存到Redis中:
-缓存全部列:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">set user:{id} &#39;select * from user where id={id}&#39;
-</code></pre></td></tr></table>
-</div>
-</div><p>缓存部分重要列</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">set user:{id} &#39;select {importantColumn1}, {important Column2} ... {importantColumnN} from user where id={id}&#39;
-</code></pre></td></tr></table>
-</div>
-</div><p>通用性:</p>
-<pre><code>缓存全部数据比部分数据更加通用，但从实际经验看，很长时 间内应用只需要几个重要的属性
-</code></pre>
-<p>空间占用:</p>
-<pre><code>缓存全部数据要比部分数据占用更多的空间，可能存在以下 问题
+</code></pre><h4 id=4删除缓存失败重试机制>4.删除缓存失败重试机制</h4><p>方案1</p><p><img src=http://liveclass.csslcloud.net/chat/83F203DAC2468694/DA42DD2895C209699C33DC5901307461/hnJP5Be6Qk.png alt></p><p>删除缓存的时，程序增加重试机制，如果失败，则扔到消息队列中
+另一个任务定期读取消息队列，再次尝试删除</p><p>方案2</p><p><img src=http://liveclass.csslcloud.net/chat/83F203DAC2468694/DA42DD2895C209699C33DC5901307461/MGCKsYW3AP.png alt></p><p>删除缓存的任务，交给订阅binlog程序处理，业务层面只需要更新数据库即可</p><h4 id=5缓存加载问题>5.缓存加载问题</h4><p>如果缓存挂掉或者db字段有更新</p><p>解决:</p><pre><code>项目加载或者db有变动的情况下，热加载db数据更新到缓存，减少db压力
+</code></pre><h4 id=6缓存粒度控制>6.缓存粒度控制</h4><p>从MySQL获取用户信息</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>select * from user where id={id}
+</code></pre></td></tr></table></div></div><p>将用户信息缓存到Redis中:
+缓存全部列:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>set user:{id} &#39;select * from user where id={id}&#39;
+</code></pre></td></tr></table></div></div><p>缓存部分重要列</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>set user:{id} &#39;select {importantColumn1}, {important Column2} ... {importantColumnN} from user where id={id}&#39;
+</code></pre></td></tr></table></div></div><p>通用性:</p><pre><code>缓存全部数据比部分数据更加通用，但从实际经验看，很长时 间内应用只需要几个重要的属性
+</code></pre><p>空间占用:</p><pre><code>缓存全部数据要比部分数据占用更多的空间，可能存在以下 问题
 
 1.全部数据会造成内存的浪费
 2.全部数据可能每次传输产生的网络流量会比较大，耗时相对较大，在 极端情况下会阻塞网络
 3.全部数据的序列化和反序列化的CPU开销更大
-</code></pre>
-<p>代码维护:</p>
-<pre><code>    全部数据的优势更加明显，而部分数据一旦要加新字段需要
+</code></pre><p>代码维护:</p><pre><code>    全部数据的优势更加明显，而部分数据一旦要加新字段需要
     修改业务代码，而且修改后通常还需要刷新缓存数据
-</code></pre>
-<p>参考: <a href="http://blog.jobbole.com/113992/">http://blog.jobbole.com/113992/</a>
-<a href="http://blog.didispace.com/chengchao-huancun-zuijiazhaoshi/">http://blog.didispace.com/chengchao-huancun-zuijiazhaoshi/</a>
-《redis开发与运维》</p>
-
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">tmackan</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2019-01-30
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/%E6%9E%B6%E6%9E%84/">架构</a>
-          <a href="/tags/%E7%BC%93%E5%AD%98/">缓存</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E8%BF%90%E7%BB%B4/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">redis相关总结-运维</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/python-anti-patterns%E6%80%BB%E7%BB%93/">
-            <span class="next-text nav-default">Python Anti-Patterns总结</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        
-
-  
-
-  
-    <script src="https://utteranc.es/client.js"
-            repo="tmacjx/https://github.com/tmacjx/utterances"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:kan49733110@email.com" class="iconfont icon-email" title="email"></a>
-      <a href="http://twitter.com/tmcakan/" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="http://github.com/tmacjx/" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.zhihu.com/people/kan-tmac" class="iconfont icon-zhihu" title="zhihu"></a>
-  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    2016 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">tmackan</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
-
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-174638881-1', 'auto');
-	ga('set', 'anonymizeIp', true);
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
-
-
-
-
-
-
-
-</body>
-</html>
+</code></pre><p>参考: <a href=http://blog.jobbole.com/113992/>http://blog.jobbole.com/113992/</a>
+<a href=http://blog.didispace.com/chengchao-huancun-zuijiazhaoshi/>http://blog.didispace.com/chengchao-huancun-zuijiazhaoshi/</a>
+《redis开发与运维》</p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>tmackan</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2019-01-30</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/%E6%9E%B6%E6%9E%84/>架构</a>
+<a href=/tags/%E7%BC%93%E5%AD%98/>缓存</a></div><nav class=post-nav><a class=prev href=/post/redis%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93-%E8%BF%90%E7%BB%B4/><i class="iconfont icon-left"></i><span class="prev-text nav-default">redis相关总结-运维</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=/post/python-anti-patterns%E6%80%BB%E7%BB%93/><span class="next-text nav-default">Python Anti-Patterns总结</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=tmacjx/https://github.com/tmacjx/utterances issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:kan49733110@email.com class="iconfont icon-email" title=email></a><a href=http://twitter.com/tmcakan/ class="iconfont icon-twitter" title=twitter></a><a href=http://github.com/tmacjx/ class="iconfont icon-github" title=github></a><a href=https://www.zhihu.com/people/kan-tmac class="iconfont icon-zhihu" title=zhihu></a><a href=http://localhost:1313/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2016 -
+2020
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>tmackan</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-174638881-1','auto');ga('set','anonymizeIp',true);ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></body></html>

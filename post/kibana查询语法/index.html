@@ -1,0 +1,197 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Kibana查询语法 - tmacKan - A record for Life</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="tmackan"><meta name=description content="1.词Terms 单词Term &amp;quot;hello&amp;quot; 语句Phrase &amp;quot;hello world&amp;quot; 2.域filed 在查询中指定filed，否则走默认filed 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15"><meta name=keywords content="Blog,Python,code"><meta name=generator content="Hugo 0.73.0 with theme even"><link rel=canonical href=http://localhost:1313/post/kibana%E6%9F%A5%E8%AF%A2%E8%AF%AD%E6%B3%95/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Kibana查询语法"><meta property="og:description" content="1.词Terms 单词Term &#34;hello&#34; 语句Phrase &#34;hello world&#34; 2.域filed 在查询中指定filed，否则走默认filed 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15"><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/post/kibana%E6%9F%A5%E8%AF%A2%E8%AF%AD%E6%B3%95/"><meta property="article:published_time" content="2020-08-26T22:00:00+00:00"><meta property="article:modified_time" content="2020-08-26T22:00:00+00:00"><meta itemprop=name content="Kibana查询语法"><meta itemprop=description content="1.词Terms 单词Term &#34;hello&#34; 语句Phrase &#34;hello world&#34; 2.域filed 在查询中指定filed，否则走默认filed 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15"><meta itemprop=datePublished content="2020-08-26T22:00:00+00:00"><meta itemprop=dateModified content="2020-08-26T22:00:00+00:00"><meta itemprop=wordCount content="847"><meta itemprop=keywords content="elk,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Kibana查询语法"><meta name=twitter:description content="1.词Terms 单词Term &#34;hello&#34; 语句Phrase &#34;hello world&#34; 2.域filed 在查询中指定filed，否则走默认filed 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>tmackan</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>tmackan</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Kibana查询语法</h1><div class=post-meta><span class=post-time>2020-08-26</span><div class=post-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><ul><li><a href=#1词terms>1.词Terms</a></li><li><a href=#2域filed>2.域filed</a></li><li><a href=#3通配符查找>3.通配符查找</a></li><li><a href=#4正则语法>4.正则语法</a></li><li><a href=#5模糊查找>5.模糊查找</a></li><li><a href=#6临近查询>6.临近查询</a></li><li><a href=#7范围查找>7.范围查找</a></li><li><a href=#8优先级>8.优先级</a></li><li><a href=#9布尔>9.布尔</a></li><li><a href=#10转义字符>10.转义字符</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><h3 id=1词terms>1.词Terms</h3><pre><code>单词Term &quot;hello&quot;
+语句Phrase &quot;hello world&quot;
+</code></pre><h3 id=2域filed>2.域filed</h3><p>在查询中指定filed，否则走默认filed</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># where the status field contains active
+status:active
+
+# where the title field contains quick or brown. 
+# If you omit the OR operator the default operator will be used
+
+title:(quick OR brown)
+title:(quick brown)
+
+# where the author field contains the exact phrase &#34;john smith&#34;
+author:&#34;John Smith&#34;
+
+# where any of the fields book.title, book.content or 
+# book.date contains quick or brown 
+# (note how we need to escape the * with a backslash):
+
+book.\*:(quick brown)
+
+# where the field title has any non-null value:
+_exists_:title
+</code></pre></td></tr></table></div></div><h3 id=3通配符查找>3.通配符查找</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>单个字符
+   te?t
+
+多个字符
+   test*
+   
+通配匹配比较耗费内存，性能较差
+\*被重写为了exists查询
+field:* 会匹配为空的情况
+{
+  &#34;field&#34;: &#34;&#34;
+}
+不会匹配
+{
+  &#34;field&#34;: null
+}
+前缀匹配*ing操作很重
+可以把allow_leading_wildcard设置为flase来关闭前缀匹配
+</code></pre></td></tr></table></div></div><h3 id=4正则语法>4.正则语法</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># 以/开始, 后接re表达式
+name:/joh?n(ath[oa]n)/
+</code></pre></td></tr></table></div></div><h3 id=5模糊查找>5.模糊查找</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>相似匹配
+roam~0.8，即表示差别小于0.2，相似度大于0.8才算匹配
+该查询将寻找类似“foam”和“roams”等的词语。也可以说是相似度查询。
+</code></pre></td></tr></table></div></div><h3 id=6临近查询>6.临近查询</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>Lucene支持指定距离查询，你可以使用波浪号“~”加数字在查询词后。
+举例来说搜索“apache”和“jakarta”距离10个字符以内，你可以使用如下语法：
+   
+&#34;jakarta apache&#34;~10 
+</code></pre></td></tr></table></div></div><h3 id=7范围查找>7.范围查找</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># All days in 2012:
+date:[2012-01-01 TO 2012-12-31]
+
+# Numbers 1..5
+count:[1 TO 5]
+
+# Tags between alpha and omega, excluding alpha and omega:
+tag:{alpha TO omega}
+
+# Numbers from 10 upwards
+count:[10 TO *]
+
+# Dates before 2012
+date:{* TO 2012-01-01}
+# Curly and square brackets can be combined:
+# Numbers from 1 up to but not including 5
+count:[1 TO 5}
+
+# Ranges with one side unbounded can use the following syntax:
+age:&gt;10
+age:&gt;=10
+age:&lt;10
+age:&lt;=10
+</code></pre></td></tr></table></div></div><h3 id=8优先级>8.优先级</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># 不同的查询词设置不同的权重
+&#34;john smith&#34;^2   
+(foo bar)^4
+</code></pre></td></tr></table></div></div><h3 id=9布尔>9.布尔</h3><h5 id=-->+ -</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># +必存在 -必须不存在
+# The preferred operators are + (this term must be present) 
+# and - (this term must # not be present).
+# All other terms are optional. For example, this query:
+
+quick brown +fox -news
+
+# states that:
+# fox must be present
+# news must not be present
+# quick and brown are optional — their presence increases the relevance
+</code></pre></td></tr></table></div></div><h5 id=and>AND</h5><pre><code>&quot;jakarta apache&quot; AND &quot;jakarta lucene&quot; 
+</code></pre><h5 id=or>OR</h5><pre><code>&quot;jakarta apache&quot; OR jakarta 
+</code></pre><h5 id=not>NOT</h5><pre><code>必须含有“jakarta apache”同时不能含有“Jakarta lucene”时
+&quot;jakarta apache&quot; NOT &quot;jakarta lucene&quot; 
+&quot;jakarta apache&quot; - &quot;jakarta lucene&quot; 
+</code></pre><h5 id=组合>组合</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>(quick OR brown) AND fox
+status:(active OR pending) title:(full text search)^2
+</code></pre></td></tr></table></div></div><h3 id=10转义字符>10.转义字符</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># (1+1)=2, you would need to write your query as 
+# \(1\+1\)\=2
++ - = &amp;&amp; || &gt; &lt; ! ( ) { } [ ] ^ &#34; ~ * ? : \ /
+</code></pre></td></tr></table></div></div><p>参考</p><p><a href=https://lucene.apache.org/core/2_9_4/queryparsersyntax.html>https://lucene.apache.org/core/2_9_4/queryparsersyntax.html</a></p><p><a href=https://www.jianshu.com/p/d924405e8db8>https://www.jianshu.com/p/d924405e8db8</a></p><p><a href=https://www.elastic.co/guide/en/elasticsearch/reference/6.0/query-dsl-query-string-query.html#query-string-syntax>https://www.elastic.co/guide/en/elasticsearch/reference/6.0/query-dsl-query-string-query.html#query-string-syntax</a></p><p><a href=https://www.elastic.co/guide/cn/elasticsearch/guide/current/search-in-depth.html>https://www.elastic.co/guide/cn/elasticsearch/guide/current/search-in-depth.html</a></p><p><a href=https://www.elastic.co/guide/en/kibana/6.8/kuery-query.html>https://www.elastic.co/guide/en/kibana/6.8/kuery-query.html</a></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>tmackan</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2020-08-26</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/elk/>elk</a></div><nav class=post-nav><a class=next href=/post/redis-expire%E4%B8%8D%E7%94%9F%E6%95%88%E8%B8%A9%E5%9D%91%E8%AE%B0/><span class="next-text nav-default">redis expire不生效踩坑级</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=tmacjx/https://github.com/tmacjx/utterances issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:kan49733110@email.com class="iconfont icon-email" title=email></a><a href=http://twitter.com/tmcakan/ class="iconfont icon-twitter" title=twitter></a><a href=http://github.com/tmacjx/ class="iconfont icon-github" title=github></a><a href=https://www.zhihu.com/people/kan-tmac class="iconfont icon-zhihu" title=zhihu></a><a href=http://localhost:1313/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2016 -
+2020
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>tmackan</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-174638881-1','auto');ga('set','anonymizeIp',true);ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></body></html>

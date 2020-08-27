@@ -1,508 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Python模块总结 - tmacKan - A  record for Life</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="tmackan" /><meta name="description" content="一.模块, 包 模块： 本质上python中每个文件都是一个模块 包： 除了包含模块外，还包含__init__.py文件，同时它允许嵌套。 定义一个包，" /><meta name="keywords" content="Blog, Python, code" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.73.0 with theme even" />
-
-
-<link rel="canonical" href="http://localhost:1313/post/python%E6%A8%A1%E5%9D%97/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-
-
-<link href="/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="Python模块总结" />
-<meta property="og:description" content="一.模块, 包 模块： 本质上python中每个文件都是一个模块 包： 除了包含模块外，还包含__init__.py文件，同时它允许嵌套。 定义一个包，" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://localhost:1313/post/python%E6%A8%A1%E5%9D%97/" />
-<meta property="article:published_time" content="2016-09-07T14:59:31+00:00" />
-<meta property="article:modified_time" content="2016-09-07T14:59:31+00:00" />
-<meta itemprop="name" content="Python模块总结">
-<meta itemprop="description" content="一.模块, 包 模块： 本质上python中每个文件都是一个模块 包： 除了包含模块外，还包含__init__.py文件，同时它允许嵌套。 定义一个包，">
-<meta itemprop="datePublished" content="2016-09-07T14:59:31&#43;00:00" />
-<meta itemprop="dateModified" content="2016-09-07T14:59:31&#43;00:00" />
-<meta itemprop="wordCount" content="2067">
-
-
-
-<meta itemprop="keywords" content="Python," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Python模块总结"/>
-<meta name="twitter:description" content="一.模块, 包 模块： 本质上python中每个文件都是一个模块 包： 除了包含模块外，还包含__init__.py文件，同时它允许嵌套。 定义一个包，"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">tmackan</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">tmackan</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/about/">About</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">Python模块总结</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2016-09-07 </span>
-        <div class="post-category">
-            <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
-            <a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"> 读书笔记 </a>
-            </div>
-        
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#一模块-包">一.模块, 包</a></li>
-            <li><a href="#二导入加载模块">二.导入，加载模块</a></li>
-            <li><a href="#三查找模块">三.查找模块</a></li>
-            <li><a href="#四用法比较">四.用法比较</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <h3 id="一模块-包">一.模块, 包</h3>
-<blockquote>
-<p>模块： 本质上python中每个文件都是一个模块
-包： 除了包含模块外，还包含__init__.py文件，同时它允许嵌套。</p>
-</blockquote>
-<p>定义一个包，只需要在当前目录下包含__init__.py文件。
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Python模块总结 - tmacKan - A record for Life</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="tmackan"><meta name=description content="一.模块, 包 模块： 本质上python中每个文件都是一个模块 包： 除了包含模块外，还包含__init__.py文件，同时它允许嵌套。 定义一个包，"><meta name=keywords content="Blog,Python,code"><meta name=generator content="Hugo 0.73.0 with theme even"><link rel=canonical href=http://localhost:1313/post/python%E6%A8%A1%E5%9D%97/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Python模块总结"><meta property="og:description" content="一.模块, 包 模块： 本质上python中每个文件都是一个模块 包： 除了包含模块外，还包含__init__.py文件，同时它允许嵌套。 定义一个包，"><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/post/python%E6%A8%A1%E5%9D%97/"><meta property="article:published_time" content="2016-09-07T14:59:31+00:00"><meta property="article:modified_time" content="2016-09-07T14:59:31+00:00"><meta itemprop=name content="Python模块总结"><meta itemprop=description content="一.模块, 包 模块： 本质上python中每个文件都是一个模块 包： 除了包含模块外，还包含__init__.py文件，同时它允许嵌套。 定义一个包，"><meta itemprop=datePublished content="2016-09-07T14:59:31+00:00"><meta itemprop=dateModified content="2016-09-07T14:59:31+00:00"><meta itemprop=wordCount content="2067"><meta itemprop=keywords content="Python,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Python模块总结"><meta name=twitter:description content="一.模块, 包 模块： 本质上python中每个文件都是一个模块 包： 除了包含模块外，还包含__init__.py文件，同时它允许嵌套。 定义一个包，"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>tmackan</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>tmackan</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Python模块总结</h1><div class=post-meta><span class=post-time>2016-09-07</span><div class=post-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a>
+<a href=/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/>读书笔记</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><ul><li><a href=#一模块-包>一.模块, 包</a></li><li><a href=#二导入加载模块>二.导入，加载模块</a></li><li><a href=#三查找模块>三.查找模块</a></li><li><a href=#四用法比较>四.用法比较</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><h3 id=一模块-包>一.模块, 包</h3><blockquote><p>模块： 本质上python中每个文件都是一个模块
+包： 除了包含模块外，还包含__init__.py文件，同时它允许嵌套。</p></blockquote><p>定义一个包，只需要在当前目录下包含__init__.py文件。
 1.__init__.py可以为空
 2.在__init__.py定义__all__指定的是指此包被import * 的时候, 哪些模块会被import进来
-包组织结构形如</p>
-<pre><code> package/__init__.py
+包组织结构形如</p><pre><code> package/__init__.py
     module1.py
     module2.py
     subpackage/__init__.py
        module3.py
-</code></pre>
-<h3 id="二导入加载模块">二.导入，加载模块</h3>
-<p>python在初始化运行环境的时候会预先加载一批内建模块到内存中，这些模块的信息被存放在sys.modules中。读者导入sys模块后在python解释器中输入sys.modules.items()
-便可显示所有预加载模块的相关信息。当加载一个模块的时候，解释器实际上要完成以下动作：</p>
-<pre><code>1.在sys.modules中进行搜索看看该模块是否已经存在，如果存在，则将其导入当前局部命名空间，
+</code></pre><h3 id=二导入加载模块>二.导入，加载模块</h3><p>python在初始化运行环境的时候会预先加载一批内建模块到内存中，这些模块的信息被存放在sys.modules中。读者导入sys模块后在python解释器中输入sys.modules.items()
+便可显示所有预加载模块的相关信息。当加载一个模块的时候，解释器实际上要完成以下动作：</p><pre><code>1.在sys.modules中进行搜索看看该模块是否已经存在，如果存在，则将其导入当前局部命名空间，
 加载结束
 2.如果在sys.modules中找不到对应模块的名称，则为需要导入的模块创建一个字典对象，
 并将该对象信息插入到sys.modules中
 3.加载前确认是否需要对模块对应的文件进行编译，如果需要则先进行编译
 4.执行动态加载，在当前模块的命名空间中执行编译后的字节码，并将其中所有的对象放入模块所对应的字典中
-</code></pre>
-<p>执行到第三步时, 涉及到如何查找模块.</p>
-<!-- more -->
-<h3 id="三查找模块">三.查找模块</h3>
-<pre><code> 在一个模块被导入时，PVM会在后台从一系列路径中搜索该模块，其搜索过程如下：
+</code></pre><p>执行到第三步时, 涉及到如何查找模块.</p><h3 id=三查找模块>三.查找模块</h3><pre><code> 在一个模块被导入时，PVM会在后台从一系列路径中搜索该模块，其搜索过程如下：
  1、在当前目录下搜索该模块；
  2、在环境变量PYTHONPATH中指定的路径列表中依次搜索；
  3、在python安装路径中搜索
-</code></pre>
-<p>事实上，PVM(Python虚拟机)通过变量sys.path中包含的路径来搜索，这个变量里面包含的路径列表就是上面提到的这些路径信息，我们可以打印看下sys.pth都包含些哪些路径：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"> <span class="o">&gt;&gt;</span><span class="kn">import</span> <span class="nn">sys</span>
- <span class="o">&gt;&gt;</span><span class="k">print</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span>
-<span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;/Library/Python/2.7/site-packages/pip-8.0.3-py2.7.egg&#39;</span><span class="p">,</span> <span class="s1">&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python27.zip&#39;</span><span class="p">,</span> <span class="s1">&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7&#39;</span><span class="p">,</span> <span class="s1">&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-darwin&#39;</span><span class="p">,</span> <span class="s1">&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac&#39;</span><span class="p">,</span> <span class="s1">&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac/lib-scriptpackages&#39;</span><span class="p">,</span> <span class="s1">&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python&#39;</span><span class="p">,</span> <span class="s1">&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk&#39;</span><span class="p">,</span> <span class="s1">&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-old&#39;</span><span class="p">,</span> <span class="s1">&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-dynload&#39;</span><span class="p">,</span> <span class="s1">&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/PyObjC&#39;</span><span class="p">,</span> <span class="s1">&#39;/Library/Python/2.7/site-packages&#39;</span><span class="p">]</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>任何的import都会按照sys.path来查找目标模块, 当然我们也可以自行在运行时追加新的模块路径到sys.path中</p>
-<h3 id="四用法比较">四.用法比较</h3>
-<p>引入外部模块的三种方法， import语句，from &hellip; import &hellip;, __import__函数
-from &hellip; import *</p>
-<pre><code>   __import__函数与import语句类似， 不同点在于前者显式地将模块的名称作为字符串传递并赋值给命名空间的变量
-</code></pre>
-<p>在使用import时，注意以下几点：</p>
-<pre><code>  1.一般情况下，尽量优先使用import a形式，如访问B时，需要使用a.B的形式
+</code></pre><p>事实上，PVM(Python虚拟机)通过变量sys.path中包含的路径来搜索，这个变量里面包含的路径列表就是上面提到的这些路径信息，我们可以打印看下sys.pth都包含些哪些路径：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python> <span class=o>&gt;&gt;</span><span class=kn>import</span> <span class=nn>sys</span>
+ <span class=o>&gt;&gt;</span><span class=k>print</span> <span class=n>sys</span><span class=o>.</span><span class=n>path</span>
+<span class=p>[</span><span class=s1>&#39;&#39;</span><span class=p>,</span> <span class=s1>&#39;/Library/Python/2.7/site-packages/pip-8.0.3-py2.7.egg&#39;</span><span class=p>,</span> <span class=s1>&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python27.zip&#39;</span><span class=p>,</span> <span class=s1>&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7&#39;</span><span class=p>,</span> <span class=s1>&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-darwin&#39;</span><span class=p>,</span> <span class=s1>&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac&#39;</span><span class=p>,</span> <span class=s1>&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/plat-mac/lib-scriptpackages&#39;</span><span class=p>,</span> <span class=s1>&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python&#39;</span><span class=p>,</span> <span class=s1>&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk&#39;</span><span class=p>,</span> <span class=s1>&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-old&#39;</span><span class=p>,</span> <span class=s1>&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-dynload&#39;</span><span class=p>,</span> <span class=s1>&#39;/System/Library/Frameworks/Python.framework/Versions/2.7/Extras/lib/python/PyObjC&#39;</span><span class=p>,</span> <span class=s1>&#39;/Library/Python/2.7/site-packages&#39;</span><span class=p>]</span>
+</code></pre></td></tr></table></div></div><p>任何的import都会按照sys.path来查找目标模块, 当然我们也可以自行在运行时追加新的模块路径到sys.path中</p><h3 id=四用法比较>四.用法比较</h3><p>引入外部模块的三种方法， import语句，from &mldr; import &mldr;, __import__函数
+from &mldr; import *</p><pre><code>   __import__函数与import语句类似， 不同点在于前者显式地将模块的名称作为字符串传递并赋值给命名空间的变量
+</code></pre><p>在使用import时，注意以下几点：</p><pre><code>  1.一般情况下，尽量优先使用import a形式，如访问B时，需要使用a.B的形式
   2.有节制地使用from a import B形式，可以直接访问B
   3.尽量避免使用from a import *, 因为这会污染命名空间，并且无法清晰地表示导入了哪些对象
-</code></pre>
-<p>以用户自定义的模块为例来看看sys.modules和当前局部命名空间的变化</p>
-<p>创建一个简单的模块testmoudle.py</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python">  <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
-  <span class="n">b</span> <span class="o">=</span> <span class="s1">&#39;a&#39;</span>
-  <span class="k">print</span> <span class="s1">&#39;testing module import&#39;</span>
-</code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;</span><span class="nb">dir</span><span class="p">()</span>
-<span class="p">[</span><span class="s1">&#39;__builtins__&#39;</span><span class="p">,</span> <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s1">&#39;__file__&#39;</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="s1">&#39;__package__&#39;</span><span class="p">]</span>
-<span class="o">&gt;&gt;</span><span class="kn">import</span> <span class="nn">testmoudle</span>
-<span class="n">testing</span> <span class="n">module</span> <span class="n">testmodule</span>
-<span class="o">&gt;&gt;</span><span class="nb">dir</span><span class="p">()</span>  <span class="c1">#import testmodule之后局部命名空间发生变化</span>
-<span class="p">[</span><span class="s1">&#39;__builtins__&#39;</span><span class="p">,</span> <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s1">&#39;__file__&#39;</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="s1">&#39;__package__&#39;</span><span class="p">,</span> <span class="s1">&#39;testmodule&#39;</span><span class="p">]</span>
-<span class="o">&gt;&gt;</span><span class="s1">&#39;testmodule&#39;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-<span class="bp">True</span>
-<span class="o">&gt;&gt;</span><span class="nb">id</span><span class="p">(</span><span class="n">testmodule</span><span class="p">)</span> <span class="o">==</span> <span class="nb">id</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;testmodule&#39;</span><span class="p">])</span>
-<span class="bp">True</span>
-<span class="o">&gt;&gt;</span><span class="nb">dir</span><span class="p">(</span><span class="n">testmodule</span><span class="p">)</span>
-<span class="p">[</span><span class="s1">&#39;__builtins__&#39;</span><span class="p">,</span> <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s1">&#39;__file__&#39;</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="s1">&#39;__package__&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">]</span>
-<span class="o">&gt;&gt;</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;testmodule&#39;</span><span class="p">]</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-<span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;__builtins__&#39;</span><span class="p">,</span> <span class="s1">&#39;__file__&#39;</span><span class="p">,</span> <span class="s1">&#39;__package__&#39;</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="s1">&#39;__doc__&#39;</span><span class="p">]</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>从输出结果看， 对于用户自定义的模块，import机制会创建一个新的module将其加入当前的局部命名空间
-中，与此同时，sys.modules也加入该模块的相关信息，从它们的id输出来看，本质是引用同一对象。同时发现testmodule所在目录下多了一个.pyc文件，该文件为解释器生成的模块相对应的字节码文件。从 ‘testing module import’可以看出模块同时被执行， 而a，b被写入到了testmodule所对应的字典信息中。</p>
-<pre><code>import a 和from a import B的差异：后者直接将B暴露与当前局部空间，而前者将a加载到sys.modules集合.
+</code></pre><p>以用户自定义的模块为例来看看sys.modules和当前局部命名空间的变化</p><p>创建一个简单的模块testmoudle.py</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python>  <span class=n>a</span> <span class=o>=</span> <span class=mi>1</span>
+  <span class=n>b</span> <span class=o>=</span> <span class=s1>&#39;a&#39;</span>
+  <span class=k>print</span> <span class=s1>&#39;testing module import&#39;</span>
+</code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=o>&gt;&gt;</span><span class=nb>dir</span><span class=p>()</span>
+<span class=p>[</span><span class=s1>&#39;__builtins__&#39;</span><span class=p>,</span> <span class=s1>&#39;__doc__&#39;</span><span class=p>,</span> <span class=s1>&#39;__file__&#39;</span><span class=p>,</span> <span class=s1>&#39;__name__&#39;</span><span class=p>,</span> <span class=s1>&#39;__package__&#39;</span><span class=p>]</span>
+<span class=o>&gt;&gt;</span><span class=kn>import</span> <span class=nn>testmoudle</span>
+<span class=n>testing</span> <span class=n>module</span> <span class=n>testmodule</span>
+<span class=o>&gt;&gt;</span><span class=nb>dir</span><span class=p>()</span>  <span class=c1>#import testmodule之后局部命名空间发生变化</span>
+<span class=p>[</span><span class=s1>&#39;__builtins__&#39;</span><span class=p>,</span> <span class=s1>&#39;__doc__&#39;</span><span class=p>,</span> <span class=s1>&#39;__file__&#39;</span><span class=p>,</span> <span class=s1>&#39;__name__&#39;</span><span class=p>,</span> <span class=s1>&#39;__package__&#39;</span><span class=p>,</span> <span class=s1>&#39;testmodule&#39;</span><span class=p>]</span>
+<span class=o>&gt;&gt;</span><span class=s1>&#39;testmodule&#39;</span> <span class=ow>in</span> <span class=n>sys</span><span class=o>.</span><span class=n>modules</span><span class=o>.</span><span class=n>keys</span><span class=p>()</span>
+<span class=bp>True</span>
+<span class=o>&gt;&gt;</span><span class=nb>id</span><span class=p>(</span><span class=n>testmodule</span><span class=p>)</span> <span class=o>==</span> <span class=nb>id</span><span class=p>(</span><span class=n>sys</span><span class=o>.</span><span class=n>modules</span><span class=p>[</span><span class=s1>&#39;testmodule&#39;</span><span class=p>])</span>
+<span class=bp>True</span>
+<span class=o>&gt;&gt;</span><span class=nb>dir</span><span class=p>(</span><span class=n>testmodule</span><span class=p>)</span>
+<span class=p>[</span><span class=s1>&#39;__builtins__&#39;</span><span class=p>,</span> <span class=s1>&#39;__doc__&#39;</span><span class=p>,</span> <span class=s1>&#39;__file__&#39;</span><span class=p>,</span> <span class=s1>&#39;__name__&#39;</span><span class=p>,</span> <span class=s1>&#39;__package__&#39;</span><span class=p>,</span> <span class=s1>&#39;a&#39;</span><span class=p>,</span> <span class=s1>&#39;b&#39;</span><span class=p>]</span>
+<span class=o>&gt;&gt;</span><span class=n>sys</span><span class=o>.</span><span class=n>modules</span><span class=p>[</span><span class=s1>&#39;testmodule&#39;</span><span class=p>]</span><span class=o>.</span><span class=vm>__dict__</span><span class=o>.</span><span class=n>keys</span><span class=p>()</span>
+<span class=p>[</span><span class=s1>&#39;a&#39;</span><span class=p>,</span> <span class=s1>&#39;b&#39;</span><span class=p>,</span> <span class=s1>&#39;__builtins__&#39;</span><span class=p>,</span> <span class=s1>&#39;__file__&#39;</span><span class=p>,</span> <span class=s1>&#39;__package__&#39;</span><span class=p>,</span> <span class=s1>&#39;__name__&#39;</span><span class=p>,</span> <span class=s1>&#39;__doc__&#39;</span><span class=p>]</span>
+</code></pre></td></tr></table></div></div><p>从输出结果看， 对于用户自定义的模块，import机制会创建一个新的module将其加入当前的局部命名空间
+中，与此同时，sys.modules也加入该模块的相关信息，从它们的id输出来看，本质是引用同一对象。同时发现testmodule所在目录下多了一个.pyc文件，该文件为解释器生成的模块相对应的字节码文件。从 ‘testing module import’可以看出模块同时被执行， 而a，b被写入到了testmodule所对应的字典信息中。</p><pre><code>import a 和from a import B的差异：后者直接将B暴露与当前局部空间，而前者将a加载到sys.modules集合.
 from...import *也是直接将B暴露与当前局部空间
-</code></pre>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;</span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="o">&gt;&gt;</span><span class="nb">dir</span><span class="p">()</span>
-<span class="p">[</span><span class="s1">&#39;__builtins__&#39;</span><span class="p">,</span> <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s1">&#39;__file__&#39;</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="s1">&#39;__package__&#39;</span><span class="p">,</span> <span class="s1">&#39;sys&#39;</span><span class="p">]</span>
-<span class="o">&gt;&gt;</span><span class="kn">from</span> <span class="nn">testmodule</span> <span class="kn">import</span> <span class="n">a</span>  <span class="c1">#a暴露到了当前局部空间</span>
-<span class="n">testing</span> <span class="n">module</span> <span class="kn">import</span>
-<span class="o">&gt;&gt;</span><span class="nb">dir</span><span class="p">()</span>
-<span class="p">[</span><span class="s1">&#39;__builtins__&#39;</span><span class="p">,</span> <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s1">&#39;__file__&#39;</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="s1">&#39;__package__&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;sys&#39;</span><span class="p">]</span>
-<span class="o">&gt;&gt;</span><span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-<span class="mi">140327233018008</span>
-<span class="o">&gt;&gt;</span><span class="nb">id</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">])</span>
-<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">&#34;mod.py&#34;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">8</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-    <span class="k">print</span> <span class="nb">id</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">])</span>
-<span class="ne">KeyError</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>使用from&hellip;import过于频繁，容易导致命名空间冲突
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=o>&gt;&gt;</span><span class=kn>import</span> <span class=nn>sys</span>
+<span class=o>&gt;&gt;</span><span class=nb>dir</span><span class=p>()</span>
+<span class=p>[</span><span class=s1>&#39;__builtins__&#39;</span><span class=p>,</span> <span class=s1>&#39;__doc__&#39;</span><span class=p>,</span> <span class=s1>&#39;__file__&#39;</span><span class=p>,</span> <span class=s1>&#39;__name__&#39;</span><span class=p>,</span> <span class=s1>&#39;__package__&#39;</span><span class=p>,</span> <span class=s1>&#39;sys&#39;</span><span class=p>]</span>
+<span class=o>&gt;&gt;</span><span class=kn>from</span> <span class=nn>testmodule</span> <span class=kn>import</span> <span class=n>a</span>  <span class=c1>#a暴露到了当前局部空间</span>
+<span class=n>testing</span> <span class=n>module</span> <span class=kn>import</span>
+<span class=o>&gt;&gt;</span><span class=nb>dir</span><span class=p>()</span>
+<span class=p>[</span><span class=s1>&#39;__builtins__&#39;</span><span class=p>,</span> <span class=s1>&#39;__doc__&#39;</span><span class=p>,</span> <span class=s1>&#39;__file__&#39;</span><span class=p>,</span> <span class=s1>&#39;__name__&#39;</span><span class=p>,</span> <span class=s1>&#39;__package__&#39;</span><span class=p>,</span> <span class=s1>&#39;a&#39;</span><span class=p>,</span> <span class=s1>&#39;sys&#39;</span><span class=p>]</span>
+<span class=o>&gt;&gt;</span><span class=nb>id</span><span class=p>(</span><span class=n>a</span><span class=p>)</span>
+<span class=mi>140327233018008</span>
+<span class=o>&gt;&gt;</span><span class=nb>id</span><span class=p>(</span><span class=n>sys</span><span class=o>.</span><span class=n>modules</span><span class=p>[</span><span class=s1>&#39;a&#39;</span><span class=p>])</span>
+<span class=n>Traceback</span> <span class=p>(</span><span class=n>most</span> <span class=n>recent</span> <span class=n>call</span> <span class=n>last</span><span class=p>):</span>
+  <span class=n>File</span> <span class=s2>&#34;mod.py&#34;</span><span class=p>,</span> <span class=n>line</span> <span class=mi>8</span><span class=p>,</span> <span class=ow>in</span> <span class=o>&lt;</span><span class=n>module</span><span class=o>&gt;</span>
+    <span class=k>print</span> <span class=nb>id</span><span class=p>(</span><span class=n>sys</span><span class=o>.</span><span class=n>modules</span><span class=p>[</span><span class=s1>&#39;a&#39;</span><span class=p>])</span>
+<span class=ne>KeyError</span><span class=p>:</span> <span class=s1>&#39;a&#39;</span>
+</code></pre></td></tr></table></div></div><p>使用from&mldr;import过于频繁，容易导致命名空间冲突
 比如
-文件a.py如下:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add</span><span class="p">():</span>
-    <span class="k">print</span> <span class="s1">&#39;add in module A&#39;</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>文件b.py如下:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">add</span><span class="p">():</span>
-    <span class="k">print</span> <span class="s1">&#39;add in module B</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>文件importtest.py如下:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">a</span> <span class="kn">import</span> <span class="n">add</span>
-<span class="kn">from</span> <span class="nn">b</span> <span class="kn">import</span> <span class="n">add</span>
+文件a.py如下:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=k>def</span> <span class=nf>add</span><span class=p>():</span>
+    <span class=k>print</span> <span class=s1>&#39;add in module A&#39;</span>
+</code></pre></td></tr></table></div></div><p>文件b.py如下:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=k>def</span> <span class=nf>add</span><span class=p>():</span>
+    <span class=k>print</span> <span class=s1>&#39;add in module B</span>
+</code></pre></td></tr></table></div></div><p>文件importtest.py如下:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=kn>from</span> <span class=nn>a</span> <span class=kn>import</span> <span class=n>add</span>
+<span class=kn>from</span> <span class=nn>b</span> <span class=kn>import</span> <span class=n>add</span>
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">add</span><span class="p">()</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>输出:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">add</span> <span class="ow">in</span> <span class="n">module</span> <span class="n">B</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>可以看出，实际起作用的是最近导入的add()，完全覆盖了之前从a导入的add()
-所以应该有节制的使用from&hellip;import</p>
-<p>from&hellip;import&hellip;适用场景:</p>
-<pre><code>1.当只需要导入部分属性和方法时
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>add</span><span class=p>()</span>
+</code></pre></td></tr></table></div></div><p>输出:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=n>add</span> <span class=ow>in</span> <span class=n>module</span> <span class=n>B</span>
+</code></pre></td></tr></table></div></div><p>可以看出，实际起作用的是最近导入的add()，完全覆盖了之前从a导入的add()
+所以应该有节制的使用from&mldr;import</p><p>from&mldr;import&mldr;适用场景:</p><pre><code>1.当只需要导入部分属性和方法时
 2.模块中的这些属性和方法访问频率较高导致 ‘模块名.名称’进行访问过于繁琐
 3.模块的文档说明需要使用from...import形式，导入的是一个包下面的子模块，
 且使用from...import形式更为简单，如使用from io.drivers import zip比使用
 import io.drivers.zip要方便
-</code></pre>
-<p>__import__函数</p>
-<pre><code>内置函数__import__()以字符串为参数导入模块，导入的模块会被添加到sys.modules，但不会在当前
+</code></pre><p>__import__函数</p><pre><code>内置函数__import__()以字符串为参数导入模块，导入的模块会被添加到sys.modules，但不会在当前
 命名空间中创建引用
-</code></pre>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="o">&gt;&gt;</span><span class="nb">dir</span><span class="p">()</span>
-<span class="p">[</span><span class="s1">&#39;__builtins__&#39;</span><span class="p">,</span> <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s1">&#39;__file__&#39;</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="s1">&#39;__package__&#39;</span><span class="p">,</span> <span class="s1">&#39;sys&#39;</span><span class="p">]</span>
-<span class="o">&gt;&gt;</span><span class="nb">__import__</span><span class="p">(</span><span class="s1">&#39;testmodule&#39;</span><span class="p">)</span>
-<span class="n">testing</span> <span class="n">module</span> <span class="kn">import</span>
-<span class="o">&gt;&gt;</span><span class="nb">dir</span><span class="p">()</span>
-<span class="p">[</span><span class="s1">&#39;__builtins__&#39;</span><span class="p">,</span> <span class="s1">&#39;__doc__&#39;</span><span class="p">,</span> <span class="s1">&#39;__file__&#39;</span><span class="p">,</span> <span class="s1">&#39;__name__&#39;</span><span class="p">,</span> <span class="s1">&#39;__package__&#39;</span><span class="p">,</span> <span class="s1">&#39;sys&#39;</span><span class="p">]</span>
-<span class="o">&gt;&gt;</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;testmodule&#39;</span><span class="p">)</span>
-<span class="o">&lt;</span><span class="n">module</span> <span class="s1">&#39;testmodule&#39;</span> <span class="kn">from</span> <span class="s1">&#39;/Users/tmackan/script/Python/fluent/unit3/testmodule.pyc&#39;</span><span class="o">&gt;</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Final:《Effective Python》读书总结</p>
-
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">tmackan</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2016-09-07
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/python/">Python</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/django%E9%A1%B9%E7%9B%AE%E5%B8%83%E5%B1%80%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Django项目布局最佳实践</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/python%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86/">
-            <span class="next-text nav-default">Python字符串处理</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        
-
-  
-
-  
-    <script src="https://utteranc.es/client.js"
-            repo="tmacjx/https://github.com/tmacjx/utterances"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:kan49733110@email.com" class="iconfont icon-email" title="email"></a>
-      <a href="http://twitter.com/tmcakan/" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="http://github.com/tmacjx/" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.zhihu.com/people/kan-tmac" class="iconfont icon-zhihu" title="zhihu"></a>
-  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    2016 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">tmackan</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
-
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-174638881-1', 'auto');
-	ga('set', 'anonymizeIp', true);
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
-
-
-
-
-
-
-
-</body>
-</html>
+</code></pre><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-python data-lang=python><span class=o>&gt;&gt;</span><span class=nb>dir</span><span class=p>()</span>
+<span class=p>[</span><span class=s1>&#39;__builtins__&#39;</span><span class=p>,</span> <span class=s1>&#39;__doc__&#39;</span><span class=p>,</span> <span class=s1>&#39;__file__&#39;</span><span class=p>,</span> <span class=s1>&#39;__name__&#39;</span><span class=p>,</span> <span class=s1>&#39;__package__&#39;</span><span class=p>,</span> <span class=s1>&#39;sys&#39;</span><span class=p>]</span>
+<span class=o>&gt;&gt;</span><span class=nb>__import__</span><span class=p>(</span><span class=s1>&#39;testmodule&#39;</span><span class=p>)</span>
+<span class=n>testing</span> <span class=n>module</span> <span class=kn>import</span>
+<span class=o>&gt;&gt;</span><span class=nb>dir</span><span class=p>()</span>
+<span class=p>[</span><span class=s1>&#39;__builtins__&#39;</span><span class=p>,</span> <span class=s1>&#39;__doc__&#39;</span><span class=p>,</span> <span class=s1>&#39;__file__&#39;</span><span class=p>,</span> <span class=s1>&#39;__name__&#39;</span><span class=p>,</span> <span class=s1>&#39;__package__&#39;</span><span class=p>,</span> <span class=s1>&#39;sys&#39;</span><span class=p>]</span>
+<span class=o>&gt;&gt;</span><span class=n>sys</span><span class=o>.</span><span class=n>modules</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=s1>&#39;testmodule&#39;</span><span class=p>)</span>
+<span class=o>&lt;</span><span class=n>module</span> <span class=s1>&#39;testmodule&#39;</span> <span class=kn>from</span> <span class=s1>&#39;/Users/tmackan/script/Python/fluent/unit3/testmodule.pyc&#39;</span><span class=o>&gt;</span>
+</code></pre></td></tr></table></div></div><p>Final:《Effective Python》读书总结</p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>tmackan</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2016-09-07</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/python/>Python</a></div><nav class=post-nav><a class=prev href=/post/django%E9%A1%B9%E7%9B%AE%E5%B8%83%E5%B1%80%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/><i class="iconfont icon-left"></i><span class="prev-text nav-default">Django项目布局最佳实践</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=/post/python%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86/><span class="next-text nav-default">Python字符串处理</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=tmacjx/https://github.com/tmacjx/utterances issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:kan49733110@email.com class="iconfont icon-email" title=email></a><a href=http://twitter.com/tmcakan/ class="iconfont icon-twitter" title=twitter></a><a href=http://github.com/tmacjx/ class="iconfont icon-github" title=github></a><a href=https://www.zhihu.com/people/kan-tmac class="iconfont icon-zhihu" title=zhihu></a><a href=http://localhost:1313/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2016 -
+2020
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>tmackan</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-174638881-1','auto');ga('set','anonymizeIp',true);ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></body></html>

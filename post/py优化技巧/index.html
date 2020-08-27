@@ -1,666 +1,322 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Py优化技巧 - tmacKan - A  record for Life</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Py优化技巧 - tmacKan - A record for Life</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="tmackan"><meta name=description content="1.函数返回值缓存 可以把一个非常耗时的函数调用变成O(1)时间复杂度 适用于在处理固定参数的函数被重复调用时 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17"><meta name=keywords content="Blog,Python,code"><meta name=generator content="Hugo 0.73.0 with theme even"><link rel=canonical href=http://localhost:1313/post/py%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Py优化技巧"><meta property="og:description" content="1.函数返回值缓存 可以把一个非常耗时的函数调用变成O(1)时间复杂度 适用于在处理固定参数的函数被重复调用时 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17"><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/post/py%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7/"><meta property="article:published_time" content="2019-10-04T19:00:00+00:00"><meta property="article:modified_time" content="2019-10-04T19:00:00+00:00"><meta itemprop=name content="Py优化技巧"><meta itemprop=description content="1.函数返回值缓存 可以把一个非常耗时的函数调用变成O(1)时间复杂度 适用于在处理固定参数的函数被重复调用时 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17"><meta itemprop=datePublished content="2019-10-04T19:00:00+00:00"><meta itemprop=dateModified content="2019-10-04T19:00:00+00:00"><meta itemprop=wordCount content="2223"><meta itemprop=keywords content="python,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Py优化技巧"><meta name=twitter:description content="1.函数返回值缓存 可以把一个非常耗时的函数调用变成O(1)时间复杂度 适用于在处理固定参数的函数被重复调用时 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>tmackan</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>tmackan</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Py优化技巧</h1><div class=post-meta><span class=post-time>2019-10-04</span><div class=post-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#1函数返回值缓存>1.函数返回值缓存</a></li><li><a href=#2用字典做查询表>2.用字典做查询表</a></li><li><a href=#3使用默认参数>3.使用默认参数</a></li><li><a href=#4列表生成式与生成器>4.列表生成式与生成器</a></li><li><a href=#5ctypes>5.ctypes</a></li><li><a href=#6字符串连接>6.字符串连接</a></li><li><a href=#7其他>7.其他</a></li></ul></li></ul></nav></div></div><div class=post-content><h2 id=1函数返回值缓存>1.函数返回值缓存</h2><p>可以把一个非常耗时的函数调用变成O(1)时间复杂度
+适用于在处理固定参数的函数被重复调用时</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-py data-lang=py><span class=kn>import</span> <span class=nn>math</span> 
+<span class=kn>import</span> <span class=nn>time</span> 
+<span class=kn>import</span> <span class=nn>random</span>
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<span class=k>class</span> <span class=nc>Memoized</span><span class=p>:</span>
+    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>fn</span><span class=p>):</span>
+        <span class=bp>self</span><span class=o>.</span><span class=n>fn</span> <span class=o>=</span> <span class=n>fn</span> 
+        <span class=bp>self</span><span class=o>.</span><span class=n>results</span> <span class=o>=</span> <span class=p>{}</span>
+    <span class=k>def</span> <span class=fm>__call__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=o>*</span><span class=n>args</span><span class=p>):</span>
+        <span class=n>key</span> <span class=o>=</span> <span class=s1>&#39;&#39;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=nb>map</span><span class=p>(</span><span class=nb>str</span><span class=p>,</span> <span class=n>args</span><span class=p>[</span><span class=mi>0</span><span class=p>]))</span> 
+        <span class=k>try</span><span class=p>:</span>
+            <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>results</span><span class=p>[</span><span class=n>key</span><span class=p>]</span> 
+        <span class=k>except</span> <span class=ne>KeyError</span><span class=p>:</span>
+            <span class=bp>self</span><span class=o>.</span><span class=n>results</span><span class=p>[</span><span class=n>key</span><span class=p>]</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>fn</span><span class=p>(</span><span class=o>*</span><span class=n>args</span><span class=p>)</span>
+            <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>results</span><span class=p>[</span><span class=n>key</span><span class=p>]</span>
 
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="tmackan" /><meta name="description" content="1.函数返回值缓存 可以把一个非常耗时的函数调用变成O(1)时间复杂度 适用于在处理固定参数的函数被重复调用时 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17" /><meta name="keywords" content="Blog, Python, code" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.73.0 with theme even" />
-
-
-<link rel="canonical" href="http://localhost:1313/post/py%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-
-
-<link href="/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="Py优化技巧" />
-<meta property="og:description" content="1.函数返回值缓存 可以把一个非常耗时的函数调用变成O(1)时间复杂度 适用于在处理固定参数的函数被重复调用时 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://localhost:1313/post/py%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7/" />
-<meta property="article:published_time" content="2019-10-04T19:00:00+00:00" />
-<meta property="article:modified_time" content="2019-10-04T19:00:00+00:00" />
-<meta itemprop="name" content="Py优化技巧">
-<meta itemprop="description" content="1.函数返回值缓存 可以把一个非常耗时的函数调用变成O(1)时间复杂度 适用于在处理固定参数的函数被重复调用时 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17">
-<meta itemprop="datePublished" content="2019-10-04T19:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2019-10-04T19:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="2223">
-
-
-
-<meta itemprop="keywords" content="python," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Py优化技巧"/>
-<meta name="twitter:description" content="1.函数返回值缓存 可以把一个非常耗时的函数调用变成O(1)时间复杂度 适用于在处理固定参数的函数被重复调用时 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">tmackan</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">tmackan</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/about/">About</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">Py优化技巧</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2019-10-04 </span>
-        <div class="post-category">
-            <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
-            </div>
-        
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#1函数返回值缓存">1.函数返回值缓存</a></li>
-        <li><a href="#2用字典做查询表">2.用字典做查询表</a></li>
-        <li><a href="#3使用默认参数">3.使用默认参数</a></li>
-        <li><a href="#4列表生成式与生成器">4.列表生成式与生成器</a></li>
-        <li><a href="#5ctypes">5.ctypes</a></li>
-        <li><a href="#6字符串连接">6.字符串连接</a></li>
-        <li><a href="#7其他">7.其他</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <h2 id="1函数返回值缓存">1.函数返回值缓存</h2>
-<p>可以把一个非常耗时的函数调用变成O(1)时间复杂度
-适用于在处理固定参数的函数被重复调用时</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-py" data-lang="py"><span class="kn">import</span> <span class="nn">math</span> 
-<span class="kn">import</span> <span class="nn">time</span> 
-<span class="kn">import</span> <span class="nn">random</span>
-
-<span class="k">class</span> <span class="nc">Memoized</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fn</span> <span class="o">=</span> <span class="n">fn</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> 
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-
-<span class="nd">@Memoized</span>
-<span class="k">def</span> <span class="nf">twoParamsMemoized</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">period</span><span class="p">):</span>
-     <span class="n">totalSum</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
-     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
-         <span class="n">totalSum</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">((</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">*</span> <span class="n">period</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">totalSum</span> 
-     <span class="k">return</span> <span class="n">totalSum</span>
-</code></pre></td></tr></table>
-</div>
-</div>  <!-- more -->
-<h2 id="2用字典做查询表">2.用字典做查询表</h2>
-<p>用字典做查询表    &gt; 复杂度 O(1)
-列表或链表做查询表 &gt; 复杂度 O(n)</p>
-<pre><code>trig_lookup_table = defaultdict(lambda: 0)
-</code></pre>
-<h2 id="3使用默认参数">3.使用默认参数</h2>
-<p>默认参数（default argument）可以在函数创建时就确定输入值，而不用在运行阶段才确定输入
-这种方法只能用于在运行过程中参数不发生变化的函数和对象</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-py" data-lang="py"><span class="kn">import</span> <span class="nn">time</span> <span class="nn">import</span> <span class="nn">math</span>
-<span class="k">def</span> <span class="nf">degree_sin</span><span class="p">(</span><span class="n">deg</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">deg</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">deg</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span>
+<span class=nd>@Memoized</span>
+<span class=k>def</span> <span class=nf>twoParamsMemoized</span><span class=p>(</span><span class=n>values</span><span class=p>,</span> <span class=n>period</span><span class=p>):</span>
+     <span class=n>totalSum</span> <span class=o>=</span> <span class=mi>0</span> <span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>100</span><span class=p>):</span>
+     <span class=k>for</span> <span class=n>v</span> <span class=ow>in</span> <span class=n>values</span><span class=p>:</span>
+         <span class=n>totalSum</span> <span class=o>=</span> <span class=n>math</span><span class=o>.</span><span class=n>pow</span><span class=p>((</span><span class=n>math</span><span class=o>.</span><span class=n>sqrt</span><span class=p>(</span><span class=n>v</span><span class=p>)</span> <span class=o>*</span> <span class=n>period</span><span class=p>),</span> <span class=mi>4</span><span class=p>)</span> <span class=o>+</span> <span class=n>totalSum</span> 
+     <span class=k>return</span> <span class=n>totalSum</span>
+</code></pre></td></tr></table></div></div><h2 id=2用字典做查询表>2.用字典做查询表</h2><p>用字典做查询表 > 复杂度 O(1)
+列表或链表做查询表 > 复杂度 O(n)</p><pre><code>trig_lookup_table = defaultdict(lambda: 0)
+</code></pre><h2 id=3使用默认参数>3.使用默认参数</h2><p>默认参数（default argument）可以在函数创建时就确定输入值，而不用在运行阶段才确定输入
+这种方法只能用于在运行过程中参数不发生变化的函数和对象</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-py data-lang=py><span class=kn>import</span> <span class=nn>time</span> <span class=nn>import</span> <span class=nn>math</span>
+<span class=k>def</span> <span class=nf>degree_sin</span><span class=p>(</span><span class=n>deg</span><span class=p>):</span>
+    <span class=k>return</span> <span class=n>math</span><span class=o>.</span><span class=n>sin</span><span class=p>(</span><span class=n>deg</span> <span class=o>*</span> <span class=n>math</span><span class=o>.</span><span class=n>pi</span> <span class=o>/</span> <span class=mf>180.0</span><span class=p>)</span> <span class=o>*</span> <span class=n>math</span><span class=o>.</span><span class=n>cos</span><span class=p>(</span><span class=n>deg</span> <span class=o>*</span> <span class=n>math</span><span class=o>.</span><span class=n>pi</span> <span class=o>/</span> <span class=mf>180.0</span><span class=p>)</span>
    
-<span class="k">def</span> <span class="nf">degree_sin_opt</span><span class="p">(</span><span class="n">deg</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">180.0</span><span class="p">,</span> <span class="n">sin</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">sin</span><span class="p">(</span><span class="n">deg</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">deg</span> <span class="o">*</span> <span class="n">factor</span><span class="p">)</span>
+<span class=k>def</span> <span class=nf>degree_sin_opt</span><span class=p>(</span><span class=n>deg</span><span class=p>,</span> <span class=n>factor</span><span class=o>=</span><span class=n>math</span><span class=o>.</span><span class=n>pi</span><span class=o>/</span><span class=mf>180.0</span><span class=p>,</span> <span class=n>sin</span><span class=o>=</span><span class=n>math</span><span class=o>.</span><span class=n>sin</span><span class=p>,</span> <span class=n>cos</span><span class=o>=</span><span class=n>math</span><span class=o>.</span><span class=n>cos</span><span class=p>):</span>
+    <span class=k>return</span> <span class=n>sin</span><span class=p>(</span><span class=n>deg</span> <span class=o>*</span> <span class=n>factor</span><span class=p>)</span> <span class=o>*</span> <span class=n>cos</span><span class=p>(</span><span class=n>deg</span> <span class=o>*</span> <span class=n>factor</span><span class=p>)</span>
 
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="4列表生成式与生成器">4.列表生成式与生成器</h2>
-<p>4.1 列表生成式和for循环</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-py" data-lang="py"><span class="n">multiples_of_two</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+</code></pre></td></tr></table></div></div><h2 id=4列表生成式与生成器>4.列表生成式与生成器</h2><p>4.1 列表生成式和for循环</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-py data-lang=py><span class=n>multiples_of_two</span> <span class=o>=</span> <span class=p>[</span><span class=n>x</span> <span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>100</span><span class=p>)</span> <span class=k>if</span> <span class=n>x</span> <span class=o>%</span> <span class=mi>2</span> <span class=o>==</span> <span class=mi>0</span><span class=p>]</span>
 
-<span class="n">multiples_of_two</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">multiples_of_two</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>列表生成式比for循环的性能更好</p>
-<p>for循环产生的指令集更长
+<span class=n>multiples_of_two</span> <span class=o>=</span> <span class=p>[]</span>
+<span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>100</span><span class=p>):</span>
+    <span class=k>if</span> <span class=n>x</span> <span class=o>%</span> <span class=mi>2</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span>
+        <span class=n>multiples_of_two</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div><p>列表生成式比for循环的性能更好</p><p>for循环产生的指令集更长
 在for循环里，数值是一个一个增加的,用到三个指令（LOAD_ATTR、LOAD_NAME和CALL_FUNCTION）
-列表综合只用了一个简单且已经经过优化的指令（LIST_APPEND）</p>
-<p>即使for循环需要做额外操作（会产生副作用），也切记不要肆意将所有的for循环都改成列表综合。
-这是因为有时候未经优化的列表综合，可能比for循环消耗的时间更长</p>
-<p>4.2 生成器</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-py" data-lang="py"><span class="n">my_list</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span> 
-<span class="c1"># 你不能这么写 print my_list[1] </span>
-<span class="c1"># 但是可以这么写 </span>
-<span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">my_list</span><span class="p">:</span>
-    <span class="k">print</span> <span class="n">number</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>生成器只能遍历一次，列表对象可以遍历任意次</p>
-<p>综合:
-生成器表达式在创建规模较大的列表时更有优势，而创建规模较短的列表时，列表综合表达式更有优势</p>
-<h2 id="5ctypes">5.ctypes</h2>
-<p>5.1 把关键代码写成C语言，编译成一个库，然后导入Python当作模块使用
-5.2 加载一个系统库</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-py" data-lang="py"><span class="c1"># 生成随机数</span>
-<span class="kn">import</span> <span class="nn">time</span> 
-<span class="kn">import</span> <span class="nn">random</span> 
-<span class="kn">from</span> <span class="nn">ctypes</span> <span class="kn">import</span> <span class="n">cdll</span>
+列表综合只用了一个简单且已经经过优化的指令（LIST_APPEND）</p><p>即使for循环需要做额外操作（会产生副作用），也切记不要肆意将所有的for循环都改成列表综合。
+这是因为有时候未经优化的列表综合，可能比for循环消耗的时间更长</p><p>4.2 生成器</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-py data-lang=py><span class=n>my_list</span> <span class=o>=</span> <span class=p>(</span><span class=n>x</span><span class=o>**</span><span class=mi>2</span> <span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>100</span><span class=p>))</span> 
+<span class=c1># 你不能这么写 print my_list[1] </span>
+<span class=c1># 但是可以这么写 </span>
+<span class=k>for</span> <span class=n>number</span> <span class=ow>in</span> <span class=n>my_list</span><span class=p>:</span>
+    <span class=k>print</span> <span class=n>number</span>
+</code></pre></td></tr></table></div></div><p>生成器只能遍历一次，列表对象可以遍历任意次</p><p>综合:
+生成器表达式在创建规模较大的列表时更有优势，而创建规模较短的列表时，列表综合表达式更有优势</p><h2 id=5ctypes>5.ctypes</h2><p>5.1 把关键代码写成C语言，编译成一个库，然后导入Python当作模块使用
+5.2 加载一个系统库</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-py data-lang=py><span class=c1># 生成随机数</span>
+<span class=kn>import</span> <span class=nn>time</span> 
+<span class=kn>import</span> <span class=nn>random</span> 
+<span class=kn>from</span> <span class=nn>ctypes</span> <span class=kn>import</span> <span class=n>cdll</span>
 
-<span class="n">libc</span> <span class="o">=</span> <span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="s1">&#39;libc.so.6&#39;</span><span class="p">)</span> <span class="c1"># Linux系统</span>
-<span class="c1">#libc = cdll.msvcrt # Windows系统</span>
+<span class=n>libc</span> <span class=o>=</span> <span class=n>cdll</span><span class=o>.</span><span class=n>LoadLibrary</span><span class=p>(</span><span class=s1>&#39;libc.so.6&#39;</span><span class=p>)</span> <span class=c1># Linux系统</span>
+<span class=c1>#libc = cdll.msvcrt # Windows系统</span>
 
-<span class="n">init</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> 
-<span class="c1"># 花费0.9秒</span>
-<span class="n">randoms</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1000000</span><span class="p">)]</span> 
-<span class="k">print</span> <span class="s2">&#34;Pure python: </span><span class="si">%s</span><span class="s2"> seconds&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">init</span><span class="p">)</span>
+<span class=n>init</span> <span class=o>=</span> <span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span> 
+<span class=c1># 花费0.9秒</span>
+<span class=n>randoms</span> <span class=o>=</span> <span class=p>[</span><span class=n>random</span><span class=o>.</span><span class=n>randrange</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>100</span><span class=p>)</span> <span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> <span class=nb>xrange</span><span class=p>(</span><span class=mi>1000000</span><span class=p>)]</span> 
+<span class=k>print</span> <span class=s2>&#34;Pure python: </span><span class=si>%s</span><span class=s2> seconds&#34;</span> <span class=o>%</span> <span class=p>(</span><span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span> <span class=o>-</span> <span class=n>init</span><span class=p>)</span>
 
-<span class="c1"># 花费0.3秒</span>
-<span class="n">init</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> 
-<span class="n">randoms</span> <span class="o">=</span> <span class="p">[(</span><span class="n">libc</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">%</span> <span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1000000</span><span class="p">)]</span> 
-<span class="k">print</span> <span class="s2">&#34;C version : </span><span class="si">%s</span><span class="s2"> seconds&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">init</span><span class="p">)</span>
+<span class=c1># 花费0.3秒</span>
+<span class=n>init</span> <span class=o>=</span> <span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span> 
+<span class=n>randoms</span> <span class=o>=</span> <span class=p>[(</span><span class=n>libc</span><span class=o>.</span><span class=n>rand</span><span class=p>()</span> <span class=o>%</span> <span class=mi>100</span><span class=p>)</span> <span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> <span class=nb>xrange</span><span class=p>(</span><span class=mi>1000000</span><span class=p>)]</span> 
+<span class=k>print</span> <span class=s2>&#34;C version : </span><span class=si>%s</span><span class=s2> seconds&#34;</span> <span class=o>%</span> <span class=p>(</span><span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span> <span class=o>-</span> <span class=n>init</span><span class=p>)</span>
 
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="6字符串连接">6.字符串连接</h2>
-<p>字符串不可变, 每次对字符串的连接/替换 都会创建新的字符串</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-py" data-lang="py"><span class="c1"># more effect</span>
-<span class="n">full_doc</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">world_list</span><span class="p">)</span>
+</code></pre></td></tr></table></div></div><h2 id=6字符串连接>6.字符串连接</h2><p>字符串不可变, 每次对字符串的连接/替换 都会创建新的字符串</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-py data-lang=py><span class=c1># more effect</span>
+<span class=n>full_doc</span> <span class=o>=</span> <span class=s2>&#34;&#34;</span><span class=o>.</span><span class=n>join</span><span class=p>(</span><span class=n>world_list</span><span class=p>)</span>
 
-<span class="c1"># less effect</span>
-<span class="n">document</span> <span class="o">=</span> <span class="n">title</span> <span class="o">+</span> <span class="n">introduction</span> <span class="o">+</span> <span class="n">main_piece</span> <span class="o">+</span> <span class="n">conclusion</span>
-<span class="c1"># more effect</span>
-<span class="n">document</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="si">%s%s%s%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">introduction</span><span class="p">,</span> <span class="n">main_piece</span><span class="p">,</span> <span class="n">conclusion</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="7其他">7.其他</h2>
-<p>7.1 成员关系测试
+<span class=c1># less effect</span>
+<span class=n>document</span> <span class=o>=</span> <span class=n>title</span> <span class=o>+</span> <span class=n>introduction</span> <span class=o>+</span> <span class=n>main_piece</span> <span class=o>+</span> <span class=n>conclusion</span>
+<span class=c1># more effect</span>
+<span class=n>document</span> <span class=o>=</span> <span class=s2>&#34;</span><span class=si>%s%s%s%s</span><span class=s2>&#34;</span> <span class=o>%</span> <span class=p>(</span><span class=n>title</span><span class=p>,</span> <span class=n>introduction</span><span class=p>,</span> <span class=n>main_piece</span><span class=p>,</span> <span class=n>conclusion</span><span class=p>)</span>
+</code></pre></td></tr></table></div></div><h2 id=7其他>7.其他</h2><p>7.1 成员关系测试
 当我们想判断一个值是否在一个列表（list）中时
 比如像“a in b”这样的操作，用集合（set） 或字典（dict）（查找时间复杂度是O(1)
-可以获得比列表（list）和元组（tuple）更好的性能</p>
-<p>7.2 不要重复发明轮子
+可以获得比列表（list）和元组（tuple）更好的性能</p><p>7.2 不要重复发明轮子
 Python的标准库核心组件大都是用经过优化的C语言写成的。因此不需要你自建，而且你自建的很可能会更慢。像列表、元组、集合和字典这些数据类型， 以及数组（array）、迭代工具（itertools）和队列（collections.deque）这些模 块都推荐使用。
-使用内置函数， 如 map(operator.add, list1, list2), 也会比 map(lambda x, y: x+y, list1, list2)更快</p>
-<p>7.3 不要忘记了队列
+使用内置函数， 如 map(operator.add, list1, list2), 也会比 map(lambda x, y: x+y, list1, list2)更快</p><p>7.3 不要忘记了队列
 当需要一个固定长度的数组或可变长度的栈（stack）时，列表非常适合。
-但是，在处理pop(0)或insert(0, your_list)操作时，可以试试collections. deque，因为它在列表的任何一端都可以快速地完成（O(1)）插入和弹出操作</p>
-<p>7.4 有时不定义函数更好
+但是，在处理pop(0)或insert(0, your_list)操作时，可以试试collections. deque，因为它在列表的任何一端都可以快速地完成（O(1)）插入和弹出操作</p><p>7.4 有时不定义函数更好
 调用函数会增加大量的资源消耗
 有时候，尤其是在时间密集的循环体中内联函数代码，不调用外部函数，可以更加高效
-这个窍门有一个很大的代价，因为它可能会损害代码的可读性和维护便利性</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-py" data-lang="py"><span class="kn">import</span> <span class="nn">time</span>
+这个窍门有一个很大的代价，因为它可能会损害代码的可读性和维护便利性</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-py data-lang=py><span class=kn>import</span> <span class=nn>time</span>
 
-<span class="k">def</span> <span class="nf">fn</span><span class="p">(</span><span class="n">nmbr</span><span class="p">):</span>
-     <span class="k">return</span> <span class="p">(</span><span class="n">nmbr</span> <span class="o">**</span> <span class="n">nmbr</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="n">nmbr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class=k>def</span> <span class=nf>fn</span><span class=p>(</span><span class=n>nmbr</span><span class=p>):</span>
+     <span class=k>return</span> <span class=p>(</span><span class=n>nmbr</span> <span class=o>**</span> <span class=n>nmbr</span><span class=p>)</span> <span class=o>//</span> <span class=p>(</span><span class=n>nmbr</span> <span class=o>+</span> <span class=mi>1</span><span class=p>)</span>
 
-<span class="n">nmbr</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">init</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
-    <span class="n">fn</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class=n>nmbr</span> <span class=o>=</span> <span class=mi>0</span>
+<span class=n>init</span> <span class=o>=</span> <span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span>
+<span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1000</span><span class=p>):</span>
+    <span class=n>fn</span><span class=p>(</span><span class=n>i</span><span class=p>)</span>
     
-<span class="c1"># 0.013s</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Total time: </span><span class="si">%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">init</span><span class="p">))</span>
-<span class="n">init</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span>
-<span class="n">nmbr</span> <span class="o">=</span> <span class="mi">0</span>
+<span class=c1># 0.013s</span>
+<span class=k>print</span><span class=p>(</span><span class=s2>&#34;Total time: </span><span class=si>%s</span><span class=s2>&#34;</span> <span class=o>%</span> <span class=p>(</span><span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span> <span class=o>-</span> <span class=n>init</span><span class=p>))</span>
+<span class=n>init</span> <span class=o>=</span> <span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span>
+<span class=n>nmbr</span> <span class=o>=</span> <span class=mi>0</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
-     <span class="n">nmbr</span> <span class="o">=</span> <span class="p">(</span><span class="n">nmbr</span> <span class="o">**</span> <span class="n">nmbr</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="n">nmbr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1000</span><span class=p>):</span>
+     <span class=n>nmbr</span> <span class=o>=</span> <span class=p>(</span><span class=n>nmbr</span> <span class=o>**</span> <span class=n>nmbr</span><span class=p>)</span> <span class=o>//</span> <span class=p>(</span><span class=n>nmbr</span> <span class=o>+</span> <span class=mi>1</span><span class=p>)</span>
      
-<span class="c1"># 0.00041s</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Total time (inline): </span><span class="si">%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">init</span><span class="p">))</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>7.5 尽可能用key函数排序
+<span class=c1># 0.00041s</span>
+<span class=k>print</span><span class=p>(</span><span class=s2>&#34;Total time (inline): </span><span class=si>%s</span><span class=s2>&#34;</span> <span class=o>%</span> <span class=p>(</span><span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span> <span class=o>-</span> <span class=n>init</span><span class=p>))</span>
+</code></pre></td></tr></table></div></div><p>7.5 尽可能用key函数排序
 在对列表进行自定义规则的排序时，不要用比较函数排序，而是 应该尽可能地用key函数排序。
-这是因为每个元素只需要调用一次key函数，而在运行过 程中每一项都要调用比较函数好几次</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-py" data-lang="py"><span class="kn">import</span> <span class="nn">random</span> <span class="nn">import</span> <span class="nn">time</span>
-<span class="c1"># 创建两个随机数组 </span>
-<span class="n">list1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="nb">chr</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">122</span><span class="p">))]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100000</span><span class="p">)]</span> 
-<span class="n">list2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="nb">chr</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">122</span><span class="p">))]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> 
-<span class="nb">range</span><span class="p">(</span><span class="mi">100000</span><span class="p">)]</span>
+这是因为每个元素只需要调用一次key函数，而在运行过 程中每一项都要调用比较函数好几次</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-py data-lang=py><span class=kn>import</span> <span class=nn>random</span> <span class=nn>import</span> <span class=nn>time</span>
+<span class=c1># 创建两个随机数组 </span>
+<span class=n>list1</span> <span class=o>=</span> <span class=p>[[</span><span class=n>random</span><span class=o>.</span><span class=n>randrange</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>100</span><span class=p>),</span> <span class=nb>chr</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>randrange</span><span class=p>(</span><span class=mi>32</span><span class=p>,</span> <span class=mi>122</span><span class=p>))]</span> <span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>100000</span><span class=p>)]</span> 
+<span class=n>list2</span> <span class=o>=</span> <span class=p>[[</span><span class=n>random</span><span class=o>.</span><span class=n>randrange</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=mi>100</span><span class=p>),</span> <span class=nb>chr</span><span class=p>(</span><span class=n>random</span><span class=o>.</span><span class=n>randrange</span><span class=p>(</span><span class=mi>32</span><span class=p>,</span> <span class=mi>122</span><span class=p>))]</span> <span class=k>for</span> <span class=n>x</span> <span class=ow>in</span> 
+<span class=nb>range</span><span class=p>(</span><span class=mi>100000</span><span class=p>)]</span>
 
-<span class="c1"># 通过比较函数cmp()对两个数据排序 </span>
+<span class=c1># 通过比较函数cmp()对两个数据排序 </span>
 
-<span class="n">init</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span>
-<span class="n">list1</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="nb">cmp</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">cmp</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> 
+<span class=n>init</span> <span class=o>=</span> <span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span>
+<span class=n>list1</span><span class=o>.</span><span class=n>sort</span><span class=p>(</span><span class=nb>cmp</span><span class=o>=</span><span class=k>lambda</span> <span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>:</span> <span class=nb>cmp</span><span class=p>(</span><span class=n>a</span><span class=p>[</span><span class=mi>1</span><span class=p>],</span> <span class=n>b</span><span class=p>[</span><span class=mi>1</span><span class=p>]))</span> 
 
-<span class="k">print</span> <span class="s2">&#34;Sort by comp: </span><span class="si">%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">init</span><span class="p">)</span> <span class="c1"># 打印结果0.213434</span>
-<span class="c1"># 把字符串元素作为词典的键，进行排序 </span>
-<span class="n">init</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> 
-<span class="n">list2</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> 
-<span class="k">print</span> <span class="s2">&#34;Sort by key: </span><span class="si">%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">init</span><span class="p">)</span> <span class="c1"># 打印结果0.047623</span>
+<span class=k>print</span> <span class=s2>&#34;Sort by comp: </span><span class=si>%s</span><span class=s2>&#34;</span> <span class=o>%</span> <span class=p>(</span><span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span> <span class=o>-</span> <span class=n>init</span><span class=p>)</span> <span class=c1># 打印结果0.213434</span>
+<span class=c1># 把字符串元素作为词典的键，进行排序 </span>
+<span class=n>init</span> <span class=o>=</span> <span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span> 
+<span class=n>list2</span><span class=o>.</span><span class=n>sort</span><span class=p>(</span><span class=n>key</span><span class=o>=</span><span class=k>lambda</span> <span class=n>a</span><span class=p>:</span> <span class=n>a</span><span class=p>[</span><span class=mi>1</span><span class=p>])</span> 
+<span class=k>print</span> <span class=s2>&#34;Sort by key: </span><span class=si>%s</span><span class=s2>&#34;</span> <span class=o>%</span> <span class=p>(</span><span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span> <span class=o>-</span> <span class=n>init</span><span class=p>)</span> <span class=c1># 打印结果0.047623</span>
 
-</code></pre></td></tr></table>
-</div>
-</div><p>7.6 1比True好
+</code></pre></td></tr></table></div></div><p>7.6 1比True好
 while 1比while True要好
 7.7 多元赋值
-多元赋值（a,b = &ldquo;hellothere&rdquo;, 123）通常比单独赋值要慢。但是，在进行变量交换时，它比普通方法要快（因为我们不需要 使用临时变量和赋值过程)</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-py" data-lang="py">  <span class="n">a</span> <span class="o">=</span> <span class="s2">&#34;hello world&#34;</span> 
-  <span class="n">b</span> <span class="o">=</span> <span class="mi">123</span> <span class="c1"># 这种做更快</span>
+多元赋值（a,b = &ldquo;hellothere&rdquo;, 123）通常比单独赋值要慢。但是，在进行变量交换时，它比普通方法要快（因为我们不需要 使用临时变量和赋值过程)</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-py data-lang=py>  <span class=n>a</span> <span class=o>=</span> <span class=s2>&#34;hello world&#34;</span> 
+  <span class=n>b</span> <span class=o>=</span> <span class=mi>123</span> <span class=c1># 这种做更快</span>
   
-  <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="c1"># 相比下面这种方式要快</span>
-  <span class="n">tmp</span> <span class="o">=</span> <span class="n">a</span>
-  <span class="n">a</span> <span class="o">=</span> <span class="n">b</span>
-  <span class="n">b</span> <span class="o">=</span> <span class="n">tmp</span>
-  <span class="sb">``</span><span class="err">`</span>
+  <span class=n>a</span><span class=p>,</span> <span class=n>b</span> <span class=o>=</span> <span class=n>b</span><span class=p>,</span> <span class=n>a</span> <span class=c1># 相比下面这种方式要快</span>
+  <span class=n>tmp</span> <span class=o>=</span> <span class=n>a</span>
+  <span class=n>a</span> <span class=o>=</span> <span class=n>b</span>
+  <span class=n>b</span> <span class=o>=</span> <span class=n>tmp</span>
+  <span class=sb>``</span><span class=err>`</span>
   
-<span class="mf">7.8</span> <span class="err">推荐使用链式比较</span>
-<span class="err">在比较三个变量时，不要用</span><span class="n">x</span><span class="o">&lt;</span><span class="n">y和y</span><span class="o">&lt;</span><span class="n">z</span><span class="err">，可以用</span><span class="n">x</span><span class="o">&lt;</span><span class="n">y</span><span class="o">&lt;</span><span class="n">z</span><span class="err">。这样更容易阅读（更自然）且运行更快</span>
+<span class=mf>7.8</span> <span class=err>推荐使用链式比较</span>
+<span class=err>在比较三个变量时，不要用</span><span class=n>x</span><span class=o>&lt;</span><span class=n>y和y</span><span class=o>&lt;</span><span class=n>z</span><span class=err>，可以用</span><span class=n>x</span><span class=o>&lt;</span><span class=n>y</span><span class=o>&lt;</span><span class=n>z</span><span class=err>。这样更容易阅读（更自然）且运行更快</span>
 
-<span class="mf">7.9</span> <span class="err">用命名元组（</span><span class="n">namedtuple</span><span class="err">）替换常规对象</span>
-<span class="err">使用常规的类（</span><span class="n">class</span><span class="err">）方法创建存储数据的简单对象时，实例中会有一个字典存储属性。这个存储对属性少的对象来说是一种浪费。</span> 
-<span class="err">如果你需要创建大量的简单对象，会浪费大量内存。这种情况下，你可以用命名元组。这是一个新的</span><span class="n">tuple子类</span><span class="err">，可以轻松地构建并优化任务</span>
+<span class=mf>7.9</span> <span class=err>用命名元组（</span><span class=n>namedtuple</span><span class=err>）替换常规对象</span>
+<span class=err>使用常规的类（</span><span class=n>class</span><span class=err>）方法创建存储数据的简单对象时，实例中会有一个字典存储属性。这个存储对属性少的对象来说是一种浪费。</span> 
+<span class=err>如果你需要创建大量的简单对象，会浪费大量内存。这种情况下，你可以用命名元组。这是一个新的</span><span class=n>tuple子类</span><span class=err>，可以轻松地构建并优化任务</span>
 
-<span class="sb">``</span><span class="err">`</span><span class="n">py</span>
-<span class="kn">import</span> <span class="nn">time</span> 
-<span class="kn">import</span> <span class="nn">collections</span>
+<span class=sb>``</span><span class=err>`</span><span class=n>py</span>
+<span class=kn>import</span> <span class=nn>time</span> 
+<span class=kn>import</span> <span class=nn>collections</span>
 
-<span class="k">class</span> <span class="nc">Obj</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="n">i</span> 
-      <span class="bp">self</span><span class="o">.</span><span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
+<span class=k>class</span> <span class=nc>Obj</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+  <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>i</span><span class=p>):</span>
+      <span class=bp>self</span><span class=o>.</span><span class=n>i</span> <span class=o>=</span> <span class=n>i</span> 
+      <span class=bp>self</span><span class=o>.</span><span class=n>l</span> <span class=o>=</span> <span class=p>[]</span>
 
-<span class="nb">all</span> <span class="o">=</span> <span class="p">{}</span> 
-<span class="n">init</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000</span><span class="p">):</span>
-  <span class="nb">all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Obj</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> 
+<span class=nb>all</span> <span class=o>=</span> <span class=p>{}</span> 
+<span class=n>init</span> <span class=o>=</span> <span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span> 
+<span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1000000</span><span class=p>):</span>
+  <span class=nb>all</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>Obj</span><span class=p>(</span><span class=n>i</span><span class=p>)</span> 
 
-<span class="c1"># 打印Regular对象：2.384832 </span>
-<span class="k">print</span> <span class="s2">&#34;Regular Objects: </span><span class="si">%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">init</span><span class="p">)</span>
+<span class=c1># 打印Regular对象：2.384832 </span>
+<span class=k>print</span> <span class=s2>&#34;Regular Objects: </span><span class=si>%s</span><span class=s2>&#34;</span> <span class=o>%</span> <span class=p>(</span><span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span> <span class=o>-</span> <span class=n>init</span><span class=p>)</span>
 
-<span class="n">Obj</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Obj&#39;</span><span class="p">,</span> <span class="s1">&#39;i l&#39;</span><span class="p">)</span>
-<span class="nb">all</span> <span class="o">=</span> <span class="p">{}</span> 
-<span class="n">init</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000</span><span class="p">):</span>
-  <span class="nb">all</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Obj</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">[])</span> 
-<span class="c1"># 打印NamedTuples对象：1.272023 </span>
-<span class="k">print</span> <span class="s2">&#34;NamedTuples Objects: </span><span class="si">%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">clock</span><span class="p">()</span> <span class="o">-</span> <span class="n">init</span><span class="p">)</span>      
-</code></pre></td></tr></table>
-</div>
-</div><p>from  《Python性能分析与优化》</p>
-
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">tmackan</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2019-10-04
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/python/">python</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Go基础语法</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/py%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E7%A4%BA%E4%BE%8B/">
-            <span class="next-text nav-default">Py性能分析示例</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        
-
-  
-
-  
-    <script src="https://utteranc.es/client.js"
-            repo="tmacjx/https://github.com/tmacjx/utterances"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:kan49733110@email.com" class="iconfont icon-email" title="email"></a>
-      <a href="http://twitter.com/tmcakan/" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="http://github.com/tmacjx/" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.zhihu.com/people/kan-tmac" class="iconfont icon-zhihu" title="zhihu"></a>
-  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    2016 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">tmackan</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
-
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-174638881-1', 'auto');
-	ga('set', 'anonymizeIp', true);
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
-
-
-
-
-
-
-
-</body>
-</html>
+<span class=n>Obj</span> <span class=o>=</span> <span class=n>collections</span><span class=o>.</span><span class=n>namedtuple</span><span class=p>(</span><span class=s1>&#39;Obj&#39;</span><span class=p>,</span> <span class=s1>&#39;i l&#39;</span><span class=p>)</span>
+<span class=nb>all</span> <span class=o>=</span> <span class=p>{}</span> 
+<span class=n>init</span> <span class=o>=</span> <span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span> 
+<span class=k>for</span> <span class=n>i</span> <span class=ow>in</span> <span class=nb>range</span><span class=p>(</span><span class=mi>1000000</span><span class=p>):</span>
+  <span class=nb>all</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>Obj</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=p>[])</span> 
+<span class=c1># 打印NamedTuples对象：1.272023 </span>
+<span class=k>print</span> <span class=s2>&#34;NamedTuples Objects: </span><span class=si>%s</span><span class=s2>&#34;</span> <span class=o>%</span> <span class=p>(</span><span class=n>time</span><span class=o>.</span><span class=n>clock</span><span class=p>()</span> <span class=o>-</span> <span class=n>init</span><span class=p>)</span>      
+</code></pre></td></tr></table></div></div><p>from 《Python性能分析与优化》</p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>tmackan</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2019-10-04</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/python/>python</a></div><nav class=post-nav><a class=prev href=/post/go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/><i class="iconfont icon-left"></i><span class="prev-text nav-default">Go基础语法</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=/post/py%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E7%A4%BA%E4%BE%8B/><span class="next-text nav-default">Py性能分析示例</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=tmacjx/https://github.com/tmacjx/utterances issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:kan49733110@email.com class="iconfont icon-email" title=email></a><a href=http://twitter.com/tmcakan/ class="iconfont icon-twitter" title=twitter></a><a href=http://github.com/tmacjx/ class="iconfont icon-github" title=github></a><a href=https://www.zhihu.com/people/kan-tmac class="iconfont icon-zhihu" title=zhihu></a><a href=http://localhost:1313/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2016 -
+2020
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>tmackan</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-174638881-1','auto');ga('set','anonymizeIp',true);ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></body></html>

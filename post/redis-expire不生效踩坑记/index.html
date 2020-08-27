@@ -1,425 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>redis expire不生效踩坑级 - tmacKan - A  record for Life</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="tmackan" /><meta name="description" content="一.flask-limit限流原理 项目配置采用了固定时间窗口策略 incr和expire配合，每次请求来的时候 incr后的值与amount上限" /><meta name="keywords" content="Blog, Python, code" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.73.0 with theme even" />
-
-
-<link rel="canonical" href="http://localhost:1313/post/redis-expire%E4%B8%8D%E7%94%9F%E6%95%88%E8%B8%A9%E5%9D%91%E8%AE%B0/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-
-
-<link href="/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="redis expire不生效踩坑级" />
-<meta property="og:description" content="一.flask-limit限流原理 项目配置采用了固定时间窗口策略 incr和expire配合，每次请求来的时候 incr后的值与amount上限" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://localhost:1313/post/redis-expire%E4%B8%8D%E7%94%9F%E6%95%88%E8%B8%A9%E5%9D%91%E8%AE%B0/" />
-<meta property="article:published_time" content="2020-08-22T10:00:00+00:00" />
-<meta property="article:modified_time" content="2020-08-22T10:00:00+00:00" />
-<meta itemprop="name" content="redis expire不生效踩坑级">
-<meta itemprop="description" content="一.flask-limit限流原理 项目配置采用了固定时间窗口策略 incr和expire配合，每次请求来的时候 incr后的值与amount上限">
-<meta itemprop="datePublished" content="2020-08-22T10:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2020-08-22T10:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1476">
-
-
-
-<meta itemprop="keywords" content="redis," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="redis expire不生效踩坑级"/>
-<meta name="twitter:description" content="一.flask-limit限流原理 项目配置采用了固定时间窗口策略 incr和expire配合，每次请求来的时候 incr后的值与amount上限"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">tmackan</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">tmackan</a>
-</div>
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/about/">About</a>
-      </li>
-  </ul>
-</nav>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">redis expire不生效踩坑级</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2020-08-22 </span>
-        <div class="post-category">
-            <a href="/categories/%E6%8A%80%E6%9C%AF/"> 技术 </a>
-            </div>
-        
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#一flask-limit限流原理">一.flask-limit限流原理</a></li>
-            <li><a href="#二排查redis服务">二.排查redis服务</a></li>
-            <li><a href="#三故障分析">三.故障分析</a></li>
-            <li><a href="#附录redis相关命令">附录：redis相关命令</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <h3 id="一flask-limit限流原理">一.flask-limit限流原理</h3>
-<p>项目配置采用了固定时间窗口策略
-incr和expire配合，每次请求来的时候 incr后的值与amount上限比较，如果超过则返回http 429</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-py" data-lang="py"><span class="c1"># lua脚本 incr和expire结合，避免incr成功，expire不成功</span>
- <span class="n">SCRIPT_INCR_EXPIRE</span> <span class="o">=</span> <span class="s2">&#34;&#34;&#34;
-</span><span class="s2">        local current
-</span><span class="s2">        current = redis.call(&#34;incr&#34;,KEYS[1])
-</span><span class="s2">        if tonumber(current) == 1 then
-</span><span class="s2">            redis.call(&#34;expire&#34;,KEYS[1],ARGV[1])
-</span><span class="s2">        end
-</span><span class="s2">        return current
-</span><span class="s2">        &#34;&#34;&#34;</span>
-</code></pre></td></tr></table>
-</div>
-</div><pre><code>&lt;!-- more --&gt;
-</code></pre>
-<h3 id="二排查redis服务">二.排查redis服务</h3>
-<h4 id="1redis有其他阻塞操作引起了expire失效">1.redis有其他阻塞操作，引起了expire失效？</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 显示平均超时时间0.03ms。
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>redis expire不生效踩坑级 - tmacKan - A record for Life</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="tmackan"><meta name=description content="一.flask-limit限流原理 项目配置采用了固定时间窗口策略 incr和expire配合，每次请求来的时候 incr后的值与amount上限"><meta name=keywords content="Blog,Python,code"><meta name=generator content="Hugo 0.73.0 with theme even"><link rel=canonical href=http://localhost:1313/post/redis-expire%E4%B8%8D%E7%94%9F%E6%95%88%E8%B8%A9%E5%9D%91%E8%AE%B0/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="redis expire不生效踩坑级"><meta property="og:description" content="一.flask-limit限流原理 项目配置采用了固定时间窗口策略 incr和expire配合，每次请求来的时候 incr后的值与amount上限"><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/post/redis-expire%E4%B8%8D%E7%94%9F%E6%95%88%E8%B8%A9%E5%9D%91%E8%AE%B0/"><meta property="article:published_time" content="2020-08-22T10:00:00+00:00"><meta property="article:modified_time" content="2020-08-22T10:00:00+00:00"><meta itemprop=name content="redis expire不生效踩坑级"><meta itemprop=description content="一.flask-limit限流原理 项目配置采用了固定时间窗口策略 incr和expire配合，每次请求来的时候 incr后的值与amount上限"><meta itemprop=datePublished content="2020-08-22T10:00:00+00:00"><meta itemprop=dateModified content="2020-08-22T10:00:00+00:00"><meta itemprop=wordCount content="1476"><meta itemprop=keywords content="redis,"><meta name=twitter:card content="summary"><meta name=twitter:title content="redis expire不生效踩坑级"><meta name=twitter:description content="一.flask-limit限流原理 项目配置采用了固定时间窗口策略 incr和expire配合，每次请求来的时候 incr后的值与amount上限"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>tmackan</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>tmackan</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>redis expire不生效踩坑级</h1><div class=post-meta><span class=post-time>2020-08-22</span><div class=post-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><ul><li><a href=#一flask-limit限流原理>一.flask-limit限流原理</a></li><li><a href=#二排查redis服务>二.排查redis服务</a></li><li><a href=#三故障分析>三.故障分析</a></li><li><a href=#附录redis相关命令>附录：redis相关命令</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><h3 id=一flask-limit限流原理>一.flask-limit限流原理</h3><p>项目配置采用了固定时间窗口策略
+incr和expire配合，每次请求来的时候 incr后的值与amount上限比较，如果超过则返回http 429</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-py data-lang=py><span class=c1># lua脚本 incr和expire结合，避免incr成功，expire不成功</span>
+ <span class=n>SCRIPT_INCR_EXPIRE</span> <span class=o>=</span> <span class=s2>&#34;&#34;&#34;
+</span><span class=s2>        local current
+</span><span class=s2>        current = redis.call(&#34;incr&#34;,KEYS[1])
+</span><span class=s2>        if tonumber(current) == 1 then
+</span><span class=s2>            redis.call(&#34;expire&#34;,KEYS[1],ARGV[1])
+</span><span class=s2>        end
+</span><span class=s2>        return current
+</span><span class=s2>        &#34;&#34;&#34;</span>
+</code></pre></td></tr></table></div></div><pre><code>&lt;!-- more --&gt;
+</code></pre><h3 id=二排查redis服务>二.排查redis服务</h3><h4 id=1redis有其他阻塞操作引起了expire失效>1.redis有其他阻塞操作，引起了expire失效？</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># 显示平均超时时间0.03ms。
 &gt; redis-cli --latency -h 127.0.0.1 -p 6379
 min: 0, max: 4, avg: 0.03 (12235 samples)
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="2其他人操作了同样的key">2.其他人操作了同样的key？</h4>
-<h5 id="1换个db-取特殊的key名称">1.换个db, 取特殊的key名称</h5>
-<h5 id="2监控redis命令操作">2.监控redis命令操作</h5>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"># monitor db7
+</code></pre></td></tr></table></div></div><h4 id=2其他人操作了同样的key>2.其他人操作了同样的key？</h4><h5 id=1换个db-取特殊的key名称>1.换个db, 取特殊的key名称</h5><h5 id=2监控redis命令操作>2.监控redis命令操作</h5><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># monitor db7
 &gt; redis-cli monitor | grep &#39;\[7&#39;
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="3redis过期机制">3.redis过期机制</h4>
-<h5 id="1定时删除">1.定时删除</h5>
-<p>对于每一个设置了过期时间的key都会创建一个定时器，一旦到达过期时间就立即删除。该策略可以立即清除过期的数据，对内存较友好，但是缺点是占用了大量的CPU资源去处理过期的数据，会影响Redis的吞吐量和响应时间</p>
-<h5 id="2惰性删除">2.惰性删除</h5>
-<p>当访问一个key时，才判断该key是否过期，过期则删除。该策略能最大限度地节省CPU资源，但是对内存却十分不友好。有一种极端的情况是可能出现大量的过期key没有被再次访问，因此不会被清除，导致占用了大量的内存。</p>
-<h5 id="3定期删除">3.定期删除</h5>
-<p>每隔一段时间，扫描Redis中过期key字典，并清除部分过期的key。该策略是前两者的一个折中方案，还可以通过调整定时扫描的时间间隔和每次扫描的限定耗时，在不同情况下使得CPU和内存资源达到最优的平衡效果。
+</code></pre></td></tr></table></div></div><h4 id=3redis过期机制>3.redis过期机制</h4><h5 id=1定时删除>1.定时删除</h5><p>对于每一个设置了过期时间的key都会创建一个定时器，一旦到达过期时间就立即删除。该策略可以立即清除过期的数据，对内存较友好，但是缺点是占用了大量的CPU资源去处理过期的数据，会影响Redis的吞吐量和响应时间</p><h5 id=2惰性删除>2.惰性删除</h5><p>当访问一个key时，才判断该key是否过期，过期则删除。该策略能最大限度地节省CPU资源，但是对内存却十分不友好。有一种极端的情况是可能出现大量的过期key没有被再次访问，因此不会被清除，导致占用了大量的内存。</p><h5 id=3定期删除>3.定期删除</h5><p>每隔一段时间，扫描Redis中过期key字典，并清除部分过期的key。该策略是前两者的一个折中方案，还可以通过调整定时扫描的时间间隔和每次扫描的限定耗时，在不同情况下使得CPU和内存资源达到最优的平衡效果。
 默认是每秒运行 10 次， 平均每 100 毫秒运行一次。
-从 Redis 2.8 开始， 用户可以通过修改 hz选项来调整 serverCron 的每秒执行次数， 具体信息请参考 redis.conf 文件中关于 hz 选项的说明。</p>
-<h5 id="4当内存达到maxmemory配置时候会触发key的删除操作">4.当内存达到maxmemory配置时候，会触发Key的删除操作</h5>
-<p>当mem_used内存已经超过maxmemory的设定，对于所有的读写请求，都会触发redis.c/freeMemoryIfNeeded(void)函数以清理超出的内存。
+从 Redis 2.8 开始， 用户可以通过修改 hz选项来调整 serverCron 的每秒执行次数， 具体信息请参考 redis.conf 文件中关于 hz 选项的说明。</p><h5 id=4当内存达到maxmemory配置时候会触发key的删除操作>4.当内存达到maxmemory配置时候，会触发Key的删除操作</h5><p>当mem_used内存已经超过maxmemory的设定，对于所有的读写请求，都会触发redis.c/freeMemoryIfNeeded(void)函数以清理超出的内存。
 注意这个清理过程是阻塞的，直到清理出足够的内存空间。
-清理时会根据用户配置的maxmemory-policy来做适当的清理（一般是LRU或TTL）</p>
-<h3 id="三故障分析">三.故障分析</h3>
-<p>线下我们配置的是redis主从服务，线上阿里云的连接方式为直连，所以线下连接redis也为直连master
+清理时会根据用户配置的maxmemory-policy来做适当的清理（一般是LRU或TTL）</p><h3 id=三故障分析>三.故障分析</h3><p>线下我们配置的是redis主从服务，线上阿里云的连接方式为直连，所以线下连接redis也为直连master
 某日哨兵检测到master故障，进行了主从切换，之前的主节点降级为从节点，导致我们变为了直连从节点。
 经过测试，redis在从节点设置expire的话，ttl一直减少到0后，从节点不自行执行删除key到操作，key的清除操作只能由主节点发起来，然后rsync到从节点进行同步。
-故我们从节点的expire操作一直不生效，限流的时间窗口不过期，限流计数一直在累加！！！</p>
-<blockquote>
-<p>To “maintain consistency”, slaves aren’t allowed to expire keys unless they receive a DEL from the master branch, even if they know the key is expired. The only exception is when a slave becomes master. So basically, if the master doesn’t send a DEL to the slave, the key (which might have been set with a TTL using the Redis API contract), is not guaranteed to respect the TTL it was set with. This is when you scale to have read slaves, which, apparently, is a shocking requirement in production systems.
-为了维护一致性，salve不被容许删除key除非从master收到del命令</p>
-</blockquote>
-<h3 id="附录redis相关命令">附录：redis相关命令</h3>
-<h4 id="1expire-key">1.expire key</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">&gt; set key_melon &#34;cantaloupe&#34;
+故我们从节点的expire操作一直不生效，限流的时间窗口不过期，限流计数一直在累加！！！</p><blockquote><p>To “maintain consistency”, slaves aren’t allowed to expire keys unless they receive a DEL from the master branch, even if they know the key is expired. The only exception is when a slave becomes master. So basically, if the master doesn’t send a DEL to the slave, the key (which might have been set with a TTL using the Redis API contract), is not guaranteed to respect the TTL it was set with. This is when you scale to have read slaves, which, apparently, is a shocking requirement in production systems.
+为了维护一致性，salve不被容许删除key除非从master收到del命令</p></blockquote><h3 id=附录redis相关命令>附录：redis相关命令</h3><h4 id=1expire-key>1.expire key</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>&gt; set key_melon &#34;cantaloupe&#34;
 &gt; expire key_melon 450
 
 # Expire设置成功后，返回1，设置失败返回0
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="2某个时间点expire">2.某个时间点expire</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 某个unix timestamp时间过期
+</code></pre></td></tr></table></div></div><h4 id=2某个时间点expire>2.某个时间点expire</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># 某个unix timestamp时间过期
 expireat key_melon 1746131400
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="3查询key存活时间">3.查询key存活时间</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"># 秒
+</code></pre></td></tr></table></div></div><h4 id=3查询key存活时间>3.查询key存活时间</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># 秒
 &gt; ttl key_melon
 
 # 毫秒
 &gt; pttl key_melon
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="4清除expire">4.清除expire</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"># Set或者getset会使过期时间清除
+</code></pre></td></tr></table></div></div><h4 id=4清除expire>4.清除expire</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback># Set或者getset会使过期时间清除
 # persist持久化key，过期时间清除
 
 persist key_melon
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="5判断某个key是否存在">5.判断某个key是否存在</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">exists key_melon
-</code></pre></td></tr></table>
-</div>
-</div><p>参考
-<a href="https://cloud.tencent.com/developer/article/1044436">https://cloud.tencent.com/developer/article/1044436</a></p>
-<p><a href="https://www.hoohack.me/2019/06/24/redis-expire-strategy">https://www.hoohack.me/2019/06/24/redis-expire-strategy</a></p>
-<p><a href="https://www.w3cschool.cn/redis_all_about/redis_all_about-xzio26xj.html">https://www.w3cschool.cn/redis_all_about/redis_all_about-xzio26xj.html</a></p>
-<p><a href="https://www.digitalocean.com/community/cheatsheets/how-to-expire-keys-in-redis">https://www.digitalocean.com/community/cheatsheets/how-to-expire-keys-in-redis</a></p>
-<p><a href="https://engineering.grab.com/a-key-expired-in-redis-you-wont-believe-what-happened-next">https://engineering.grab.com/a-key-expired-in-redis-you-wont-believe-what-happened-next</a></p>
-
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">tmackan</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2020-08-22
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/redis/">redis</a>
-          </div>
-      <nav class="post-nav">
-        
-        <a class="next" href="/post/jacksonfastjson%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/">
-            <span class="next-text nav-default">jackson/fastjson使用总结</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        
-
-  
-
-  
-    <script src="https://utteranc.es/client.js"
-            repo="tmacjx/https://github.com/tmacjx/utterances"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:kan49733110@email.com" class="iconfont icon-email" title="email"></a>
-      <a href="http://twitter.com/tmcakan/" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="http://github.com/tmacjx/" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.zhihu.com/people/kan-tmac" class="iconfont icon-zhihu" title="zhihu"></a>
-  <a href="http://localhost:1313/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    2016 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">tmackan</span>
-  </span>
-</div>
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
-
-
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-	ga('create', 'UA-174638881-1', 'auto');
-	ga('set', 'anonymizeIp', true);
-	ga('send', 'pageview');
-}
-</script>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
-
-
-
-
-
-
-
-</body>
-</html>
+</code></pre></td></tr></table></div></div><h4 id=5判断某个key是否存在>5.判断某个key是否存在</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>exists key_melon
+</code></pre></td></tr></table></div></div><p>参考
+<a href=https://cloud.tencent.com/developer/article/1044436>https://cloud.tencent.com/developer/article/1044436</a></p><p><a href=https://www.hoohack.me/2019/06/24/redis-expire-strategy>https://www.hoohack.me/2019/06/24/redis-expire-strategy</a></p><p><a href=https://www.w3cschool.cn/redis_all_about/redis_all_about-xzio26xj.html>https://www.w3cschool.cn/redis_all_about/redis_all_about-xzio26xj.html</a></p><p><a href=https://www.digitalocean.com/community/cheatsheets/how-to-expire-keys-in-redis>https://www.digitalocean.com/community/cheatsheets/how-to-expire-keys-in-redis</a></p><p><a href=https://engineering.grab.com/a-key-expired-in-redis-you-wont-believe-what-happened-next>https://engineering.grab.com/a-key-expired-in-redis-you-wont-believe-what-happened-next</a></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>tmackan</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2020-08-22</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/redis/>redis</a></div><nav class=post-nav><a class=prev href=/post/kibana%E6%9F%A5%E8%AF%A2%E8%AF%AD%E6%B3%95/><i class="iconfont icon-left"></i><span class="prev-text nav-default">Kibana查询语法</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=/post/jacksonfastjson%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/><span class="next-text nav-default">jackson/fastjson使用总结</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=tmacjx/https://github.com/tmacjx/utterances issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:kan49733110@email.com class="iconfont icon-email" title=email></a><a href=http://twitter.com/tmcakan/ class="iconfont icon-twitter" title=twitter></a><a href=http://github.com/tmacjx/ class="iconfont icon-github" title=github></a><a href=https://www.zhihu.com/people/kan-tmac class="iconfont icon-zhihu" title=zhihu></a><a href=http://localhost:1313/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2016 -
+2020
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>tmackan</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-174638881-1','auto');ga('set','anonymizeIp',true);ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></body></html>
