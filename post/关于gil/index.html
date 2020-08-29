@@ -14,10 +14,10 @@ cpython自建的指针类型, 比如PyList和PyDict都有tp_traverse方法可以
 为了做到，一些方案需要知道变量存储在 c stack
 一些python/c api不要求extension可以被track</p><p>现有的c extension依赖于GIL
 他们假设当extend代码被执行时，其他线程被锁在外面</p><p>相关阅读:
-<a href=https://wiki.python.org/moin/GlobalInterpreterLock>https://wiki.python.org/moin/GlobalInterpreterLock</a>
-<a href=https://docs.python.org/3/c-api/init.html#thread-state-and-the-global-interpreter-lock>https://docs.python.org/3/c-api/init.html#thread-state-and-the-global-interpreter-lock</a>
-<a href=http://python-notes.curiousefficiency.org/en/latest/python3/multicore_python.html>http://python-notes.curiousefficiency.org/en/latest/python3/multicore_python.html</a>
-<a href=https://softwareengineering.stackexchange.com/questions/186889/why-was-python-written-with-the-gil>https://softwareengineering.stackexchange.com/questions/186889/why-was-python-written-with-the-gil</a></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<a href=https://wiki.python.org/moin/GlobalInterpreterLock>https://wiki.python.org/moin/GlobalInterpreterLock</a></p><pre><code>https://docs.python.org/3/c-api/init.html#thread-state-and-the-global-interpreter-lock
+
+http://python-notes.curiousefficiency.org/en/latest/python3/multicore_python.html
+</code></pre><p><a href=https://softwareengineering.stackexchange.com/questions/186889/why-was-python-written-with-the-gil>https://softwareengineering.stackexchange.com/questions/186889/why-was-python-written-with-the-gil</a></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
 <span class=item-content>tmackan</span></p><p class=copyright-item><span class=item-title>LastMod</span>
 <span class=item-content>2019-09-13</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/python/>python</a>
 <a href=/tags/%E7%BF%BB%E8%AF%91/>翻译</a></div><nav class=post-nav><a class=prev href=/post/python%E5%B8%B8%E7%94%A8%E5%BA%93/><i class="iconfont icon-left"></i><span class="prev-text nav-default">Python常用库</span>
