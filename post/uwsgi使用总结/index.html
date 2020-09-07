@@ -36,25 +36,25 @@ log-master = true  # 将写入 log 的工作委托给 master 进程
 threaded-log = true # 单独开一个线程进行 log 写入工作，这样有更好的性能
 </code></pre></td></tr></table></div></div><p>关于uwsgi日志和业务日志混用的问题
 debug模式下开启StreamHandler，其余模式只使用FileHandler</p><p>参考
-<a href=https://blog.zengrong.net/post/flask-uwsgi-logging/>https://blog.zengrong.net/post/flask-uwsgi-logging/</a></p><h2 id=启动方式分析>启动方式分析</h2><p><img src=http://7xjfzn.com1.z0.glb.clouddn.com/uwsgi.png alt></p><ol><li><p>pre-fork</p><p>master进程 完成init操作，然后fork worker进程</p></li><li><p>lazy_app</p><p>master进程 先fork worker进程， 各worker完成init</p></li></ol><p>比较: lazy_app比较耗费内存</p><blockquote><p>Pre-forked helloworld app with 10 workers = 46M. The same app with lazy-apps = yes = 225MB. So, even two full copies of pre-forked app (92MB) are way better than lazy-apps (depending on number of workers).</p></blockquote><h3 id=重载方式分析>重载方式分析</h3><h4 id=1-re-exec-master-r>1. re-exec master (&ldquo;r&rdquo;)</h4><p><img src=http://7xjfzn.com1.z0.glb.clouddn.com/re.png alt></p><p>1.master立即停止掉worker
+<a href=https://blog.zengrong.net/post/flask-uwsgi-logging/>https://blog.zengrong.net/post/flask-uwsgi-logging/</a></p><h2 id=启动方式分析>启动方式分析</h2><p><img src=http://zarnovican.github.io/static/2016/02/15/pre-fork.png alt></p><ol><li><p>pre-fork</p><p>master进程 完成init操作，然后fork worker进程</p></li><li><p>lazy_app</p><p>master进程 先fork worker进程， 各worker完成init</p></li></ol><p>比较: lazy_app比较耗费内存</p><blockquote><p>Pre-forked helloworld app with 10 workers = 46M. The same app with lazy-apps = yes = 225MB. So, even two full copies of pre-forked app (92MB) are way better than lazy-apps (depending on number of workers).</p></blockquote><h3 id=重载方式分析>重载方式分析</h3><h4 id=1-re-exec-master-r>1. re-exec master (&ldquo;r&rdquo;)</h4><p><img src=http://zarnovican.github.io/static/2016/02/15/reload-r.png alt></p><p>1.master立即停止掉worker
 2.等待所有worker挂掉
 3.master重新初始化，在同一进程中运行新的实例
 4.spawn新的worker</p><p>问题: 第一步中空闲的worker会立即杀死，只有busy的worker会保留。
 在第二步中需要等待较长时间, 无法处理新的请求
 在第三步中，也无法处理新的请求</p><p>服务down机耗时: busy-shutdown + init
 服务切换耗时: busy-shutdown + init
-master是否重启：是</p><h4 id=2-restart-workers-w>2. restart workers (&ldquo;w&rdquo;)</h4><p><img src=http://7xjfzn.com1.z0.glb.clouddn.com/restart.png alt></p><p>1.master立即停止掉worker
+master是否重启：是</p><h4 id=2-restart-workers-w>2. restart workers (&ldquo;w&rdquo;)</h4><p><img src=http://zarnovican.github.io/static/2016/02/15/reload-w.png alt></p><p>1.master立即停止掉worker
 2.当一个worker挂掉后，立即重新spawn新worker
 3.等待所有worker re-spawn</p><p>问题: master不必等待所有worker挂掉，空闲worker die/spawn都是异步
 只会重启worker</p><p>服务down机耗时: idle-shutdown + init （新worker spawn后即可处理新请求）
 服务切换耗时: busy-shutdown + init
-master是否重启: 否 （不能与pre-fork启动方式配合使用，pre-fork方式启动，worker和master共享init内存）</p><h4 id=3-chain-restart-workers-c>3. chain restart workers (&ldquo;c&rdquo;)</h4><p><img src=http://7xjfzn.com1.z0.glb.clouddn.com/chain.png alt>
+master是否重启: 否 （不能与pre-fork启动方式配合使用，pre-fork方式启动，worker和master共享init内存）</p><h4 id=3-chain-restart-workers-c>3. chain restart workers (&ldquo;c&rdquo;)</h4><p><img src=http://zarnovican.github.io/static/2016/02/15/reload-c.png alt>
 1.master按照某种顺序依次杀掉worker
 2.当一个worker挂掉后，立即re-spawn
 3.直到所有的worker re-spawn</p><p>问题: master按照某种顺序依次杀掉，整个过程耗时O(N)
 存在new/old混合存在的worker，新的请求有可能被 new/old worker处理</p><p>服务down机耗时: 0 （新旧worker共存，均可服务，不存在down机情况）
 服务切换耗时: N x (busy-shutdown + init)
-master是否重启: 否 （不能与pre-fork启动方式配合使用）</p><h4 id=4-fork-master-f>4. fork master (&ldquo;f&rdquo;)</h4><p><img src=http://7xjfzn.com1.z0.glb.clouddn.com/fork.png alt></p><p>1.fork新的master
+master是否重启: 否 （不能与pre-fork启动方式配合使用）</p><h4 id=4-fork-master-f>4. fork master (&ldquo;f&rdquo;)</h4><p><img src=http://zarnovican.github.io/static/2016/02/15/reload-f.png alt></p><p>1.fork新的master
 2.当新的master初始化完成，fork新的worker
 3.old master被通知停掉
 4.old master会存活，直到busy worker结束</p><p>total time: ~ init + busy-shutdown
@@ -64,9 +64,7 @@ master是否重启: 否 （不能与pre-fork启动方式配合使用）</p><h4 i
 pre-fork支持: w/c方式不支持
 mixed responses: c方式new worker和old worker同时存活
 memory heavy: f方式比较耗费内存</p><p>参考:
-<a href=http://uwsgi-docs-zh.readthedocs.io/zh_CN/latest/WSGIquickstart.html>http://uwsgi-docs-zh.readthedocs.io/zh_CN/latest/WSGIquickstart.html</a>
-<a href=http://zarnovican.github.io/2016/02/15/uwsgi-graceful-reload/>http://zarnovican.github.io/2016/02/15/uwsgi-graceful-reload/</a>
-<a href=https://blog.csdn.net/orangleliu/article/details/48437319>https://blog.csdn.net/orangleliu/article/details/48437319</a></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<a href=http://uwsgi-docs-zh.readthedocs.io/zh_CN/latest/WSGIquickstart.html>http://uwsgi-docs-zh.readthedocs.io/zh_CN/latest/WSGIquickstart.html</a></p><p><a href=http://zarnovican.github.io/2016/02/15/uwsgi-graceful-reload/>http://zarnovican.github.io/2016/02/15/uwsgi-graceful-reload/</a></p><p><a href=https://blog.csdn.net/orangleliu/article/details/48437319>https://blog.csdn.net/orangleliu/article/details/48437319</a></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
 <span class=item-content>tmackan</span></p><p class=copyright-item><span class=item-title>LastMod</span>
 <span class=item-content>2018-06-02</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/python/>Python</a></div><nav class=post-nav><a class=prev href=/post/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84-python%E5%AE%9E%E7%8E%B0-%E7%AC%94%E8%AE%B0-%E4%BA%8C-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%9C%BA%E5%88%B6/><i class="iconfont icon-left"></i><span class="prev-text nav-default">软件架构 Python实现 笔记 (二) 多线程机制</span>
 <span class="prev-text nav-mobile">Prev</span></a>
