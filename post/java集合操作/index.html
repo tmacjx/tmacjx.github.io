@@ -1,27 +1,59 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Java集合操作 - tmacKan - A record for Life</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="tmackan"><meta name=description content="一.List List和Set都继承了Collection Collection中的方法 1.add(o: E) 添加 2.addAll(c: Collection&amp;lt;? extends E&amp;gt;) 3.clear() 清空 4.contains(o: Object) 是否包含 5.equal(o: object) 是否等于另一个集合"><meta name=keywords content="Blog,Python,code"><meta name=generator content="Hugo 0.73.0 with theme even"><link rel=canonical href=http://localhost:1313/post/java%E9%9B%86%E5%90%88%E6%93%8D%E4%BD%9C/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Java集合操作"><meta property="og:description" content="一.List List和Set都继承了Collection Collection中的方法 1.add(o: E) 添加 2.addAll(c: Collection<? extends E>) 3.clear() 清空 4.contains(o: Object) 是否包含 5.equal(o: object) 是否等于另一个集合"><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/post/java%E9%9B%86%E5%90%88%E6%93%8D%E4%BD%9C/"><meta property="article:published_time" content="2020-04-02T15:00:00+00:00"><meta property="article:modified_time" content="2020-04-02T15:00:00+00:00"><meta itemprop=name content="Java集合操作"><meta itemprop=description content="一.List List和Set都继承了Collection Collection中的方法 1.add(o: E) 添加 2.addAll(c: Collection<? extends E>) 3.clear() 清空 4.contains(o: Object) 是否包含 5.equal(o: object) 是否等于另一个集合"><meta itemprop=datePublished content="2020-04-02T15:00:00+00:00"><meta itemprop=dateModified content="2020-04-02T15:00:00+00:00"><meta itemprop=wordCount content="1879"><meta itemprop=keywords content="Java,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Java集合操作"><meta name=twitter:description content="一.List List和Set都继承了Collection Collection中的方法 1.add(o: E) 添加 2.addAll(c: Collection<? extends E>) 3.clear() 清空 4.contains(o: Object) 是否包含 5.equal(o: object) 是否等于另一个集合"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>tmackan</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>tmackan</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Java集合操作</h1><div class=post-meta><span class=post-time>2020-04-02</span><div class=post-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><ul><li><a href=#一list>一.List</a></li><li><a href=#二set>二.Set</a></li><li><a href=#三map>三.Map</a></li><li><a href=#四queue>四.Queue</a></li><li><a href=#五stack>五.Stack</a></li><li><a href=#六collections>六.collections</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><h3 id=一list>一.List</h3><h4 id=list和set都继承了collection>List和Set都继承了Collection</h4><p>Collection中的方法
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Java集合操作 - tmacKan - A record for Life</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="tmackan"><meta name=description content="一.List List和Set都继承了Collection 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 Collection中的方法 1.add(o: E) 添加 2.addAll(c: Collection&amp;lt;? extends E&amp;gt;)"><meta name=keywords content="Blog,Python,code"><meta name=generator content="Hugo 0.73.0 with theme even"><link rel=canonical href=http://localhost:1313/post/java%E9%9B%86%E5%90%88%E6%93%8D%E4%BD%9C/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Java集合操作"><meta property="og:description" content="一.List List和Set都继承了Collection 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 Collection中的方法 1.add(o: E) 添加 2.addAll(c: Collection<? extends E>)"><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/post/java%E9%9B%86%E5%90%88%E6%93%8D%E4%BD%9C/"><meta property="article:published_time" content="2020-04-02T15:00:00+00:00"><meta property="article:modified_time" content="2020-04-02T15:00:00+00:00"><meta itemprop=name content="Java集合操作"><meta itemprop=description content="一.List List和Set都继承了Collection 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 Collection中的方法 1.add(o: E) 添加 2.addAll(c: Collection<? extends E>)"><meta itemprop=datePublished content="2020-04-02T15:00:00+00:00"><meta itemprop=dateModified content="2020-04-02T15:00:00+00:00"><meta itemprop=wordCount content="1805"><meta itemprop=keywords content="Java,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Java集合操作"><meta name=twitter:description content="一.List List和Set都继承了Collection 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 Collection中的方法 1.add(o: E) 添加 2.addAll(c: Collection<? extends E>)"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>tmackan</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>tmackan</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Java集合操作</h1><div class=post-meta><span class=post-time>2020-04-02</span><div class=post-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><ul><li><a href=#一list>一.List</a></li><li><a href=#二set>二.Set</a></li><li><a href=#三map>三.Map</a></li><li><a href=#四queue>四.Queue</a></li><li><a href=#五stack>五.Stack</a></li><li><a href=#六collections>六.collections</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><h3 id=一list>一.List</h3><h4 id=list和set都继承了collection>List和Set都继承了Collection</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>Collection中的方法
 1.add(o: E) 添加
-2.addAll(c: Collection&lt;? extends E>)
+2.addAll(c: Collection&lt;? extends E&gt;)
 3.clear() 清空
 4.contains(o: Object) 是否包含
+
 5.equal(o: object) 是否等于另一个集合
 6.hashCode() 该集合的散列码
 7.isEmpty() 是否为空
-8.iterator: Iterator<e> 迭代器
+8.iterator: Iterator&lt;E&gt; 迭代器
 9.remove(o: object) 按照值对象删除，有多个只删除一个
-10.removeAll(c: Collection&lt;?>) 从集合中删除c中所有元素
-11.retainAll(c: Collection&lt;?>) 保留c和该集合都有的元素
-12.size() 集合中元素个数
-13.toArray(): Object[] 转为对象数组</p><p>Iterator
-hasnext()
+10.removeAll(c: Collection&lt;?&gt;) 从集合中删除c中所有元素
+11.retainAll(c: Collection&lt;?&gt;) 保留c和该集合都有的元素
+12.size()             集合中元素个数
+13.toArray(): Object[] 转为对象数组
+
+Iterator
+hasnext() 
 next()
-remove() 删除使用next方法获取的最后一个元素</p><h4 id=数组线性表类-arraylist>数组线性表类 ArrayList</h4><pre><code>用数组存储元素，数组是动态的，当超过数组容量，创建一个更大的数组，并copy原数据到新数组。
-</code></pre><h4 id=链表类-linkedlist>链表类 LinkedList</h4><p>支持从线性表两端提取，插入和删除元素
+remove() 删除使用next方法获取的最后一个元素
+</code></pre></td></tr></table></div></div><h4 id=数组线性表类-arraylist>数组线性表类 ArrayList</h4><pre><code>用数组存储元素，数组是动态的，当超过数组容量，创建一个更大的数组，并copy原数据到新数组。
+</code></pre><h4 id=链表类-linkedlist>链表类 LinkedList</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>支持从线性表两端提取，插入和删除元素
 addFirst(o: E) 将对象添加到列表头
-addLast(o: E) 将对象添加到列表尾
+addLast(o: E)  将对象添加到列表尾
 getFirst() 获取列表第一个元素
-getLast() 获取列表最后一个元素
+getLast()  获取列表最后一个元素
 removeFirst() 返回和删除列表第一个元素
-removeLast() 返回和删除列表最后一个元素</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+removeLast()  返回和删除列表最后一个元素
+</code></pre></td></tr></table></div></div><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -334,12 +366,43 @@ TreeMap 根据key来排序</p><div class=highlight><div class=chroma><table clas
         <span class=k>return</span> <span class=n>name</span> <span class=o>+</span> <span class=s>&#34;/&#34;</span> <span class=o>+</span> <span class=n>number</span><span class=o>;</span>
     <span class=o>}</span>
 <span class=o>}</span>
-</code></pre></td></tr></table></div></div><h4 id=3deque>3.Deque</h4><p>双端队列</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</code></pre></td></tr></table></div></div><h4 id=3deque>3.Deque</h4><p>双端队列</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
 </span></code></pre></td><td class=lntd><pre class=chroma><code class=language-java data-lang=java><span class=n>Deque</span><span class=o>&lt;</span><span class=n>String</span><span class=o>&gt;</span> <span class=n>deque</span> <span class=o>=</span> <span class=k>new</span> <span class=n>LinkedList</span><span class=o>&lt;&gt;();</span>
-</code></pre></td></tr></table></div></div><p>将元素添加到队尾或队首：addLast()/offerLast()/addFirst()/offerFirst()
-从队首／队尾获取元素并删除：removeFirst()/pollFirst()/removeLast()/pollLast()
-从队首／队尾获取元素但不删除：getFirst()/peekFirst()/getLast()/peekLast()
-总是调用xxxFirst()/xxxLast()以便与Queue的方法区分开</p><h3 id=五stack>五.Stack</h3><p>利用deque来模拟stack</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+<span class=n>将元素添加到队尾或队首</span><span class=err>：</span>
+<span class=n>addLast</span><span class=o>()</span>
+<span class=n>offerLast</span><span class=o>()</span>
+<span class=n>addFirst</span><span class=o>()</span>
+<span class=n>offerFirst</span><span class=o>()</span>
+<span class=n>从队首</span><span class=err>／</span><span class=n>队尾获取元素并删除</span><span class=err>：</span>
+<span class=n>removeFirst</span><span class=o>()</span>
+<span class=n>pollFirst</span><span class=o>()</span>
+<span class=n>removeLast</span><span class=o>()</span>
+<span class=n>pollLast</span><span class=o>()</span>
+<span class=n>从队首</span><span class=err>／</span><span class=n>队尾获取元素但不删除</span><span class=err>：</span>
+<span class=n>getFirst</span><span class=o>()</span>
+<span class=n>peekFirst</span><span class=o>()</span>
+<span class=n>getLast</span><span class=o>()</span>
+<span class=n>peekLast</span><span class=o>()</span>
+<span class=n>总是调用xxxFirst</span><span class=o>()/</span><span class=n>xxxLast</span><span class=o>()</span><span class=n>以便与Queue的方法区分开</span>
+
+</code></pre></td></tr></table></div></div><h3 id=五stack>五.Stack</h3><p>利用deque来模拟stack</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -415,13 +478,21 @@ TreeMap 根据key来排序</p><div class=highlight><div class=chroma><table clas
         <span class=k>return</span> <span class=n>list</span><span class=o>.</span><span class=na>get</span><span class=o>(</span><span class=n>list</span><span class=o>.</span><span class=na>size</span><span class=o>()-</span><span class=n>1</span><span class=o>);</span>
     <span class=o>}</span>
 <span class=o>}</span>
-</code></pre></td></tr></table></div></div><h3 id=六collections>六.collections</h3><p>Collections.sort(list); // 排序
-Collections.reverse(list);// list集合次序反转
-Collection.max(list) // 集合最大元素，元素必须实现Comparable接口
-Collection.min(list) // 集合最小元素
-Collection.frequency(list, element) //元素出现次数
-Collections.shuffle(list); //list集合随机顺序排序
-Collections.replaceAll(list, &ldquo;oldVal&rdquo;, &ldquo;newVal&rdquo;); //一个新值换所有的旧值</p><p>参考
+</code></pre></td></tr></table></div></div><h3 id=六collections>六.collections</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback> Collections.sort(list); // 排序
+ Collections.reverse(list);//  list集合次序反转
+ Collection.max(list) // 集合最大元素，元素必须实现Comparable接口
+ Collection.min(list) // 集合最小元素
+ Collection.frequency(list, element) //元素出现次数
+ Collections.shuffle(list); //list集合随机顺序排序
+ Collections.replaceAll(list, &#34;oldVal&#34;, &#34;newVal&#34;); //一个新值换所有的旧值
+</code></pre></td></tr></table></div></div><p>参考
 <a href=http://tengj.top/2016/04/12/javajhtotal/>http://tengj.top/2016/04/12/javajhtotal/</a></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
 <span class=item-content>tmackan</span></p><p class=copyright-item><span class=item-title>LastMod</span>
 <span class=item-content>2020-04-02</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/java/>Java</a></div><nav class=post-nav><a class=prev href=/post/jacksonfastjson%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/><i class="iconfont icon-left"></i><span class="prev-text nav-default">jackson/fastjson使用总结</span>
