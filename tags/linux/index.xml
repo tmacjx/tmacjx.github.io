@@ -1,1 +1,43 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>linux on tmacKan - A record for Life</title><link>http://localhost:1313/tags/linux/</link><description>Recent content in linux on tmacKan - A record for Life</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>tmackan</copyright><lastBuildDate>Sun, 05 Aug 2018 11:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>软件架构 Python实现 笔记 (一) 扩展/并发概念</title><link>http://localhost:1313/post/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84-python%E5%AE%9E%E7%8E%B0-%E7%AC%94%E8%AE%B0-%E4%B8%80-%E6%89%A9%E5%B1%95%E5%B9%B6%E5%8F%91%E6%A6%82%E5%BF%B5/</link><pubDate>Sun, 05 Aug 2018 11:00:00 +0000</pubDate><guid>http://localhost:1313/post/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84-python%E5%AE%9E%E7%8E%B0-%E7%AC%94%E8%AE%B0-%E4%B8%80-%E6%89%A9%E5%B1%95%E5%B9%B6%E5%8F%91%E6%A6%82%E5%BF%B5/</guid><description>1.扩展相关 水平扩展：增加服务器数量, 负载均衡的服务器集群 垂直扩展：单台机器优化CPU或者增大RAM 并发性 延迟 性能 可拓展性 高 低 高 高 高 高 不确定</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>linux on tmacKan - A record for Life</title><link>http://localhost:1313/tags/linux/</link><description>Recent content in linux on tmacKan - A record for Life</description><generator>Hugo -- gohugo.io</generator><language>en</language><copyright>tmackan</copyright><lastBuildDate>Sat, 06 Feb 2021 21:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux操作备忘</title><link>http://localhost:1313/post/linux/</link><pubDate>Sat, 06 Feb 2021 21:00:00 +0000</pubDate><guid>http://localhost:1313/post/linux/</guid><description>&lt;h2 id="linux">Linux&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre class="chroma">&lt;code class="language-fallback" data-lang="fallback">软链接
+&amp;gt; ln -s 源文件 目标文件
+压缩/解压tar.gz
+压缩
+&amp;gt; tar -czf posts.tar.gz target_folder
+解压
+&amp;gt; tar -xzf posts.tar.gz target_folder
+scp命令
+从本地复制到远程
+&amp;gt; scp local_file remote_username@remote_ip:remote_folder
+从远程复制到本地
+&amp;gt; scp remote_username@remote_ip:remote_folder local_file
+ab工具压力测试
+&amp;gt; ab -n 1000 -c 1000 请求地址
+-n后面的是请求数
+-c后面的是并发数
+&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>软件架构 Python实现 笔记 (一) 扩展/并发概念</title><link>http://localhost:1313/post/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84-python%E5%AE%9E%E7%8E%B0-%E7%AC%94%E8%AE%B0-%E4%B8%80-%E6%89%A9%E5%B1%95%E5%B9%B6%E5%8F%91%E6%A6%82%E5%BF%B5/</link><pubDate>Sun, 05 Aug 2018 11:00:00 +0000</pubDate><guid>http://localhost:1313/post/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84-python%E5%AE%9E%E7%8E%B0-%E7%AC%94%E8%AE%B0-%E4%B8%80-%E6%89%A9%E5%B1%95%E5%B9%B6%E5%8F%91%E6%A6%82%E5%BF%B5/</guid><description>1.扩展相关 水平扩展：增加服务器数量, 负载均衡的服务器集群 垂直扩展：单台机器优化CPU或者增大RAM 并发性 延迟 性能 可拓展性 高 低 高 高 高 高 不确定</description></item></channel></rss>

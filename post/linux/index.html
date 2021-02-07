@@ -1,0 +1,410 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Linux操作备忘 - tmacKan - A record for Life</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="tmackan"><meta name=description content="Linux 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19  软链接 &amp;gt; ln -s 源文件 目标文件 压缩/解压tar.gz 压缩 &amp;gt; tar -czf posts.tar.gz target_folder 解压 &amp;gt; tar -xzf posts.tar.gz target_folder scp命令 从本地复制到远程 &amp;gt; scp local_file remote_username@remote_ip:remote_folder 从远程复制到本地 &amp;gt; scp remote_username@remote_ip:remote_folder local_file ab工具压力测试 &amp;gt; ab -n 1000 -c 1000 请求地址 -n后面的是请求数 -c后面的是并发数"><meta name=keywords content="Blog,Python,code"><meta name=generator content="Hugo 0.79.1 with theme even"><link rel=canonical href=http://localhost:1313/post/linux/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Linux操作备忘"><meta property="og:description" content="Linux
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+
+
+软链接
+> ln -s 源文件 目标文件
+
+压缩/解压tar.gz
+压缩
+> tar -czf posts.tar.gz   target_folder
+解压
+> tar -xzf posts.tar.gz   target_folder
+scp命令
+从本地复制到远程
+> scp local_file remote_username@remote_ip:remote_folder
+
+从远程复制到本地
+> scp remote_username@remote_ip:remote_folder local_file
+
+ab工具压力测试
+> ab -n 1000 -c 1000 请求地址
+	-n后面的是请求数
+	-c后面的是并发数"><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/post/linux/"><meta property="article:published_time" content="2021-02-06T21:00:00+00:00"><meta property="article:modified_time" content="2021-02-06T21:00:00+00:00"><meta itemprop=name content="Linux操作备忘"><meta itemprop=description content="Linux
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+
+
+软链接
+> ln -s 源文件 目标文件
+
+压缩/解压tar.gz
+压缩
+> tar -czf posts.tar.gz   target_folder
+解压
+> tar -xzf posts.tar.gz   target_folder
+scp命令
+从本地复制到远程
+> scp local_file remote_username@remote_ip:remote_folder
+
+从远程复制到本地
+> scp remote_username@remote_ip:remote_folder local_file
+
+ab工具压力测试
+> ab -n 1000 -c 1000 请求地址
+	-n后面的是请求数
+	-c后面的是并发数"><meta itemprop=datePublished content="2021-02-06T21:00:00+00:00"><meta itemprop=dateModified content="2021-02-06T21:00:00+00:00"><meta itemprop=wordCount content="2479"><meta itemprop=keywords content="linux,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Linux操作备忘"><meta name=twitter:description content="Linux
+
+
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+
+
+软链接
+> ln -s 源文件 目标文件
+
+压缩/解压tar.gz
+压缩
+> tar -czf posts.tar.gz   target_folder
+解压
+> tar -xzf posts.tar.gz   target_folder
+scp命令
+从本地复制到远程
+> scp local_file remote_username@remote_ip:remote_folder
+
+从远程复制到本地
+> scp remote_username@remote_ip:remote_folder local_file
+
+ab工具压力测试
+> ab -n 1000 -c 1000 请求地址
+	-n后面的是请求数
+	-c后面的是并发数"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>tmackan</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>tmackan</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Linux操作备忘</h1><div class=post-meta><span class=post-time>2021-02-06</span><div class=post-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#linux>Linux</a></li><li><a href=#linux工具>linux工具</a><ul><li><a href=#1整体资源查看top命令>1.整体资源查看——top命令</a></li><li><a href=#2监控内存cpuvmstat命令>2.监控内存/CPU——vmstat命令</a></li><li><a href=#3监控ioiostat命令>3.监控I/O——iostat命令</a></li><li><a href=#4多功能诊断器pidstat工具>4.多功能诊断器——pidstat工具</a></li></ul></li><li><a href=#python相关>Python相关</a></li><li><a href=#java相关>Java相关</a><ul><li><a href=#1查看java进程-jps命令>1.查看Java进程 ——jps命令</a></li><li><a href=#2查看虚拟机运行时信息jstat命令>2.查看虚拟机运行时信息——jstat命令</a></li><li><a href=#3查看虚拟机参数jinfo命令>3.查看虚拟机参数——jinfo命令</a></li><li><a href=#4导出堆到文件jmap命令>4.导出堆到文件——jmap命令</a></li><li><a href=#5查看线程堆栈jstack命令>5.查看线程堆栈——jstack命令</a></li><li><a href=#6多功能命令行jcmd命令>6.多功能命令行——jcmd命令</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><h2 id=linux>Linux</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>软链接
+&gt; ln -s 源文件 目标文件
+
+压缩/解压tar.gz
+压缩
+&gt; tar -czf posts.tar.gz   target_folder
+解压
+&gt; tar -xzf posts.tar.gz   target_folder
+scp命令
+从本地复制到远程
+&gt; scp local_file remote_username@remote_ip:remote_folder
+
+从远程复制到本地
+&gt; scp remote_username@remote_ip:remote_folder local_file
+
+ab工具压力测试
+&gt; ab -n 1000 -c 1000 请求地址
+	-n后面的是请求数
+	-c后面的是并发数
+</code></pre></td></tr></table></div></div><h2 id=linux工具>linux工具</h2><h3 id=1整体资源查看top命令>1.整体资源查看——top命令</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>top [options]
+options参数
+-b：以批处理模式操作；
+-c：显示完整的治命令；
+-d：屏幕刷新间隔时间；
+-I：忽略失效过程；
+-s：保密模式；
+-S：累积模式；
+-i&lt;时间&gt;：设置间隔时间；
+-u&lt;用户名&gt;：指定用户名；
+-p&lt;进程号&gt;：指定进程；
+-n&lt;次数&gt;：循环显示的次数
+
+**在top命令执行过程中可以使用的一些交互命令**
+h 显示帮助画面，给出一些简短的命令总结说明；
+k 终止一个进程；
+i 忽略闲置和僵死进程，这是一个开关式命令；
+q 退出程序；
+r 重新安排一个进程的优先级别；
+S 切换到累计模式；
+s 改变两次刷新之间的延迟时间（单位为s），如果有小数，就换算成ms。输入0值则系统将不断刷新，默认值是5s；
+f或者F：从当前显示中添加或者删除项目；
+o或者O 改变显示项目的顺序；
+l 切换显示平均负载和启动时间信息；
+m 切换显示内存信息；
+t 切换显示进程和CPU状态信息；
+c 切换显示命令名称和完整命令行；
+M 根据驻留内存大小进行排序；
+P 根据CPU使用百分比大小进行排序；
+T 根据时间/累计时间进行排序；
+w 将当前设置写入~/.toprc文件中。
+</code></pre></td></tr></table></div></div><h3 id=2监控内存cpuvmstat命令>2.监控内存/CPU——vmstat命令</h3><p>vmstat可对操作系统的虚拟内存、进程、CPU活动进行监控。他是对系统的整体情况进行统计，不足之处是无法对某个进程进行深入分析。vmstat 工具提供了一种低开销的系统性能观察方式。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>vmstat [options] [delay [count]]
+options参数
+-a：显示活跃和非活跃内存
+-f：显示从系统启动至今的fork数量 。
+-m：显示slabinfo
+-n：只在开始时显示一次各字段名称。
+-s：显示内存相关统计信息及多种系统活动数量。
+-d：显示磁盘相关统计信息。
+-p：显示指定磁盘分区统计信息
+-S：使用指定单位显示。参数有 k 、K 、m 、M，分别代表1000、1024、1000000、1048576字节（byte）。默认单位为K（1024 bytes）
+-V：显示vmstat版本信息。
+
+delay：刷新时间间隔。如果不指定，只显示一条结果。
+count：刷新次数。如果不指定刷新次数，但指定了刷新时间间隔，这时刷新次数为无穷
+</code></pre></td></tr></table></div></div><h3 id=3监控ioiostat命令>3.监控I/O——iostat命令</h3><p><strong>iostat命令</strong> 被用于监视系统输入输出设备和CPU的使用情况。它的特点是汇报磁盘活动统计情况，同时也会汇报出CPU使用情况。同vmstat一样，iostat也有一个弱点，就是它不能对某个进程进行深入分析，仅对系统的整体情况进行分析。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>iostat [options] [&lt;interval&gt; [&lt;count&gt;]]
+-c：仅显示CPU使用情况；
+-d：仅显示设备利用率；
+-k：显示状态以千字节每秒为单位，而不使用块每秒；
+-m：显示状态以兆字节每秒为单位；
+-p：仅显示块设备和所有被使用的其他分区的状态；
+-t：显示每个报告产生时的时间；
+-V：显示版号并退出；
+-x：显示扩展状态。
+</code></pre></td></tr></table></div></div><h3 id=4多功能诊断器pidstat工具>4.多功能诊断器——pidstat工具</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>pidstat [options] [interval] [times]
+options参数：
+-u 默认参数，显示各个进程的 CPU 统计信息
+-r 显示各个进程的内存使用情况
+-d 显示各个进程的 IO 使用
+-w 显示各个进程的上下文切换
+-p PID 指定 PID
+比如常见的每一秒查看 IO 统计，统计 10 次
+&gt; pidstat -d 1 10
+</code></pre></td></tr></table></div></div><h2 id=python相关>Python相关</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>supervisor服务端启动
+&gt; supervisord  -c gears/etc/supervisord.conf
+superviosor客户端管理
+&gt; supervisorctl -c gears/etc/supervisord.conf
+[使用 supervisor 管理进程 - 李林克斯](http://liyangliang.me/posts/2015/06/using-supervisor/)
+
+virtualenv虚拟环境
+&gt; mkdir 目录名称
+&gt; virtualenv --distribute 目录  --python=py3
+[用virtualenv建立多个Python独立开发环境 — 简明现代魔法](http://www.nowamagic.net/academy/detail/1330228)
+</code></pre></td></tr></table></div></div><h2 id=java相关>Java相关</h2><h3 id=1查看java进程-jps命令>1.查看Java进程 ——jps命令</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>&gt; jps -m -l -v
+ 参数 -m 用于输出传递给Java进程(主函数)的参数
+			-l 用于输出主函数的完整路径
+			-v 显示传递给Java虚拟机的参数
+</code></pre></td></tr></table></div></div><h3 id=2查看虚拟机运行时信息jstat命令>2.查看虚拟机运行时信息——jstat命令</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-kotlin data-lang=kotlin><span class=p>&gt;</span> <span class=n>jstat</span> <span class=p>-&lt;</span><span class=n>option</span><span class=p>&gt;</span> <span class=p>[-</span><span class=n>t</span><span class=p>]</span> <span class=p>[-</span><span class=n>h</span><span class=p>&lt;</span><span class=n>lines</span><span class=p>&gt;]</span> <span class=p>&lt;</span><span class=n>vmid</span><span class=p>&gt;</span> <span class=p>[&lt;</span><span class=n>interval</span><span class=p>&gt;</span> <span class=p>[&lt;</span><span class=n>count</span><span class=p>&gt;]]</span>
+<span class=err>#</span> <span class=n>option</span><span class=err>：</span> <span class=err>参数选项</span>
+<span class=err>#</span> <span class=p>-</span><span class=n>t</span><span class=err>：</span> <span class=err>可以在打印的列加上</span><span class=n>Timestamp</span><span class=err>列，用于显示系统运行的时间</span>
+<span class=err>#</span> <span class=p>-</span><span class=n>h</span><span class=err>：</span> <span class=err>可以在周期性数据数据的时候，可以在指定输出多少行以后输出一次表头</span>
+<span class=err>#</span> <span class=n>vmid</span><span class=err>：</span> <span class=n>Virtual</span> <span class=n>Machine</span> <span class=n>ID</span><span class=err>（</span> <span class=err>进程的</span> <span class=n>pid</span><span class=err>）</span>
+<span class=err>#</span> <span class=n>interval</span><span class=err>：</span> <span class=err>执行每次的间隔时间，单位为毫秒</span>
+<span class=err>#</span> <span class=n>count</span><span class=err>：</span> <span class=err>用于指定输出多少次记录，缺省则会一直打</span>
+
+<span class=p>&gt;</span> <span class=n>jstat</span> <span class=p>-</span><span class=n>options</span>
+
+<span class=p>-</span><span class=k>class</span> <span class=err>显示</span><span class=nc>ClassLoad</span><span class=err>的相关信息；</span>
+<span class=p>-</span><span class=n>compiler</span> <span class=err>显示</span><span class=n>JIT</span><span class=err>编译的相关信息；</span>
+<span class=p>-</span><span class=n>gc</span> <span class=err>显示和</span><span class=n>gc</span><span class=err>相关的堆信息；</span>
+<span class=p>-</span><span class=n>gccapacity</span> 　　 <span class=err>显示各个代的容量以及使用情况；</span>
+<span class=p>-</span><span class=n>gcmetacapacity</span> <span class=err>显示</span><span class=n>metaspace</span><span class=err>的大小</span>
+<span class=p>-</span><span class=n>gcnew</span> <span class=err>显示新生代信息；</span>
+<span class=p>-</span><span class=n>gcnewcapacity</span> <span class=err>显示新生代大小和使用情况；</span>
+<span class=p>-</span><span class=n>gcold</span> <span class=err>显示老年代和永久代的信息；</span>
+<span class=p>-</span><span class=n>gcoldcapacity</span> <span class=err>显示老年代的大小；</span>
+<span class=p>-</span><span class=n>gcutil</span>　　 <span class=err>显示垃圾收集信息；</span>
+<span class=p>-</span><span class=n>gccause</span> <span class=err>显示垃圾回收的相关信息（通</span><span class=p>-</span><span class=n>gcutil</span><span class=err>）</span><span class=p>,</span><span class=err>同时显示最后一次或当前正在发生的垃圾回收的诱因；</span>
+<span class=p>-</span><span class=n>printcompilation</span> <span class=err>输出</span><span class=n>JIT</span><span class=err>编译的方法信息</span>
+</code></pre></td></tr></table></div></div><h3 id=3查看虚拟机参数jinfo命令>3.查看虚拟机参数——jinfo命令</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>jinfo &lt;option&gt; &lt;pid&gt;
+option可以为
+-flag &lt;name&gt; 打印指定Java虚拟机的参数值
+-flag [+/-]&lt;name&gt; 设置或者取消Java虚拟机参数的布尔值  (并非所有参数都支持动态修改)
+-flag &lt;name&gt;=&lt;value&gt; 设置指定Java虚拟机参数的值
+</code></pre></td></tr></table></div></div><h3 id=4导出堆到文件jmap命令>4.导出堆到文件——jmap命令</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>生成Java程序的对象统计信息
+&gt;	jmap -histo 进程ID &gt; /tmp/s.txt
+生成Java程序当前的堆快照
+&gt; jmap -dump:format=b,file=/tmp/heap.hprof 进程ID 
+</code></pre></td></tr></table></div></div><h3 id=5查看线程堆栈jstack命令>5.查看线程堆栈——jstack命令</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>导出锁相关的信息
+&gt; jstack -l 进程ID &gt; /tmp/s.txt
+</code></pre></td></tr></table></div></div><h3 id=6多功能命令行jcmd命令>6.多功能命令行——jcmd命令</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>查看当前所有Java虚拟机
+&gt; jmcd -l
+
+针对每一个虚拟机，使用help命令列出所支持的命令
+&gt; jcmd 进程ID help
+比如
+&gt; jcmd 进程ID VM.versio
+</code></pre></td></tr></table></div></div><p>参考</p><p><a href=http://einverne.github.io/post/2019/05/pidstat-usage.html>http://einverne.github.io/post/2019/05/pidstat-usage.html</a></p><p><a href=https://linuxtools-rst.readthedocs.io/zh_CN/latest/index.html>https://linuxtools-rst.readthedocs.io/zh_CN/latest/index.html</a></p><p><a href=https://wangchujiang.com/linux-command/>https://wangchujiang.com/linux-command/</a></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>tmackan</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2021-02-06</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/linux/>linux</a></div><nav class=post-nav><a class=next href=/post/java%E9%9D%A2%E8%AF%95%E8%B5%84%E6%96%99/><span class="next-text nav-default">Java面试资料</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=tmacjx/https://github.com/tmacjx/utterances issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:kan49733110@email.com class="iconfont icon-email" title=email></a><a href=http://twitter.com/tmcakan/ class="iconfont icon-twitter" title=twitter></a><a href=http://github.com/tmacjx/ class="iconfont icon-github" title=github></a><a href=https://www.zhihu.com/people/kan-tmac class="iconfont icon-zhihu" title=zhihu></a><a href=http://localhost:1313/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2016 -
+2021
+<span class=heart><i class="iconfont icon-heart"></i></span><span class=author>tmackan</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-174638881-1','auto');ga('set','anonymizeIp',true);ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></body></html>
