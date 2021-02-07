@@ -82,7 +82,7 @@ scp命令
 ab工具压力测试
 > ab -n 1000 -c 1000 请求地址
 	-n后面的是请求数
-	-c后面的是并发数"><meta itemprop=datePublished content="2021-02-06T21:00:00+00:00"><meta itemprop=dateModified content="2021-02-06T21:00:00+00:00"><meta itemprop=wordCount content="2474"><meta itemprop=keywords content="linux,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Linux操作备忘"><meta name=twitter:description content="Linux
+	-c后面的是并发数"><meta itemprop=datePublished content="2021-02-06T21:00:00+00:00"><meta itemprop=dateModified content="2021-02-06T21:00:00+00:00"><meta itemprop=wordCount content="2479"><meta itemprop=keywords content="linux,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Linux操作备忘"><meta name=twitter:description content="Linux
 
 
  1
@@ -193,7 +193,7 @@ ab工具压力测试
 </span><span class=lnt>29
 </span><span class=lnt>30
 </span><span class=lnt>31
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>top [options]
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>&gt; top [options]
 options参数
 -b：以批处理模式操作；
 -c：显示完整的治命令；
@@ -238,7 +238,7 @@ w 将当前设置写入~/.toprc文件中。
 </span><span class=lnt>12
 </span><span class=lnt>13
 </span><span class=lnt>14
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>vmstat [options] [delay [count]]
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>&gt; vmstat [options] [delay [count]]
 options参数
 -a：显示活跃和非活跃内存
 -f：显示从系统启动至今的fork数量 。
@@ -261,7 +261,7 @@ count：刷新次数。如果不指定刷新次数，但指定了刷新时间间
 </span><span class=lnt>7
 </span><span class=lnt>8
 </span><span class=lnt>9
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>iostat [options] [&lt;interval&gt; [&lt;count&gt;]]
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>&gt; iostat [options] [&lt;interval&gt; [&lt;count&gt;]]
 -c：仅显示CPU使用情况；
 -d：仅显示设备利用率；
 -k：显示状态以千字节每秒为单位，而不使用块每秒；
@@ -279,7 +279,7 @@ count：刷新次数。如果不指定刷新次数，但指定了刷新时间间
 </span><span class=lnt>7
 </span><span class=lnt>8
 </span><span class=lnt>9
-</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>pidstat [options] [interval] [times]
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>&gt; pidstat [options] [interval] [times]
 options参数：
 -u 默认参数，显示各个进程的 CPU 统计信息
 -r 显示各个进程的内存使用情况
@@ -312,10 +312,12 @@ virtualenv虚拟环境
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
+</span><span class=lnt>5
 </span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>&gt; jps -m -l -v
- 参数 -m 用于输出传递给Java进程(主函数)的参数
-      -l 用于输出主函数的完整路径
-	  -v 显示传递给Java虚拟机的参数
+ 参数 
+    -m 用于输出传递给Java进程(主函数)的参数
+    -l 用于输出主函数的完整路径
+	-v 显示传递给Java虚拟机的参数
 </code></pre></td></tr></table></div></div><h3 id=2查看虚拟机运行时信息jstat命令>2.查看虚拟机运行时信息——jstat命令</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
