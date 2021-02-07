@@ -82,7 +82,7 @@ scp命令
 ab工具压力测试
 > ab -n 1000 -c 1000 请求地址
 	-n后面的是请求数
-	-c后面的是并发数"><meta itemprop=datePublished content="2021-02-06T21:00:00+00:00"><meta itemprop=dateModified content="2021-02-06T21:00:00+00:00"><meta itemprop=wordCount content="2479"><meta itemprop=keywords content="linux,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Linux操作备忘"><meta name=twitter:description content="Linux
+	-c后面的是并发数"><meta itemprop=datePublished content="2021-02-06T21:00:00+00:00"><meta itemprop=dateModified content="2021-02-06T21:00:00+00:00"><meta itemprop=wordCount content="2474"><meta itemprop=keywords content="linux,"><meta name=twitter:card content="summary"><meta name=twitter:title content="Linux操作备忘"><meta name=twitter:description content="Linux
 
 
  1
@@ -314,8 +314,8 @@ virtualenv虚拟环境
 </span><span class=lnt>4
 </span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>&gt; jps -m -l -v
  参数 -m 用于输出传递给Java进程(主函数)的参数
-			-l 用于输出主函数的完整路径
-			-v 显示传递给Java虚拟机的参数
+      -l 用于输出主函数的完整路径
+	  -v 显示传递给Java虚拟机的参数
 </code></pre></td></tr></table></div></div><h3 id=2查看虚拟机运行时信息jstat命令>2.查看虚拟机运行时信息——jstat命令</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
@@ -338,13 +338,15 @@ virtualenv虚拟环境
 </span><span class=lnt>20
 </span><span class=lnt>21
 </span><span class=lnt>22
+</span><span class=lnt>23
 </span></code></pre></td><td class=lntd><pre class=chroma><code class=language-kotlin data-lang=kotlin><span class=p>&gt;</span> <span class=n>jstat</span> <span class=p>-&lt;</span><span class=n>option</span><span class=p>&gt;</span> <span class=p>[-</span><span class=n>t</span><span class=p>]</span> <span class=p>[-</span><span class=n>h</span><span class=p>&lt;</span><span class=n>lines</span><span class=p>&gt;]</span> <span class=p>&lt;</span><span class=n>vmid</span><span class=p>&gt;</span> <span class=p>[&lt;</span><span class=n>interval</span><span class=p>&gt;</span> <span class=p>[&lt;</span><span class=n>count</span><span class=p>&gt;]]</span>
-<span class=err>#</span> <span class=n>option</span><span class=err>：</span> <span class=err>参数选项</span>
-<span class=err>#</span> <span class=p>-</span><span class=n>t</span><span class=err>：</span> <span class=err>可以在打印的列加上</span><span class=n>Timestamp</span><span class=err>列，用于显示系统运行的时间</span>
-<span class=err>#</span> <span class=p>-</span><span class=n>h</span><span class=err>：</span> <span class=err>可以在周期性数据数据的时候，可以在指定输出多少行以后输出一次表头</span>
-<span class=err>#</span> <span class=n>vmid</span><span class=err>：</span> <span class=n>Virtual</span> <span class=n>Machine</span> <span class=n>ID</span><span class=err>（</span> <span class=err>进程的</span> <span class=n>pid</span><span class=err>）</span>
-<span class=err>#</span> <span class=n>interval</span><span class=err>：</span> <span class=err>执行每次的间隔时间，单位为毫秒</span>
-<span class=err>#</span> <span class=n>count</span><span class=err>：</span> <span class=err>用于指定输出多少次记录，缺省则会一直打</span>
+
+<span class=n>option</span><span class=err>：</span> <span class=err>参数选项</span>
+<span class=p>-</span><span class=n>t</span><span class=err>：</span> <span class=err>可以在打印的列加上</span><span class=n>Timestamp</span><span class=err>列，用于显示系统运行的时间</span>
+<span class=p>-</span><span class=n>h</span><span class=err>：</span> <span class=err>可以在周期性数据数据的时候，可以在指定输出多少行以后输出一次表头</span>
+<span class=n>vmid</span><span class=err>：</span> <span class=n>Virtual</span> <span class=n>Machine</span> <span class=n>ID</span><span class=err>（</span> <span class=err>进程的</span> <span class=n>pid</span><span class=err>）</span>
+<span class=n>interval</span><span class=err>：</span> <span class=err>执行每次的间隔时间，单位为毫秒</span>
+<span class=n>count</span><span class=err>：</span> <span class=err>用于指定输出多少次记录，缺省则会一直打</span>
 
 <span class=p>&gt;</span> <span class=n>jstat</span> <span class=p>-</span><span class=n>options</span>
 
@@ -375,7 +377,7 @@ option可以为
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>生成Java程序的对象统计信息
-&gt;	jmap -histo 进程ID &gt; /tmp/s.txt
+&gt; jmap -histo 进程ID &gt; /tmp/s.txt
 生成Java程序当前的堆快照
 &gt; jmap -dump:format=b,file=/tmp/heap.hprof 进程ID 
 </code></pre></td></tr></table></div></div><h3 id=5查看线程堆栈jstack命令>5.查看线程堆栈——jstack命令</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
