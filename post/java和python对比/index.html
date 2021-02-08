@@ -1,12 +1,201 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Java和Python对比 - tmacKan - A record for Life</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="tmackan"><meta name=description content="Py和java的区别对比 语言 项目 其他 多线程无法利用多核优势 assert问题 项目分层问题 编译问题 解释型语言还是编译型语言？ 动态语言 默认asse"><meta name=keywords content="Blog,Python,code"><meta name=generator content="Hugo 0.79.1 with theme even"><link rel=canonical href=http://localhost:1313/post/java%E5%92%8Cpython%E5%AF%B9%E6%AF%94/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Java和Python对比"><meta property="og:description" content="Py和java的区别对比 语言 项目 其他 多线程无法利用多核优势 assert问题 项目分层问题 编译问题 解释型语言还是编译型语言？ 动态语言 默认asse"><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/post/java%E5%92%8Cpython%E5%AF%B9%E6%AF%94/"><meta property="article:published_time" content="2020-12-26T11:15:09+08:00"><meta property="article:modified_time" content="2020-12-26T11:15:09+08:00"><meta itemprop=name content="Java和Python对比"><meta itemprop=description content="Py和java的区别对比 语言 项目 其他 多线程无法利用多核优势 assert问题 项目分层问题 编译问题 解释型语言还是编译型语言？ 动态语言 默认asse"><meta itemprop=datePublished content="2020-12-26T11:15:09+08:00"><meta itemprop=dateModified content="2020-12-26T11:15:09+08:00"><meta itemprop=wordCount content="110"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Java和Python对比"><meta name=twitter:description content="Py和java的区别对比 语言 项目 其他 多线程无法利用多核优势 assert问题 项目分层问题 编译问题 解释型语言还是编译型语言？ 动态语言 默认asse"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>tmackan</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>tmackan</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Java和Python对比</h1><div class=post-meta><span class=post-time>2020-12-26</span><div class=post-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents></nav></div></div><div class=post-content><p>Py和java的区别对比</p><p>语言
-项目
-其他</p><p>多线程无法利用多核优势
-assert问题
-项目分层问题</p><p>编译问题</p><p>解释型语言还是编译型语言？
-动态语言
-默认assert开启
-默认assert关闭</p><p><a href=https://stackoverflow.com/questions/13034991/does-the-python-3-interpreter-have-a-jit-feature>https://stackoverflow.com/questions/13034991/does-the-python-3-interpreter-have-a-jit-feature</a></p><p>为什么JIT加入到py中？pypy适合什么场景？
-<a href=https://www.quora.com/Why-is-just-in-time-compilation-not-possible-for-Python>https://www.quora.com/Why-is-just-in-time-compilation-not-possible-for-Python</a></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Java和Python对比 - tmacKan - A record for Life</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="tmackan"><meta name=description content="一.语言相关 1.类型 1 2 3 4 5 6 Java强类型 变量定义，入参，出参有明确类型 Python弱类型 无类型定义，代码风格最好后缀类型， 变量命名最好"><meta name=keywords content="Blog,Python,code"><meta name=generator content="Hugo 0.79.1 with theme even"><link rel=canonical href=http://localhost:1313/post/java%E5%92%8Cpython%E5%AF%B9%E6%AF%94/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.651e6917abb0239242daa570c2bec9867267bbcd83646da5a850afe573347b44.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="Java和Python对比"><meta property="og:description" content="一.语言相关 1.类型 1 2 3 4 5 6 Java强类型 变量定义，入参，出参有明确类型 Python弱类型 无类型定义，代码风格最好后缀类型， 变量命名最好"><meta property="og:type" content="article"><meta property="og:url" content="http://localhost:1313/post/java%E5%92%8Cpython%E5%AF%B9%E6%AF%94/"><meta property="article:published_time" content="2020-12-26T11:15:09+08:00"><meta property="article:modified_time" content="2020-12-26T11:15:09+08:00"><meta itemprop=name content="Java和Python对比"><meta itemprop=description content="一.语言相关 1.类型 1 2 3 4 5 6 Java强类型 变量定义，入参，出参有明确类型 Python弱类型 无类型定义，代码风格最好后缀类型， 变量命名最好"><meta itemprop=datePublished content="2020-12-26T11:15:09+08:00"><meta itemprop=dateModified content="2020-12-26T11:15:09+08:00"><meta itemprop=wordCount content="1534"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Java和Python对比"><meta name=twitter:description content="一.语言相关 1.类型 1 2 3 4 5 6 Java强类型 变量定义，入参，出参有明确类型 Python弱类型 无类型定义，代码风格最好后缀类型， 变量命名最好"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>tmackan</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>tmackan</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>Java和Python对比</h1><div class=post-meta><span class=post-time>2020-12-26</span><div class=post-category><a href=/categories/%E6%8A%80%E6%9C%AF/>技术</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#一语言相关>一.语言相关</a><ul><li><a href=#1类型>1.类型</a></li><li><a href=#2集合>2.集合</a></li><li><a href=#3并发相关>3.并发相关</a></li><li><a href=#4引申问题>4.引申问题</a></li></ul></li><li><a href=#二项目相关>二.项目相关</a><ul><li><a href=#1开发规范>1.开发规范</a></li><li><a href=#2中间件相关>2.中间件相关</a></li><li><a href=#3web框架>3.web框架</a></li></ul></li><li><a href=#三工具相关>三.工具相关</a></li></ul></li></ul></nav></div></div><div class=post-content><h2 id=一语言相关>一.语言相关</h2><h3 id=1类型>1.类型</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>Java强类型
+     变量定义，入参，出参有明确类型
+Python弱类型
+    无类型定义，代码风格最好后缀类型，
+    变量命名最好说明类型，比如a_list, a_tuple, a_dict
+    python3+版本，支持函数声明类型
+</code></pre></td></tr></table></div></div><h3 id=2集合>2.集合</h3><pre><code>python
+   list, tuple, dict
+     足够简洁，无需了解底层，即可快速开发
+java
+   List有ArrayList， LinkedList，Set有HashSet,  TreeSet， Map有HashMap， TreeMap
+   可以根据场景，自由选择，做到性能和内存相关最优
+</code></pre><h3 id=3并发相关>3.并发相关</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>python
+	锁 threading.Lock
+	可重入锁 threading.RLock
+	同步器 threading.Semaphore
+  队列
+   	 collections.deque 双端队列 线程安全 可用来实现栈或者队列
+	阻塞队列(用于生产者/消费者)      
+                queue.Queue           FIFO
+                queue.LifoQueue       LIFO
+                queue.PriorityQueue   优先级队列 
+                queue.SimpleQueue     无界FIFO队列
+			          asyncio.Queue         协程队列
+                multiprocessing.Queue 进程队列 进程安全
+   线程隔离 threading.local
+</code></pre></td></tr></table></div></div><pre><code>Java
+   锁 Synchronized, Lock
+   可重入锁 ReentrantLock
+   读写锁ReentrantReadWriteLock
+   同步器 Semaphore CountDownLatch CyclicBarrier
+   阻塞队列(用于生产者/消费者)
+           ArrayBlockingQueue     基于数组的阻塞队列 有界
+               LinkedBlockingQueue    基于链表的阻塞队列 有界
+           PriorityBlockingQueue  优先级队列     无界
+           DelayQueue             延迟阻塞队列  无界
+   并发容器
+         CopyOnWriteArrayList
+         ConcurrentHashMap
+   线程隔离 ThreadLocal
+</code></pre><h3 id=4引申问题>4.引申问题</h3><h4 id=1解释-编译>1.解释 编译</h4><p>Py和Java都需要编译为对应的虚拟机字节码(byteCode), py对应为pyc文件，java为class文件
+在运行中虚拟机将字节码翻译为机器码(二进制文件)
+Java在运行中，有JIT可以提供运行时编译，可以提供加速</p><p><a href=https://stackoverflow.com/questions/13034991/does-the-python-3-interpreter-have-a-jit-feature>https://stackoverflow.com/questions/13034991/does-the-python-3-interpreter-have-a-jit-feature</a>
+为什么JIT加入到py中？pypy适合什么场景？
+<a href=https://www.quora.com/Why-is-just-in-time-compilation-not-possible-for-Python>https://www.quora.com/Why-is-just-in-time-compilation-not-possible-for-Python</a>
+<a href=https://zh.wikipedia.org/wiki/%E5%8D%B3%E6%99%82%E7%B7%A8%E8%AD%AF>https://zh.wikipedia.org/wiki/%E5%8D%B3%E6%99%82%E7%B7%A8%E8%AD%AF</a></p><h4 id=2多线程问题>2.多线程问题</h4><p>Python多线程因为GIL存在，无法利用多核优势，适用于IO操作，比如爬虫</p><p>Java无此问题，项目中常用多线程异步来发送报警，或者利用Spring事件消息异步更新缓存</p><h4 id=3断言assert>3.断言assert</h4><blockquote><p>python默认assert开启
+Java默认assert关闭</p></blockquote><h4 id=4oop相关>4.OOP相关</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>Java只支持单继承，提供了接口的概念，用来实现多态
+Python支持多继承，接口类似的功能可以由mixins实现
+python OOP推荐阅读
+		&lt;https://book.douban.com/subject/26468916/&gt;
+</code></pre></td></tr></table></div></div><h4 id=5设计模式>5.设计模式</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>Java更传统
+Python多是一些hook
+Python设计模式推荐阅读
+		&lt;https://book.douban.com/subject/26829015/&gt;
+</code></pre></td></tr></table></div></div><h2 id=二项目相关>二.项目相关</h2><h3 id=1开发规范>1.开发规范</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>Java
+  VO DTO等命名更规范 详件阿里巴巴开发手册 https://github.com/alibaba/p3c
+Python
+  可参考Google编码规范 https://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/python_style_rules/
+</code></pre></td></tr></table></div></div><h3 id=2中间件相关>2.中间件相关</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>ORM相关
+ Java有Mybatis，半自动化工具
+     hibernate
+     JPS
+     JDBCTemplate
+     Sharding-JDBC 分库分表
+ Python有sqlchemy  
+        djangORM 
+      
+python的orm无半自动化SQL，存在默认查询返回select * 的问题，且无开源分库分表工具
+个人更偏好Mybatis
+</code></pre></td></tr></table></div></div><h3 id=3web框架>3.web框架</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>Java
+    Jsp+Servlet 
+    Spring 
+    SpringMvc  
+    SpringBoot   自动配置/起步依赖
+    Jersey       REST的更好的实现，简化语法
+    Dubbo        阿里RPC框架
+    SpringCloud  官方微服务框架
+Python
+    Django  自带admin管理后台
+    Flask   小巧快速，插拔式第三方库支持
+    Tornado 异步IO
+    Nameko  支持HTTP或者AMQP或者RPC或者WebSocket
+    
+任务框架
+Java
+   Spring自带Scheduler, 多机器部署应用，定时任务 则为抢夺式，只能用Redis锁来悲观处理
+   Quartz分布式任务框架
+Python
+   celery       分布式任务框架
+   apscheduler  更小巧，内存型任务框架
+   
+总体而言, Java框架是基于Spring衍生
+Python框架，比较多，更适合运维开发，可以快速迭代
+
+</code></pre></td></tr></table></div></div><h2 id=三工具相关>三.工具相关</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre class=chroma><code class=language-fallback data-lang=fallback>Java
+   1.自带多个命令行工具jstack, jmap
+   2.动态调试工具
+    [解密阿里线上问题诊断工具Arthas和jvm-sandbox](https://juejin.cn/post/6844903765145813006)
+     [Arthas - Alibaba Java Diagnostic Tool](https://arthas.aliyun.com/en-us/)
+
+     可以无倾入调试跟踪统计线上问题
+
+    3.VisualVM配合jstatd或者程序启动时添加jmx，可以远程实时分析系统
+
+Python
+    Python版本统计耗时脚本
+        https://github.com/tmacjx/flask-quickstart/blob/master/common/utils/profile.py
+    无侵入的话，只能dump hprof文件，然后分析火焰图
+    或者植入datadogs https://www.datadoghq.com 
+
+</code></pre></td></tr></table></div></div><p>参考</p><p><a href=https://python-parallel-programmning-cookbook.readthedocs.io/zh_CN/latest/chapter2/12_Thread_communication_using_a_queue.html>https://python-parallel-programmning-cookbook.readthedocs.io/zh_CN/latest/chapter2/12_Thread_communication_using_a_queue.html</a>
+<a href=https://juejin.cn/post/6844903608249483277>https://juejin.cn/post/6844903608249483277</a>
+<a href=https://www.cnblogs.com/dolphin0520/p/3932921.html>https://www.cnblogs.com/dolphin0520/p/3932921.html</a>
+<a href=https://selfboot.cn/2016/08/22/threadlocal_overview/>https://selfboot.cn/2016/08/22/threadlocal_overview/</a></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
 <span class=item-content>tmackan</span></p><p class=copyright-item><span class=item-title>LastMod</span>
 <span class=item-content>2020-12-26</span></p></div><footer class=post-footer><nav class=post-nav><a class=prev href=/post/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1-%E6%80%BB%E8%A7%88/><i class="iconfont icon-left"></i><span class="prev-text nav-default">系统设计面试-总览</span>
 <span class="prev-text nav-mobile">Prev</span></a>
